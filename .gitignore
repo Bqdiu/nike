@@ -14,4 +14,8 @@
 .cxx
 local.properties
 
+<<<<<<< HEAD
 gradle/
+=======
+/gradle
+>>>>>>> 3506cc5b4f105d30eb5ec3b49cd5f0898e35201c
