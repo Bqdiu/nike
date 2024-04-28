@@ -5,6 +5,8 @@ import android.util.Log;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class DBConnection {
     Connection conn = null;
@@ -30,5 +32,37 @@ public class DBConnection {
             Log.e("Error",ex.getMessage());
         }
         return conn;
+    }
+
+    public boolean addUser(String username, String password, String gender, String email, String phoneNumber, String address, String firstName, String lastName, int memberTier, int point) {
+        boolean isSuccess = false;
+        try {
+            // Xây dựng câu truy vấn INSERT
+            String query = "INSERT INTO user_account (user_username, user_password, user_gender, user_email, user_phone_number, user_address, user_first_name, user_last_name, user_member_tier, user_point) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            // Chuẩn bị câu lệnh SQL
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            preparedStatement.setString(3, gender);
+            preparedStatement.setString(4, email);
+            preparedStatement.setString(5, phoneNumber);
+            preparedStatement.setString(6, address);
+            preparedStatement.setString(7, firstName);
+            preparedStatement.setString(8, lastName);
+            preparedStatement.setInt(9, memberTier);
+            preparedStatement.setInt(10, point);
+
+            // Thực thi câu lệnh INSERT
+            int rowsInserted = preparedStatement.executeUpdate();
+
+            // Kiểm tra xem có dòng nào được chèn thành công không
+            if (rowsInserted > 0) {
+                isSuccess = true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return isSuccess;
     }
 }
