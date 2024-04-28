@@ -1,4 +1,4 @@
-package com.example.nike.Views.Home;
+package com.example.nike.Views.Shop.FragmentOfTabLayout;
 
 import android.os.Bundle;
 
@@ -7,20 +7,16 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.nike.R;
 
-import java.time.LocalTime;
-
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
+ * Use the {@link MenVsWomen#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class MenVsWomen extends Fragment {
 
-    TextView tvGreeting;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +26,7 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public HomeFragment() {
+    public MenVsWomen() {
         // Required empty public constructor
     }
 
@@ -40,11 +36,11 @@ public class HomeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @return A new instance of fragment MenVsWomen.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
+    public static MenVsWomen newInstance(String param1, String param2) {
+        MenVsWomen fragment = new MenVsWomen();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,36 +61,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        addControl(view);
-        addEvent();
-        return view;
-    }
-    private void addControl(View view){
-        tvGreeting = view.findViewById(R.id.greeting);
-    }
-    private void addEvent(){
-        tvGreeting.setText(checkHourGreeting());
-    }
-    private String checkHourGreeting(){
-        String msg="";
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            LocalTime time = LocalTime.now();
-            int hour = time.getHour();
-            if(hour>=6 && hour<12){
-                msg = "Good Morning, Dung";
-            }
-            else if(hour>=12 && hour<18){
-                msg = "Good Afternoon, Dung";
-            }
-            else
-            {
-                msg = "Good Evening, Dung";
-            }
-        }
-
-
-        return msg;
+        return inflater.inflate(R.layout.fragment_men_vs_women, container, false);
     }
 }

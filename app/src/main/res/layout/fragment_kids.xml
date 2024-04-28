@@ -3,17 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Views.Home.HomeFragment">
+    tools:context=".Views.Shop.FragmentOfTabLayout.Kids">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/greeting"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Good Afternoon, Dung"
-        android:textSize="23dp"
-        android:textColor="@color/black"
-        android:textFontWeight="500"
-        android:layout_marginLeft="20dp"/>
+        android:layout_height="match_parent"
+        android:text="Kids" />
 
 </FrameLayout>

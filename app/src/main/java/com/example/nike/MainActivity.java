@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.nike.Views.Home.HomeFragment;
+import com.example.nike.Views.Shop.ShopFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     protected void addEvent(){
+        LoadFragment(new HomeFragment());
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                         LoadFragment(new HomeFragment());
                         return true;
                     case R.id.itemShop:
+                        LoadFragment(new ShopFragment());
                         return true;
                     case R.id.itemFavorites:
                         return true;

@@ -1,26 +1,31 @@
-package com.example.nike.Views.Home;
+package com.example.nike.Views.Shop;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.nike.R;
-
-import java.time.LocalTime;
+import com.example.nike.Views.Shop.Adapter.ViewPagerAdapter;
+import com.example.nike.Views.Shop.FragmentOfTabLayout.Jordan;
+import com.example.nike.Views.Shop.FragmentOfTabLayout.Kids;
+import com.example.nike.Views.Shop.FragmentOfTabLayout.MenVsWomen;
+import com.google.android.material.tabs.TabLayout;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
+ * Use the {@link ShopFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class ShopFragment extends Fragment {
+    TabLayout tabLayout;
+    ViewPager viewPager;
+    ViewPagerAdapter viewPagerAdapter;
 
-    TextView tvGreeting;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +35,7 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public HomeFragment() {
+    public ShopFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +45,11 @@ public class HomeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @return A new instance of fragment ShopFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
+    public static ShopFragment newInstance(String param1, String param2) {
+        ShopFragment fragment = new ShopFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,37 +69,23 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_shop, container, false);
         addControl(view);
-        addEvent();
+        Data();
+        // Inflate the layout for this fragment
         return view;
     }
     private void addControl(View view){
-        tvGreeting = view.findViewById(R.id.greeting);
+        tabLayout = view.findViewById(R.id.tabLayout);
+        viewPager = view.findViewById(R.id.viewPager);
     }
-    private void addEvent(){
-        tvGreeting.setText(checkHourGreeting());
-    }
-    private String checkHourGreeting(){
-        String msg="";
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            LocalTime time = LocalTime.now();
-            int hour = time.getHour();
-            if(hour>=6 && hour<12){
-                msg = "Good Morning, Dung";
-            }
-            else if(hour>=12 && hour<18){
-                msg = "Good Afternoon, Dung";
-            }
-            else
-            {
-                msg = "Good Evening, Dung";
-            }
-        }
-
-
-        return msg;
+    private void Data(){
+        viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
+        viewPagerAdapter.addFragment(new MenVsWomen(),"Men");
+        viewPagerAdapter.addFragment(new MenVsWomen(),"Women");
+        viewPagerAdapter.addFragment(new Kids(),"Kids");
+        viewPagerAdapter.addFragment(new Jordan(),"Jordan");
+        viewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 }
