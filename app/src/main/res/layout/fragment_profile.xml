@@ -23,7 +23,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="30dp">
+                android:paddingBottom="50dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_img"
@@ -41,7 +41,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:text="Name"
-                    android:textSize="26dp"
+                    android:textColor="@color/black"
+                    android:textSize="23dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/user_img"
@@ -50,9 +51,9 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_editProfile"
-                    android:layout_width="200dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_width="170dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="35dp"
                     android:text="Edit profile"
                     android:textColor="#1C1B1B"
                     android:background="@drawable/button_bg"
@@ -165,7 +166,89 @@
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
             <include layout="@layout/horizontal_divider_full" />
+            <androidx.cardview.widget.CardView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="19dp">
+                    <TextView
+                        android:id="@+id/inbox"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="INBOX" />
+                    <TextView
+                        app:layout_constraintTop_toBottomOf="@+id/inbox"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginTop="5dp"
+                        android:textSize="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View message" />
+
+                    <ImageView
+                        android:id="@+id/icon_inbox"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/chevron_right" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <include layout="@layout/horizontal_divider_full_slim" />
+            <androidx.cardview.widget.CardView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="19dp">
+                    <TextView
+                        android:id="@+id/inbox_2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="YOUR NIKE MEMBER REWARDS" />
+                    <TextView
+                        app:layout_constraintTop_toBottomOf="@+id/inbox_2"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_marginTop="5dp"
+                        android:textSize="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View message" />
+
+                    <ImageView
+                        android:id="@+id/icon_inbox_2"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/chevron_right" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+            <include layout="@layout/horizontal_divider_full_slim" />
         </LinearLayout>
 
     </ScrollView>
