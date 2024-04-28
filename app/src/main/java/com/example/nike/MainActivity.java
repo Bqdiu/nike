@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.nike.Views.Home.HomeFragment;
+import com.example.nike.Views.Shop.ProfileFragment;
 import com.example.nike.Views.Shop.ShopFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.itemBag:
                         return true;
                     case R.id.itemProfile:
+                        LoadFragment(new ProfileFragment());
                         return true;
                 }
                 return false;
