@@ -11,11 +11,13 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.nike.Views.Home.HomeFragment;
+import com.example.nike.Views.Profile.InboxFragment.InboxFragment;
 import com.example.nike.Views.Profile.ProfileFragment;
+import com.example.nike.Views.Profile.ProfileFragmentInboxListener;
 import com.example.nike.Views.Shop.ShopFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ProfileFragmentInboxListener {
 
     FrameLayout frameLayout;
     BottomNavigationView bottomNavigationView;
@@ -61,4 +63,12 @@ public class MainActivity extends AppCompatActivity {
         ft.replace(R.id.frameLayout,fragment);
         ft.commit();
     }
+
+
+    @Override
+    public void loadInboxFragment()
+    {
+        LoadFragment(new InboxFragment());
+    }
+
 }

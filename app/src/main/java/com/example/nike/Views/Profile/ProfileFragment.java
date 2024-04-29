@@ -2,6 +2,7 @@ package com.example.nike.Views.Profile;
 
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.nike.R;
+
+import java.util.zip.Inflater;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,8 +29,25 @@ public class ProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+
+    CardView cs_inbox;
     public ProfileFragment() {
         // Required empty public constructor
+    }
+
+    private void addControls(View view)
+    {
+        cs_inbox = view.findViewById(R.id.cs_inbox);
+    }
+
+    private void addEvents()
+    {
+        cs_inbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ProfileFragmentInboxListener) getActivity()).loadInboxFragment();
+            }
+        });
     }
 
     /**
@@ -60,8 +80,11 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile,container,false);
+        addControls(view);
+        addEvents();
+        return view;
+
     }
      
 }

@@ -168,6 +168,7 @@
             </LinearLayout>
             <include layout="@layout/horizontal_divider_full" />
             <androidx.cardview.widget.CardView
+                android:id="@+id/cs_inbox"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
