@@ -1,4 +1,4 @@
-package com.example.nike.Views.Shop;
+package com.example.nike.Views.Profile;
 
 import android.os.Bundle;
 

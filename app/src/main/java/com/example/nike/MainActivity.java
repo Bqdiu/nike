@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.nike.Views.Home.HomeFragment;
-import com.example.nike.Views.Shop.ProfileFragment;
+import com.example.nike.Views.Profile.ProfileFragment;
 import com.example.nike.Views.Shop.ShopFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
