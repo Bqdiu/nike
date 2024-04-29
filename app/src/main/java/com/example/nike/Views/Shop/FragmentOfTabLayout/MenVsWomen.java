@@ -3,12 +3,19 @@ package com.example.nike.Views.Shop.FragmentOfTabLayout;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.nike.Controller.ProductHandler;
+import com.example.nike.Model.Product;
 import com.example.nike.R;
+import com.example.nike.Views.Shop.Adapter.ItemRecycleViewAdapter;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +24,10 @@ import com.example.nike.R;
  */
 public class MenVsWomen extends Fragment {
 
+    RecyclerView recyclerViewNewRelease;
+    ItemRecycleViewAdapter adapter;
+    ArrayList<Product> productArrayList = new ArrayList<>();
+    int genderID;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -26,10 +37,13 @@ public class MenVsWomen extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public MenVsWomen() {
+    public MenVsWomen(int GenderID) {
         // Required empty public constructor
+        this.genderID = GenderID;
     }
+    public MenVsWomen(){
 
+    }
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -61,6 +75,20 @@ public class MenVsWomen extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_men_vs_women, container, false);
+        View view = inflater.inflate(R.layout.fragment_men_vs_women, container, false);
+        addControl(view);
+        data();
+        return view;
+    }
+    private void addControl(View view){
+        recyclerViewNewRelease = view.findViewById(R.id.newReleaseRecycleView);
+
+    }
+    private void data(){
+        productArrayList = ProductHandler.getDataNewReleaseByGender(genderID);
+        adapter = new ItemRecycleViewAdapter(productArrayList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
+        recyclerViewNewRelease.setLayoutManager(layoutManager);
+        recyclerViewNewRelease.setAdapter(adapter);
     }
 }

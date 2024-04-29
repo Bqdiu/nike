@@ -3,6 +3,7 @@ package com.example.nike.Model;
 public class Product {
     int productID;
     int productParentID;
+    String name;
     String moreInfo;
     String img;
     int price;
@@ -11,10 +12,20 @@ public class Product {
     String colorShown;
     String description;
     String description2;
+    Boolean isNewRelease;
 
-    public Product(int productID, int productParentID, String moreInfo, String img, int price, String sizeAndFit, String styleCode, String colorShown, String description, String description2) {
+    public Boolean getNewRelease() {
+        return isNewRelease;
+    }
+
+    public void setNewRelease(Boolean newRelease) {
+        isNewRelease = newRelease;
+    }
+
+    public Product(int productID, int productParentID, String name, String moreInfo, String img, int price, String sizeAndFit, String styleCode, String colorShown, String description, String description2, Boolean isNewRelease) {
         this.productID = productID;
         this.productParentID = productParentID;
+        this.name = name;
         this.moreInfo = moreInfo;
         this.img = img;
         this.price = price;
@@ -23,9 +34,19 @@ public class Product {
         this.colorShown = colorShown;
         this.description = description;
         this.description2 = description2;
+        this.isNewRelease = isNewRelease;
     }
+
     public Product(){
 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getProductID() {

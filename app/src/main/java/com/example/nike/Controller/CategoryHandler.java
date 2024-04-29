@@ -26,10 +26,17 @@ public class CategoryHandler {
                     category.setName(rs.getString(2));
                     category.setDescription(rs.getString(3));
                     list.add(category);
-                    conn.close();
+
                 }
+                conn.close();
             }catch (SQLException e){
                 throw new RuntimeException(e);
+            }finally {
+                try {
+                    conn.close(); // Đóng kết nối sau khi sử dụng
+                } catch (SQLException e) {
+                    e.printStackTrace(); // Xử lý ngoại lệ khi không thể đóng kết nối
+                }
             }
         }
         return list;

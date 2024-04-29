@@ -28,9 +28,9 @@ public class ImageHandler {
                     i.setProductID(rs.getInt(2));
                     i.setFileName(rs.getString(3));
                     list.add(i);
-                    conn.close();
-                }
 
+                }
+                conn.close();
             }catch (SQLException e){
                 throw new RuntimeException(e);
             }

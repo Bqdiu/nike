@@ -81,8 +81,11 @@ public class ShopFragment extends Fragment {
     }
     private void Data(){
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        viewPagerAdapter.addFragment(new MenVsWomen(),"Men");
-        viewPagerAdapter.addFragment(new MenVsWomen(),"Women");
+        MenVsWomen menFragment = new MenVsWomen(1);
+        MenVsWomen womenFragment = new MenVsWomen(2);
+
+        viewPagerAdapter.addFragment(menFragment, "Men");
+        viewPagerAdapter.addFragment(womenFragment, "Women");
         viewPagerAdapter.addFragment(new Kids(),"Kids");
         viewPagerAdapter.addFragment(new Jordan(),"Jordan");
         viewPager.setAdapter(viewPagerAdapter);
