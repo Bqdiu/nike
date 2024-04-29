@@ -15,19 +15,19 @@ import java.sql.Connection;
 
 public class register extends AppCompatActivity {
     EditText usernameEditText, passwordEditText, emailEditText, numberPhoneEditText;
+    MaterialButton signUpButton;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-
+    private void addControls()
+    {
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);
         emailEditText = findViewById(R.id.email);
         numberPhoneEditText = findViewById(R.id.number_phone);
+        signUpButton = findViewById(R.id.signupbtn);
+    }
 
-        // Thiết lập sự kiện cho nút đăng ký
-        MaterialButton signUpButton = findViewById(R.id.signupbtn);
+    private void addEvents()
+    {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +59,13 @@ public class register extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+        addControls();
+        addEvents();
     }
 
     private boolean isValidInformation(String username, String email, String password, String numberPhone) {
