@@ -1,66 +1,97 @@
 package com.example.nike.Views.Profile.InboxFragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.example.nike.Model.ProductEvent;
 import com.example.nike.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link InboxFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class InboxFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private ListView listView;
+    private List<ProductEvent> productEvents;
+    private ArrayAdapter<ProductEvent> adapter;
 
     public InboxFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment InboxFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static InboxFragment newInstance(String param1, String param2) {
-        InboxFragment fragment = new InboxFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_inbox, container, false);
+        View view = inflater.inflate(R.layout.fragment_inbox, container, false);
+        listView = view.findViewById(R.id.inbox_listview);
+
+        productEvents = new ArrayList<>();
+        adapter = new ArrayAdapter<ProductEvent>(getContext(), R.layout.row_inbox, productEvents) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View rowView = convertView;
+
+                if (rowView == null) {
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    rowView = inflater.inflate(R.layout.row_inbox, parent, false);
+                }
+
+                ProductEvent productEvent = productEvents.get(position);
+
+                TextView textViewTitle = rowView.findViewById(R.id.inbox_Name);
+                TextView textViewDescription = rowView.findViewById(R.id.inbox_Des);
+                TextView textViewTime = rowView.findViewById(R.id.inbox_Time);
+
+                textViewTitle.setText(productEvent.getDiscountEventName());
+                textViewDescription.setText(productEvent.getDiscountEventDescription());
+                textViewTime.setText(productEvent.getDiscountEventDateCreated().toString());
+
+                return rowView;
+            }
+        };
+
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Handle item click
+            }
+        });
+
+        // Execute AsyncTask to fetch data from database
+        new FetchProductEventsTask().execute();
+
+        return view;
+    }
+
+    // AsyncTask to fetch data from database in background thread
+    private class FetchProductEventsTask extends AsyncTask<Void, Void, List<ProductEvent>> {
+
+        @Override
+        protected List<ProductEvent> doInBackground(Void... voids) {
+            // Perform database operations here
+            return ProductEvent.getAllProductEventsWithMonthsSinceCreation();
+        }
+
+        @Override
+        protected void onPostExecute(List<ProductEvent> result) {
+            super.onPostExecute(result);
+            if (result != null) {
+                productEvents.clear();
+                productEvents.addAll(result);
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 }
