@@ -3,17 +3,22 @@ package com.example.nike.Views.Shop.FragmentOfTabLayout;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.nike.Controller.ProductHandler;
 import com.example.nike.Model.Product;
 import com.example.nike.R;
 import com.example.nike.Views.Shop.Adapter.ItemRecycleViewAdapter;
+import com.example.nike.Views.Shop.Product.DetailProduct;
 
 import java.util.ArrayList;
 
@@ -22,11 +27,13 @@ import java.util.ArrayList;
  * Use the {@link MenVsWomen#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MenVsWomen extends Fragment {
+public class MenVsWomen extends Fragment implements ItemRecycleViewAdapter.ItemClickListener {
+
 
     RecyclerView recyclerViewNewRelease;
     ItemRecycleViewAdapter adapter;
     ArrayList<Product> productArrayList = new ArrayList<>();
+    TextView tvNewRelease;
     int genderID;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,13 +89,31 @@ public class MenVsWomen extends Fragment {
     }
     private void addControl(View view){
         recyclerViewNewRelease = view.findViewById(R.id.newReleaseRecycleView);
+        tvNewRelease = view.findViewById(R.id.tvNewRelease);
 
     }
     private void data(){
         productArrayList = ProductHandler.getDataNewReleaseByGender(genderID);
-        adapter = new ItemRecycleViewAdapter(productArrayList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
-        recyclerViewNewRelease.setLayoutManager(layoutManager);
-        recyclerViewNewRelease.setAdapter(adapter);
+        if(productArrayList.isEmpty()){
+            tvNewRelease.setVisibility(View.GONE);
+        }
+        else {
+            tvNewRelease.setVisibility(View.VISIBLE);
+            adapter = new ItemRecycleViewAdapter(getContext(),productArrayList,this);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
+            recyclerViewNewRelease.setLayoutManager(layoutManager);
+            recyclerViewNewRelease.setAdapter(adapter);
+        }
+
+    }
+
+
+    @Override
+    public void onItemClick(Product product) {
+        Fragment fragment = DetailProduct.newInstance(product);
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayout,fragment);
+        ft.addToBackStack("TabLayoutOfShop");
+        ft.commit();
     }
 }

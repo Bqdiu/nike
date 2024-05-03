@@ -7,7 +7,7 @@
     tools:context=".Views.Shop.FragmentOfTabLayout.MenVsWomen">
 
     <TextView
-
+        android:id="@+id/tvNewRelease"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"

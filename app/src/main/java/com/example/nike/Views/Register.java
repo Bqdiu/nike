@@ -147,7 +147,7 @@ public class Register extends AppCompatActivity {
             updateUI(account);
         } catch (ApiException e) {
             // Mã lỗi ApiException chỉ ra trạng thái đăng nhập chi tiết.
-//            Log.w("TAG", "signInResult:failed code=" + e.getStatusCode());
+            Log.w("TAG", "signInResult:failed code=" + e.getStatusCode());
             Toast.makeText(this, "Dang nhap that bai", Toast.LENGTH_SHORT).show();
             updateUI(null);
         }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background layer -->
+    <item android:id="@android:id/background">
+        <shape>
+            <solid android:color="@color/white" /> <!-- Màu nền cho phần chưa hoàn thành của ProgressBar -->
+            <corners android:radius="8dp" /> <!-- Bo tròn góc -->
+        </shape>
+    </item>
+    <!-- Progress layer -->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <solid android:color="#8BC34A" /> <!-- Màu sắc cho phần đã hoàn thành của ProgressBar -->
+                <corners android:radius="8dp" /> <!-- Bo tròn góc -->
+            </shape>
+        </clip>
+    </item>
+</layer-list>

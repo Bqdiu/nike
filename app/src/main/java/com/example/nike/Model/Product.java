@@ -1,6 +1,8 @@
 package com.example.nike.Model;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     int productID;
     int productParentID;
     String name;

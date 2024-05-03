@@ -76,4 +76,36 @@ public class ProductHandler {
         }
         return list;
     }
+    public static Product getDetailProduct(Integer ProductID){
+        Product product = new Product();
+        Connection conn = dbConnection.connectionClass();
+        if (conn!=null){
+            String query = "select pp.product_parent_name, p.*  from product p inner join product_parent pp on p.product_parent_id = pp.product_parent_id inner join product_object po on pp.product_object_id = po.product_object_id where p.product_id="+ProductID;
+            try
+            {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+
+                product.setProductID(rs.getInt(2));
+                product.setName(rs.getString(1));
+                product.setProductParentID(rs.getInt(3));
+                product.setMoreInfo(rs.getString(4));
+                product.setImg(rs.getString(5));
+                product.setPrice(rs.getInt(6));
+                product.setSizeAndFit(rs.getString(7));
+                product.setStyleCode(rs.getString(8));
+                product.setColorShown(rs.getString(9));
+                product.setDescription(rs.getString(10));
+                product.setDescription2(rs.getString(11));
+                product.setNewRelease(rs.getBoolean(12));
+
+                conn.close();
+            }catch (SQLException e)
+            {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return product;
+    }
 }
