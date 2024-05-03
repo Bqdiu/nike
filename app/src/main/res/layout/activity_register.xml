@@ -102,6 +102,7 @@
         android:layout_alignParentBottom="true">
 
         <ImageView
+            android:id="@+id/btn_SignInGoogle"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="20dp"

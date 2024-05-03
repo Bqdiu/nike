@@ -2,4 +2,5 @@
     <string name="app_name">Nike</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="web_client_id">216701643974-o2e2qbfp3krmb3v5gc0vc1b94e7nmbt5.apps.googleusercontent.com</string>
 </resources>
