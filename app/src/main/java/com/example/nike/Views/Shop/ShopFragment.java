@@ -9,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.nike.Controller.ObjectProductHandler;
+import com.example.nike.Model.ProductObject;
 import com.example.nike.R;
 import com.example.nike.Views.Shop.Adapter.ViewPagerAdapter;
-import com.example.nike.Views.Shop.FragmentOfTabLayout.Jordan;
-import com.example.nike.Views.Shop.FragmentOfTabLayout.Kids;
-import com.example.nike.Views.Shop.FragmentOfTabLayout.MenVsWomen;
+import com.example.nike.Views.Shop.FragmentOfTabLayout.ObjectProduct;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +27,7 @@ public class ShopFragment extends Fragment {
     TabLayout tabLayout;
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
+    ArrayList<ProductObject> objectList = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,13 +84,12 @@ public class ShopFragment extends Fragment {
     }
     private void Data(){
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        MenVsWomen menFragment = new MenVsWomen(1);
-        MenVsWomen womenFragment = new MenVsWomen(2);
+        objectList = ObjectProductHandler.getData();
+        for (int i = 0;i<objectList.size();i++){
+            ProductObject p = objectList.get(i);
+            viewPagerAdapter.addFragment(new ObjectProduct(p.getObjectID()),p.getObjectName());
+        }
 
-        viewPagerAdapter.addFragment(menFragment, "Men");
-        viewPagerAdapter.addFragment(womenFragment, "Women");
-        viewPagerAdapter.addFragment(new Kids(),"Kids");
-        viewPagerAdapter.addFragment(new Jordan(),"Jordan");
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }

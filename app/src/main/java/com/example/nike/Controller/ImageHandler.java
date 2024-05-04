@@ -14,11 +14,35 @@ import java.util.ArrayList;
 
 public class ImageHandler {
     private static DBConnection dbConnection = new DBConnection();
-    private static Connection conn = dbConnection.connectionClass();
+
     public static ArrayList<ProductImage> getData(){
+        Connection conn = dbConnection.connectionClass();
         ArrayList<ProductImage> list = new ArrayList<>();
         if(conn!=null){
             String query = "Select * from product_img";
+            try {
+                Statement smt = conn.createStatement();
+                ResultSet rs = smt.executeQuery(query);
+                while(rs.next()){
+                    ProductImage i = new ProductImage();
+                    i.setId(rs.getInt(1));
+                    i.setProductID(rs.getInt(2));
+                    i.setFileName(rs.getString(3));
+                    list.add(i);
+
+                }
+                conn.close();
+            }catch (SQLException e){
+                throw new RuntimeException(e);
+            }
+        }
+        return list;
+    }
+    public static ArrayList<ProductImage> getPhotoByProductID(int productID){
+        Connection conn = dbConnection.connectionClass();
+        ArrayList<ProductImage> list = new ArrayList<>();
+        if(conn!=null){
+            String query = "Select * from product_img where product_id="+productID;
             try {
                 Statement smt = conn.createStatement();
                 ResultSet rs = smt.executeQuery(query);

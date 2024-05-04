@@ -19,7 +19,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nike.Controller.ProductHandler;
 import com.example.nike.Model.Product;
+import com.example.nike.Model.ProductParent;
 import com.example.nike.R;
 import com.example.nike.Views.Shop.Product.DetailProduct;
 import com.example.nike.Views.Util;
@@ -28,10 +30,11 @@ import java.util.ArrayList;
 
 public class ItemRecycleViewAdapter extends RecyclerView.Adapter<ItemRecycleViewAdapter.MyViewHolder> {
 
-    private ArrayList<Product> list = new ArrayList<>();
+    private ArrayList<ProductParent> list = new ArrayList<>();
+    private ArrayList<Product> listProduct = new ArrayList<>();
     private Context context;
     private ItemClickListener itemClickListener;
-    public ItemRecycleViewAdapter(Context context, ArrayList<Product> list, ItemClickListener itemClickListener) {
+    public ItemRecycleViewAdapter(Context context, ArrayList<ProductParent> list, ItemClickListener itemClickListener) {
 
         this.list = list;
         this.context = context;
@@ -47,16 +50,18 @@ public class ItemRecycleViewAdapter extends RecyclerView.Adapter<ItemRecycleView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Product product = list.get(position);
-        Bitmap bitmap = Util.convertStringToBitmapFromAccess(holder.itemView.getContext(),product.getImg());
-        holder.imgProduct.setImageBitmap(bitmap);
-        holder.nameProduct.setText(product.getName());
+        ProductParent pp = list.get(position);
 
-        holder.priceProduct.setText("đ"+formatCurrency(product.getPrice()).replace(",", ".")+".000");
+        Bitmap bitmap = Util.convertStringToBitmapFromAccess(holder.itemView.getContext(),pp.getThumbnail());
+        holder.imgProduct.setImageBitmap(bitmap);
+        holder.nameProduct.setText(pp.getName());
+
+        holder.priceProduct.setText("đ"+formatCurrency(pp.getPrice()).replace(",", ".")+".000");
         holder.cardViewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemClickListener.onItemClick(product);
+                listProduct = ProductHandler.getDataByParentID(pp.getId());
+                itemClickListener.onItemClick(pp.getCategoryID(), pp.getObjectID(),listProduct);
             }
         });
     }
@@ -87,9 +92,8 @@ public class ItemRecycleViewAdapter extends RecyclerView.Adapter<ItemRecycleView
             cardViewItem = itemView.findViewById(R.id.cardViewItem);
         }
     }
-    public interface ItemClickListener{
+    public interface ItemClickListener {
+        void onItemClick(int categoryID,int objectID,ArrayList<Product> product);
 
-
-        void onItemClick(Product product);
     }
 }
