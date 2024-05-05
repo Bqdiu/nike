@@ -38,13 +38,21 @@
             android:layout_marginRight="20dp"
             android:background="@drawable/baseline_search_24" />
     </RelativeLayout>
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_nav"
-        android:layout_below="@id/actionBar"
-        />
+
+
+                <FrameLayout
+                    android:id="@+id/frameLayout"
+                    android:layout_above="@id/bottom_nav"
+                    android:layout_below="@id/actionBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    />
+
+
+
+
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -54,6 +54,7 @@ public class ProductParentHandler {
                     pp.setThumbnail(rs.getString(5));
                     pp.setPrice(rs.getInt(6));
                     pp.setNewRelease(rs.getBoolean(7));
+                    pp.setIconsID(rs.getInt(8));
                     list.add(pp);
                 }
             }catch (SQLException e)

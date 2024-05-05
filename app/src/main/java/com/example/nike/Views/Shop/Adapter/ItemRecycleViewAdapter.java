@@ -3,9 +3,7 @@ package com.example.nike.Views.Shop.Adapter;
 import static com.example.nike.Views.Util.formatCurrency;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +12,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nike.Controller.ProductHandler;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductParent;
+import com.example.nike.Model.ShopByIcons;
 import com.example.nike.R;
-import com.example.nike.Views.Shop.Product.DetailProduct;
 import com.example.nike.Views.Util;
 
 import java.util.ArrayList;
@@ -40,7 +35,6 @@ public class ItemRecycleViewAdapter extends RecyclerView.Adapter<ItemRecycleView
         this.context = context;
         this.itemClickListener = itemClickListener;
     }
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -69,6 +63,7 @@ public class ItemRecycleViewAdapter extends RecyclerView.Adapter<ItemRecycleView
 
     @Override
     public int getItemViewType(int position) {
+
         return super.getItemViewType(position);
     }
 

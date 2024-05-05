@@ -12,12 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.nike.Controller.IconsHandler;
 import com.example.nike.Controller.ProductHandler;
 import com.example.nike.Controller.ProductParentHandler;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductParent;
+import com.example.nike.Model.ShopByIcons;
 import com.example.nike.R;
 
+import com.example.nike.Views.Shop.Adapter.IconsItemRecycleViewAdapter;
 import com.example.nike.Views.Shop.Adapter.ItemRecycleViewAdapter;
 import com.example.nike.Views.Shop.Product.DetailProduct;
 
@@ -29,11 +32,15 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.ItemClickListener {
-    RecyclerView recyclerViewNewRelease;
-    ItemRecycleViewAdapter adapter;
-    ArrayList<ProductParent> productParentArrayList = new ArrayList<>();
-    TextView tvNewRelease;
-    int objectID;
+    private RecyclerView recyclerViewNewRelease;
+    private ItemRecycleViewAdapter adapter;
+    private ArrayList<ProductParent> productParentArrayList = new ArrayList<>();
+    private TextView tvNewRelease;
+    //Shop By Icons
+    private RecyclerView shopByIconsRecycleView;
+    private IconsItemRecycleViewAdapter shopByIconsAdapter;
+    ArrayList<ShopByIcons> shopByIconsList;
+    private int objectID;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -91,8 +98,12 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
         recyclerViewNewRelease = view.findViewById(R.id.newReleaseRecycleView);
         tvNewRelease = view.findViewById(R.id.tvNewRelease);
 
+        shopByIconsRecycleView = view.findViewById(R.id.shopByIconsRecycleView);
+
+
     }
     private void data(){
+        //New Release
         productParentArrayList = ProductParentHandler.getDataNewReleaseByObjectID(objectID);
         if(productParentArrayList.isEmpty()){
             tvNewRelease.setVisibility(View.GONE);
@@ -104,6 +115,12 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
             recyclerViewNewRelease.setLayoutManager(layoutManager);
             recyclerViewNewRelease.setAdapter(adapter);
         }
+        //Shop By Icons
+        shopByIconsList = IconsHandler.getData();
+        shopByIconsAdapter = new IconsItemRecycleViewAdapter(shopByIconsList,getContext());
+        RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
+        shopByIconsRecycleView.setLayoutManager(layoutManager1);
+        shopByIconsRecycleView.setAdapter(shopByIconsAdapter);
 
     }
     @Override

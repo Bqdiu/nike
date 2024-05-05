@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/popupWindowContainer">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        android:id="@+id/popupSizeMenu"
+       >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/actionSizeBar"
+            android:padding="20dp"
+            android:background="@drawable/rounded_border_popup_menu"
+            >
+
+            <TextView
+                android:id="@+id/tvTitleSizes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Sizes"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold"
+
+                />
+
+            <TextView
+                android:id="@+id/btnExit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/baseline_close_24"
+
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+        <ListView
+            android:id="@+id/listViewSize"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/actionSizeBar"
+            android:background="@color/white"
+            android:dividerHeight="1dp"
+            android:divider="#DDD"
+            />
+    </RelativeLayout>
+</RelativeLayout>

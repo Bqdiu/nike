@@ -1,13 +1,22 @@
 package com.example.nike.Model;
 
 public class ProductParent {
-    int id;
-    String name;
-    int objectID;
-    int categoryID;
-    String thumbnail;
-    int price;
-    Boolean isNewRelease;
+    private int id;
+    private String name;
+    private int objectID;
+    private int categoryID;
+    private String thumbnail;
+    private int price;
+    private Boolean isNewRelease;
+    private int iconsID;
+
+    public int getIconsID() {
+        return iconsID;
+    }
+
+    public void setIconsID(int iconsID) {
+        this.iconsID = iconsID;
+    }
 
     public ProductParent(int id, String name, int objectID, int categoryID, String thumbnail, int price, Boolean isNewRelease) {
         this.id = id;
