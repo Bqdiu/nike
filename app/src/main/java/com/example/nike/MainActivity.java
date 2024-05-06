@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nike.Views.Bag.BagFragment;
 import com.example.nike.Views.Home.HomeFragment;
 import com.example.nike.Views.Profile.InboxFragment.InboxFragment;
 import com.example.nike.Views.Profile.ProfileFragment;
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragmentIn
                     case R.id.itemBag:
                         actionBar.setVisibility(GONE);
                         tvNameOfFragment.setVisibility(GONE);
+                        LoadFragment(new BagFragment());
                         return true;
                     case R.id.itemProfile:
                         actionBar.setVisibility(GONE);
