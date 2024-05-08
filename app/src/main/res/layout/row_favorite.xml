@@ -1,76 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:padding="8dp">
 
+    <!-- Layout cho item thứ nhất -->
     <LinearLayout
-        android:layout_width="186dp"
-        android:layout_height="200dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="13dp"
-        >
+        android:padding="8dp">
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/Img_Pro_Fav1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/name_Product_fav_1"
-            android:layout_width="160dp"
-            android:padding="6dp"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/price_Product_fav_1"
-            android:layout_width="160dp"
-            android:padding="6dp"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            android:textStyle="italic"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="186dp"
-        android:layout_height="200dp"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="214dp"
-        tools:layout_editor_absoluteY="16dp">
-
-        <ImageView
-            android:id="@+id/name_Product_fav_2"
+            android:id="@+id/Name_Pro_Fav1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Product Name"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Price_Pro_Fav1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Product Price"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <!-- Layout cho item thứ hai -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/Img_Pro_Fav2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/price_Product_fav_2"
-            android:layout_width="160dp"
-            android:padding="6dp"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            android:textStyle="bold"
+            android:id="@+id/Name_Pro_Fav2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_marginTop="8dp"
+            android:text="Product Name"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView14"
-            android:layout_width="160dp"
-            android:padding="6dp"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            android:textStyle="italic"
+            android:id="@+id/Price_Pro_Fav2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_marginTop="4dp"
+            android:text="Product Price"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
