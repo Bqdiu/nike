@@ -45,7 +45,8 @@ public class Register extends AppCompatActivity {
     private static final int REQUEST_CODE_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
     private SharedPreferences sharedPreferences;
-
+    private DBConnection dbConnection = new DBConnection();
+    private Connection conn = dbConnection.connectionClass();
     private void addControls()
     {
         usernameEditText = findViewById(R.id.username);
@@ -61,17 +62,12 @@ public class Register extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lấy thông tin từ các trường EditText
                 String username = usernameEditText.getText().toString();
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
                 String numberPhone = numberPhoneEditText.getText().toString();
 
-                // Kiểm tra thông tin đăng ký hợp lệ
                 if (isValidInformation(username, email, password, numberPhone)) {
-                    // Thực hiện kết nối và đăng ký người dùng
-                    DBConnection dbConnection = new DBConnection();
-                    Connection conn = dbConnection.connectionClass();
 
                     if (conn != null) {
                         boolean isSuccess = dbConnection.addUser(username, password, "", email, numberPhone, "", "", "", 0, 0);
@@ -112,12 +108,9 @@ public class Register extends AppCompatActivity {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        // Khởi tạo SharedPreferences
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
-        // ...
-
-        // Kiểm tra xem người dùng đã đăng nhập chưa
+        // check login
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         updateUI(account);
     }
@@ -139,14 +132,14 @@ public class Register extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            // Đăng nhập thành công, lưu thông tin đăng nhập
+            // save login
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("email", account.getEmail());
             editor.putString("user_name",account.getGivenName());
+            editor.putString("login_type","google");
             editor.apply();
             updateUI(account);
         } catch (ApiException e) {
-            // Mã lỗi ApiException chỉ ra trạng thái đăng nhập chi tiết.
             Log.w("TAG", "signInResult:failed code=" + e.getStatusCode());
             Toast.makeText(this, "Dang nhap that bai", Toast.LENGTH_SHORT).show();
             updateUI(null);

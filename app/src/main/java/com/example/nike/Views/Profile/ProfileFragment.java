@@ -7,14 +7,17 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nike.R;
+import com.example.nike.Views.Login;
 import com.example.nike.Views.Register;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -22,21 +25,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.concurrent.Executor;
 import java.util.zip.Inflater;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -47,6 +42,7 @@ public class ProfileFragment extends Fragment {
 
     //test logout
     CardView cv_setting;
+    private String login_type;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -71,7 +67,10 @@ public class ProfileFragment extends Fragment {
         cv_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signOut(v);
+                if(login_type.equals("google"))
+                    signOutGoogleAccount(v);
+                else
+                    Toast.makeText(v.getContext(), "Mày đéo đăng nhập bằng google em ơi", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -79,33 +78,25 @@ public class ProfileFragment extends Fragment {
     private void loadDataUser()
     {
         String us = sharedPreferences.getString("user_name",null);
+        login_type = sharedPreferences.getString("login_type",null);
         user_name.setText(us);
     }
 
-    private void signOut(View view)
+    private void signOutGoogleAccount(View view)
     {
-        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(getActivity(), new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build());
-        googleSignInClient.signOut().addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(view.getContext(), new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build());
+        googleSignInClient.signOut().addOnCompleteListener(ActivityCompat.getMainExecutor(view.getContext()), new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 // Delete user info from SharePreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.apply();
-                Intent intent = new Intent(view.getContext(), Register.class);
+                Intent intent = new Intent(view.getContext(), Login.class);
                 startActivity(intent);
             }
         });
     }
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();

@@ -177,48 +177,5 @@ public class UserAccount {
         return isSuccess;
     }
 
-    public static void checkLogin(String email, String password, final LoginCallback callback) {
-        new AsyncTask<Void, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(Void... voids) {
-                Connection conn = null;
-                boolean isSuccess = false;
-                try {
-                    conn = getConnection();
 
-                    String query = "SELECT * FROM user_account WHERE user_email = ? AND user_password = ?";
-
-                    PreparedStatement preparedStatement = conn.prepareStatement(query);
-                    preparedStatement.setString(1, email);
-                    preparedStatement.setString(2, password);
-
-                    ResultSet resultSet = preparedStatement.executeQuery();
-
-                    if (resultSet.next()) {
-                        isSuccess = true;
-                    }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                } finally {
-                    try {
-                        if (conn != null) {
-                            conn.close();
-                        }
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-                return isSuccess;
-            }
-
-            @Override
-            protected void onPostExecute(Boolean result) {
-                callback.onLoginResult(result);
-            }
-        }.execute();
-    }
-
-    public interface LoginCallback {
-        void onLoginResult(boolean isSuccess);
-    }
 }
