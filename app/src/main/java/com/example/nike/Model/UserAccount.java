@@ -16,12 +16,16 @@ public class UserAccount {
     private String email;
     private String phoneNumber;
     private String address;
-    private String firstName;
-    private String lastName;
     private int memberTier;
     private int point;
+    private String url;
+    private String fullname;
 
-    public UserAccount(int userId, String username, String password, String gender, String email, String phoneNumber, String address, String firstName, String lastName, int memberTier, int point) {
+    public UserAccount()
+    {
+
+    }
+    public UserAccount(int userId, String username, String password, String gender, String email, String phoneNumber, String address, int memberTier, int point, String url, String fullname) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -29,13 +33,11 @@ public class UserAccount {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.memberTier = memberTier;
         this.point = point;
+        this.url = url;
+        this.fullname = fullname;
     }
-
-    // Getters and setters for all properties
 
     public int getUserId() {
         return userId;
@@ -93,22 +95,6 @@ public class UserAccount {
         this.address = address;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public int getMemberTier() {
         return memberTier;
     }
@@ -125,6 +111,22 @@ public class UserAccount {
         this.point = point;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
     public static Connection getConnection() throws SQLException {
         Connection conn = null;
         String ip = "192.168.56.1";
@@ -138,44 +140,6 @@ public class UserAccount {
         return conn;
     }
 
-    public static boolean addUser(String username, String password, String gender, String email, String phoneNumber, String address, String firstName, String lastName, int memberTier, int point) {
-        boolean isSuccess = false;
-        Connection conn = null;
-        try {
-            conn = getConnection();
-
-            String query = "INSERT INTO user_account (user_username, user_password, user_gender, user_email, user_phone_number, user_address, user_first_name, user_last_name, user_member_tier, user_point) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            preparedStatement.setString(3, gender);
-            preparedStatement.setString(4, email);
-            preparedStatement.setString(5, phoneNumber);
-            preparedStatement.setString(6, address);
-            preparedStatement.setString(7, firstName);
-            preparedStatement.setString(8, lastName);
-            preparedStatement.setInt(9, memberTier);
-            preparedStatement.setInt(10, point);
-
-            int rowsInserted = preparedStatement.executeUpdate();
-
-            if (rowsInserted > 0) {
-                isSuccess = true;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-        return isSuccess;
-    }
 
 
 }

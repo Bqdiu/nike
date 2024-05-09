@@ -1,7 +1,5 @@
 package com.example.nike.Controller;
 
-import android.os.AsyncTask;
-
 import com.example.nike.Model.DBConnection;
 
 import java.sql.Connection;
@@ -11,6 +9,38 @@ import java.sql.SQLException;
 
 public class UserAccountHandler {
     private static DBConnection db = new DBConnection();
+
+    public static boolean checkUserExist(String email) throws SQLException {
+        Connection con = db.connectionClass();
+        int rs_count = 0;
+        String sql = "select count(*) from user_account where user_email = ?";
+        PreparedStatement preparedStatement = con.prepareStatement(sql);
+        preparedStatement.setString(1, email);
+        ResultSet rs = preparedStatement.executeQuery();
+        if (rs.next()) {
+            rs_count = rs.getInt(1);
+        }
+        con.close();
+        return rs_count > 0;
+    }
+    public static boolean addUserGoogle(String email, String fullname, String url) {
+        Connection con = db.connectionClass();
+        PreparedStatement preparedStatement = null;
+        try {
+            String sql = "INSERT INTO user_account (user_email, user_fullname, user_url) VALUES (?, ?, ?)";
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, fullname);
+            preparedStatement.setString(3, url);
+
+            int rowsInserted = preparedStatement.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error adding user", e);
+        }
+    }
+
 
     public static boolean addUser(String username, String password, String gender, String email, String phoneNumber, String address, String firstName, String lastName, int memberTier, int point) {
         boolean isSuccess = false;

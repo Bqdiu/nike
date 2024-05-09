@@ -79,6 +79,7 @@ public class ProfileFragment extends Fragment {
     {
         String us = sharedPreferences.getString("user_name",null);
         login_type = sharedPreferences.getString("login_type",null);
+
         user_name.setText(us);
     }
 

@@ -23,6 +23,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 
+import java.sql.SQLException;
+
 public class Login extends AppCompatActivity {
     EditText password, email;
     MaterialButton signinbtn;
@@ -73,7 +75,6 @@ public class Login extends AppCompatActivity {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-
         // check login
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         updateUI(account);
@@ -98,8 +99,13 @@ public class Login extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             // save login
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("email", account.getEmail());
-            editor.putString("user_name",account.getGivenName());
+            String email = account.getEmail();
+            String fullname = account.getGivenName();
+            String url = account.getPhotoUrl().toString();
+            if(!UserAccountHandler.checkUserExist(email))
+                UserAccountHandler.addUserGoogle(email,fullname,url);
+            editor.putString("email", email);
+            editor.putString("user_name",fullname);
             editor.putString("login_type","google");
             editor.apply();
             updateUI(account);
@@ -107,6 +113,8 @@ public class Login extends AppCompatActivity {
             Log.w("TAG", "signInResult:failed code=" + e.getStatusCode());
             Toast.makeText(this, "Dang nhap that bai", Toast.LENGTH_SHORT).show();
             updateUI(null);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
