@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragmentIn
     }
     private void loadDataUser()
     {
-        String us = sharedPreferences.getString("user_name",null);
+        String us = sharedPreferences.getString("first_name",null);
         Toast.makeText(this, "Welcome " + us, Toast.LENGTH_SHORT).show();
     }
 

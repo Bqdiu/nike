@@ -10,34 +10,63 @@ import java.sql.SQLException;
 public class UserAccountHandler {
     private static DBConnection db = new DBConnection();
 
-    public static boolean checkUserExist(String email) throws SQLException {
-        Connection con = db.connectionClass();
-        int rs_count = 0;
-        String sql = "select count(*) from user_account where user_email = ?";
-        PreparedStatement preparedStatement = con.prepareStatement(sql);
-        preparedStatement.setString(1, email);
-        ResultSet rs = preparedStatement.executeQuery();
-        if (rs.next()) {
-            rs_count = rs.getInt(1);
+    public static boolean checkUserExist(String email) {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+            con = db.connectionClass();
+            String sql = "select count(*) from user_account where user_email = ?";
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, email);
+            rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        con.close();
-        return rs_count > 0;
+        return false;
     }
-    public static boolean addUserGoogle(String email, String fullname, String url) {
-        Connection con = db.connectionClass();
+    public static boolean addUserGoogle(String email, String fullname,String url) {
+        Connection con = null;
         PreparedStatement preparedStatement = null;
         try {
-            String sql = "INSERT INTO user_account (user_email, user_fullname, user_url) VALUES (?, ?, ?)";
+            con = db.connectionClass();
+            String sql = "INSERT INTO user_account (user_email, user_first_name, user_url) VALUES (?, ?, ?)";
             preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, fullname);
             preparedStatement.setString(3, url);
-
             int rowsInserted = preparedStatement.executeUpdate();
             return rowsInserted > 0;
-
         } catch (SQLException e) {
             throw new RuntimeException("Error adding user", e);
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

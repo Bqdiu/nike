@@ -100,12 +100,13 @@ public class Login extends AppCompatActivity {
             // save login
             SharedPreferences.Editor editor = sharedPreferences.edit();
             String email = account.getEmail();
-            String fullname = account.getGivenName();
+            String first_name = account.getGivenName();
             String url = account.getPhotoUrl().toString();
-            if(!UserAccountHandler.checkUserExist(email))
-                UserAccountHandler.addUserGoogle(email,fullname,url);
+            System.out.println(email + " " + first_name);
+            if(!userAccountHandler.checkUserExist(email))
+                userAccountHandler.addUserGoogle(email,first_name,url);
             editor.putString("email", email);
-            editor.putString("user_name",fullname);
+            editor.putString("first_name",first_name);
             editor.putString("login_type","google");
             editor.apply();
             updateUI(account);
@@ -113,18 +114,15 @@ public class Login extends AppCompatActivity {
             Log.w("TAG", "signInResult:failed code=" + e.getStatusCode());
             Toast.makeText(this, "Dang nhap that bai", Toast.LENGTH_SHORT).show();
             updateUI(null);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
     private void updateUI(GoogleSignInAccount account) {
         if (account != null) {
-            // User logged
             Intent intent = new Intent(Login.this, MainActivity.class);
             startActivity(intent);
         } else {
-            // User not log in or is log out
+//            Toast.makeText(this, "Bạn đã đăng xuất", Toast.LENGTH_SHORT).show();
         }
     }
 
