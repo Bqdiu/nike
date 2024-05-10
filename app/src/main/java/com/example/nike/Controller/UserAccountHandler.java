@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class UserAccountHandler {
     private static DBConnection db = new DBConnection();
 
-    public static boolean checkUserExist(String email) {
+    public static boolean checkEmailExist(String email) {
         Connection con = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -19,6 +19,39 @@ public class UserAccountHandler {
             String sql = "select count(*) from user_account where user_email = ?";
             preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, email);
+            rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkUserExist(String username) {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+            con = db.connectionClass();
+            String sql = "select count(*) from user_account where user_username = ?";
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, username);
             rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1) > 0;
@@ -71,26 +104,20 @@ public class UserAccountHandler {
     }
 
 
-    public static boolean addUser(String username, String password, String gender, String email, String phoneNumber, String address, String firstName, String lastName, int memberTier, int point) {
+    public static boolean addUser(String username, String password, String email, String first_name, String last_name) {
         boolean isSuccess = false;
         Connection conn = null;
         try {
             conn = db.connectionClass();
 
-            String query = "INSERT INTO user_account (user_username, user_password, user_gender, user_email, user_phone_number, user_address, user_first_name, user_last_name, user_member_tier, user_point) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO user_account (user_username, user_password, user_email, user_first_name, user_last_name) VALUES (?, ?, ?,?,?)";
 
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
-            preparedStatement.setString(3, gender);
-            preparedStatement.setString(4, email);
-            preparedStatement.setString(5, phoneNumber);
-            preparedStatement.setString(6, address);
-            preparedStatement.setString(7, firstName);
-            preparedStatement.setString(8, lastName);
-            preparedStatement.setInt(9, memberTier);
-            preparedStatement.setInt(10, point);
-
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, first_name);
+            preparedStatement.setString(5, last_name);
             int rowsInserted = preparedStatement.executeUpdate();
 
             if (rowsInserted > 0) {
@@ -110,8 +137,38 @@ public class UserAccountHandler {
         return isSuccess;
     }
 
-    public static void checkLogin(String email, String password) {
-
+    public static boolean checkLogin(String username, String password) {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+            con = db.connectionClass();
+            String sql = "select count(*) from user_account where user_username = ? and user_password = ?";
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password );
+            rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 
 }

@@ -16,8 +16,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.MainActivity;
 import com.example.nike.R;
 import com.example.nike.Model.DBConnection;
@@ -39,7 +41,8 @@ import com.google.android.material.button.MaterialButton;
 import java.sql.Connection;
 
 public class Register extends AppCompatActivity {
-    EditText usernameEditText, passwordEditText, emailEditText, numberPhoneEditText;
+    EditText usernameEditText, passwordEditText, emailEditText, first_name, last_name;
+    TextView login;
     MaterialButton signUpButton;
     ImageView btn_google;
     private static final int REQUEST_CODE_SIGN_IN = 9001;
@@ -47,42 +50,51 @@ public class Register extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private DBConnection dbConnection = new DBConnection();
     private Connection conn = dbConnection.connectionClass();
+    UserAccountHandler userAccountHandler = new UserAccountHandler();
+
     private void addControls()
     {
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);
         emailEditText = findViewById(R.id.email);
-        numberPhoneEditText = findViewById(R.id.number_phone);
         signUpButton = findViewById(R.id.signupbtn);
         btn_google = findViewById(R.id.btn_SignInGoogle);
+        login = findViewById(R.id.login);
+        first_name = findViewById(R.id.first_name);
+        last_name = findViewById(R.id.last_name);
     }
 
     private void addEvents()
     {
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Register.this, Login.class);
+                startActivity(intent);
+            }
+        });
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = usernameEditText.getText().toString();
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
-                String numberPhone = numberPhoneEditText.getText().toString();
-
-                if (isValidInformation(username, email, password, numberPhone)) {
-
-                    if (conn != null) {
-                        boolean isSuccess = dbConnection.addUser(username, password, "", email, numberPhone, "", "", "", 0, 0);
-
-                        if (isSuccess) {
-                            Toast.makeText(Register.this, "Sign up successful", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(Register.this, "Sign up failed", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(Register.this, "Database connection failed", Toast.LENGTH_SHORT).show();
+                String fn = first_name.getText().toString();
+                String ln = last_name.getText().toString();
+                if(!username.isEmpty() && !email.isEmpty() && !password.isEmpty() && !fn.isEmpty() && !ln.isEmpty())
+                {
+                    if(UserAccountHandler.checkUserExist(username))
+                        Toast.makeText(Register.this, "Tên đăng nhập này đã tồn tại", Toast.LENGTH_SHORT).show();
+                    else if(UserAccountHandler.checkEmailExist(email))
+                        Toast.makeText(Register.this, "Email này đã được đăng kí", Toast.LENGTH_SHORT).show();
+                    else
+                    {
+                        UserAccountHandler.addUser(username,password,email,fn,ln);
+                        Toast.makeText(Register.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(Register.this, "Invalid information", Toast.LENGTH_SHORT).show();
                 }
+                else
+                    Toast.makeText(Register.this, "Vui lòng nhập đủ thông tin đăng kí", Toast.LENGTH_SHORT).show();
             }
         });
         btn_google.setOnClickListener(new View.OnClickListener() {
@@ -134,8 +146,14 @@ public class Register extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             // save login
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("email", account.getEmail());
-            editor.putString("user_name",account.getGivenName());
+            String email = account.getEmail();
+            String first_name = account.getGivenName();
+            String url = account.getPhotoUrl().toString();
+            System.out.println(email + " " + first_name);
+            if(!userAccountHandler.checkEmailExist(email))
+                userAccountHandler.addUserGoogle(email,first_name,url);
+            editor.putString("email", email);
+            editor.putString("first_name",first_name);
             editor.putString("login_type","google");
             editor.apply();
             updateUI(account);
@@ -156,7 +174,4 @@ public class Register extends AppCompatActivity {
         }
     }
 
-    private boolean isValidInformation(String username, String email, String password, String numberPhone) {
-        return !username.isEmpty() && !email.isEmpty() && !password.isEmpty() && !numberPhone.isEmpty();
-    }
 }

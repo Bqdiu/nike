@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nike.Controller.UserAccountHandler;
@@ -26,10 +27,11 @@ import com.google.android.material.button.MaterialButton;
 import java.sql.SQLException;
 
 public class Login extends AppCompatActivity {
-    EditText password, email;
+    EditText username, password;
+    TextView register;
     MaterialButton signinbtn;
 
-    UserAccountHandler userAccountHandler;
+    UserAccountHandler userAccountHandler = new UserAccountHandler();
 
     ImageView btn_google;
     private static final int REQUEST_CODE_SIGN_IN = 9001;
@@ -45,18 +47,34 @@ public class Login extends AppCompatActivity {
     }
 
     private void AddControls(){
-        email = (EditText) findViewById(R.id.email);
+        username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         signinbtn = (MaterialButton) findViewById(R.id.signinbtn);
         btn_google = findViewById(R.id.btn_SignInGoogle);
+        register = findViewById(R.id.regiter);
     }
 
     private void addEvents(){
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this,Register.class);
+                startActivity(intent);
+            }
+        });
         signinbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String inputEmail = email.getText().toString();
-                String inputPassword = password.getText().toString();
+                String us = username.getText().toString();
+                String ps = password.getText().toString();
+                if(!us.isEmpty() && !ps.isEmpty())
+                {
+                    if(UserAccountHandler.checkLogin(us,ps))
+                    {
+
+                    }
+
+                }
             }
         });
         btn_google.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +121,7 @@ public class Login extends AppCompatActivity {
             String first_name = account.getGivenName();
             String url = account.getPhotoUrl().toString();
             System.out.println(email + " " + first_name);
-            if(!userAccountHandler.checkUserExist(email))
+            if(!userAccountHandler.checkEmailExist(email))
                 userAccountHandler.addUserGoogle(email,first_name,url);
             editor.putString("email", email);
             editor.putString("first_name",first_name);
