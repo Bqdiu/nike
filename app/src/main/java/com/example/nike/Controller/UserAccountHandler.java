@@ -146,7 +146,7 @@ public class UserAccountHandler {
         try {
             con = db.connectionClass();
             String sql = "select * from user_account where user_username = ? and user_password = ?";
-            preparedStatement = con.prepareStatement(sql); // Khởi tạo PreparedStatement
+            preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
             rs = preparedStatement.executeQuery();

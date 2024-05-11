@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +18,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nike.FragmentUtils;
 import com.example.nike.R;
 import com.example.nike.Views.Login;
+import com.example.nike.Views.Profile.InboxFragment.InboxFragment;
 import com.example.nike.Views.Register;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -61,7 +65,9 @@ public class ProfileFragment extends Fragment {
         cv_inbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ProfileFragmentInboxListener) getActivity()).loadInboxFragment();
+                InboxFragment inboxFragment = new InboxFragment();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm,inboxFragment,R.id.frameLayout);
             }
         });
         cv_setting.setOnClickListener(new View.OnClickListener() {

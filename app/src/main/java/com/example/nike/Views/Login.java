@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nike.Auth;
 import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.MainActivity;
 import com.example.nike.Model.UserAccount;
@@ -24,6 +25,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 public class Login extends AppCompatActivity {
@@ -66,7 +68,13 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String us = username.getText().toString();
+                Auth auth = new Auth();
                 String pw = password.getText().toString();
+                try {
+                    pw = auth.hashPassword(pw);
+                } catch (NoSuchAlgorithmException e) {
+                    throw new RuntimeException(e);
+                }
                 if(!us.isEmpty() && !pw.isEmpty())
                 {
                     UserAccount userAccount = UserAccountHandler.checkLogin(us,pw);
@@ -153,5 +161,7 @@ public class Login extends AppCompatActivity {
 //            Toast.makeText(this, "Bạn đã đăng xuất", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
 }

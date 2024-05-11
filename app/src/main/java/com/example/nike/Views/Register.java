@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nike.Auth;
 import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.MainActivity;
 import com.example.nike.R;
@@ -38,6 +39,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 
 public class Register extends AppCompatActivity {
@@ -78,7 +80,13 @@ public class Register extends AppCompatActivity {
             public void onClick(View v) {
                 String username = usernameEditText.getText().toString();
                 String email = emailEditText.getText().toString();
+                Auth auth = new Auth();
                 String password = passwordEditText.getText().toString();
+                try {
+                    password = auth.hashPassword(password);
+                } catch (NoSuchAlgorithmException e) {
+                    throw new RuntimeException(e);
+                }
                 String fn = first_name.getText().toString();
                 String ln = last_name.getText().toString();
                 if(!username.isEmpty() && !email.isEmpty() && !password.isEmpty() && !fn.isEmpty() && !ln.isEmpty())
