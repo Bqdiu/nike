@@ -9,42 +9,45 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserAccount {
-    private int userId;
+    private int id;
     private String username;
     private String password;
     private String gender;
     private String email;
     private String phoneNumber;
     private String address;
-    private int memberTier;
+    private String first_name;
+    private String last_name;
+    private int member_tier;
     private int point;
     private String url;
-    private String fullname;
 
     public UserAccount()
     {
 
     }
-    public UserAccount(int userId, String username, String password, String gender, String email, String phoneNumber, String address, int memberTier, int point, String url, String fullname) {
-        this.userId = userId;
+
+    public UserAccount(int id, String username, String password, String gender, String email, String phoneNumber, String address, String first_name, String last_name, int member_tier, int point, String url) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.gender = gender;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.memberTier = memberTier;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.member_tier = member_tier;
         this.point = point;
         this.url = url;
-        this.fullname = fullname;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getId() {
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -95,12 +98,28 @@ public class UserAccount {
         this.address = address;
     }
 
-    public int getMemberTier() {
-        return memberTier;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setMemberTier(int memberTier) {
-        this.memberTier = memberTier;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public int getMember_tier() {
+        return member_tier;
+    }
+
+    public void setMember_tier(int member_tier) {
+        this.member_tier = member_tier;
     }
 
     public int getPoint() {
@@ -118,28 +137,4 @@ public class UserAccount {
     public void setUrl(String url) {
         this.url = url;
     }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public static Connection getConnection() throws SQLException {
-        Connection conn = null;
-        String ip = "192.168.56.1";
-        String database = "db_BanQuanAo";
-        String username = "sa";
-        String password = "123456";
-        String port = "1433";
-
-        String ConnectionStr = "jdbc:jtds:sqlserver://" + ip + ":" + port + ";databaseName=" + database + ";user=" + username + ";password=" + password + ";encrypt=true;trustServerCertificate=true;";
-        conn = DriverManager.getConnection(ConnectionStr);
-        return conn;
-    }
-
-
-
 }

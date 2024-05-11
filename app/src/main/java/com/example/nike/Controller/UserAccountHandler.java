@@ -1,6 +1,7 @@
 package com.example.nike.Controller;
 
 import com.example.nike.Model.DBConnection;
+import com.example.nike.Model.UserAccount;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -137,38 +138,46 @@ public class UserAccountHandler {
         return isSuccess;
     }
 
-    public static boolean checkLogin(String username, String password) {
+    public static UserAccount checkLogin(String username, String password) {
         Connection con = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
+        UserAccount user = null;
         try {
             con = db.connectionClass();
-            String sql = "select count(*) from user_account where user_username = ? and user_password = ?";
-            preparedStatement = con.prepareStatement(sql);
+            String sql = "select * from user_account where user_username = ? and user_password = ?";
+            preparedStatement = con.prepareStatement(sql); // Khởi tạo PreparedStatement
             preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password );
+            preparedStatement.setString(2, password);
             rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                return rs.getInt(1) > 0;
+                user = new UserAccount(
+                        rs.getInt("user_id"),
+                        rs.getString("user_username"),
+                        rs.getString("user_password"),
+                        rs.getString("user_gender"),
+                        rs.getString("user_email"),
+                        rs.getString("user_phone_number"),
+                        rs.getString("user_address"),
+                        rs.getString("user_first_name"),
+                        rs.getString("user_last_name"),
+                        rs.getInt("user_member_tier"),
+                        rs.getInt("user_point"),
+                        rs.getString("user_url")
+                );
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
             try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (con != null) {
-                    con.close();
-                }
+                if (rs != null) rs.close();
+                if (preparedStatement != null) preparedStatement.close();
+                if (con != null) con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
-        return false;
+        return user;
     }
 
 }

@@ -66,15 +66,25 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String us = username.getText().toString();
-                String ps = password.getText().toString();
-                if(!us.isEmpty() && !ps.isEmpty())
+                String pw = password.getText().toString();
+                if(!us.isEmpty() && !pw.isEmpty())
                 {
-                    if(UserAccountHandler.checkLogin(us,ps))
+                    UserAccount userAccount = UserAccountHandler.checkLogin(us,pw);
+                    if(userAccount != null)
                     {
-
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("email", userAccount.getEmail());
+                        editor.putString("first_name",userAccount.getFirst_name());
+                        editor.putString("login_type","normal");
+                        editor.apply();
+                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        startActivity(intent);
                     }
-
+                    else
+                        Toast.makeText(Login.this, "Tài khoản hoặc mật khẩu không chính xác", Toast.LENGTH_SHORT).show();
                 }
+                else
+                    Toast.makeText(Login.this, "Hãy nhập đủ thông tin đăng nhập", Toast.LENGTH_SHORT).show();
             }
         });
         btn_google.setOnClickListener(new View.OnClickListener() {

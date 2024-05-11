@@ -67,10 +67,8 @@ public class ProfileFragment extends Fragment {
         cv_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(login_type.equals("google"))
-                    signOutGoogleAccount(v);
-                else
-                    Toast.makeText(v.getContext(), "Mày đéo đăng nhập bằng google em ơi", Toast.LENGTH_SHORT).show();
+                signOutGoogleAccount(v);
+
             }
         });
     }
