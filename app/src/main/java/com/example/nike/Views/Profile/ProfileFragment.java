@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.example.nike.FragmentUtils;
 import com.example.nike.R;
 import com.example.nike.Views.Login;
+import com.example.nike.Views.Profile.EditProfileFragment.EditProfileFragment;
 import com.example.nike.Views.Profile.InboxFragment.InboxFragment;
 import com.example.nike.Views.Register;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -46,6 +48,7 @@ public class ProfileFragment extends Fragment {
 
     //test logout
     CardView cv_setting;
+    AppCompatButton btn_editProfile;
     private String login_type;
 
     public ProfileFragment() {
@@ -58,6 +61,7 @@ public class ProfileFragment extends Fragment {
         cv_inbox = view.findViewById(R.id.cs_inbox);
         sharedPreferences = view.getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         cv_setting = view.findViewById(R.id.cv_setting);
+        btn_editProfile = view.findViewById(R.id.btn_editProfile);
     }
 
     private void addEvents()
@@ -77,6 +81,15 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+        btn_editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditProfileFragment editProfileFragment = new EditProfileFragment();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm,editProfileFragment,R.id.frameLayout);
+            }
+        });
+
     }
 
     private void loadDataUser()
