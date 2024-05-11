@@ -251,10 +251,23 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
             <include layout="@layout/horizontal_divider_full_slim" />
+
+
         </LinearLayout>
 
 
     </ScrollView>
+
+    <TextView
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#F3ECEC"
+        android:gravity="center"
+        android:textSize="15dp"
+        android:text="Member Since March 2024"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
