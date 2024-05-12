@@ -16,9 +16,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.nike.FragmentUtils;
 import com.example.nike.R;
 import com.example.nike.Views.Login;
@@ -49,6 +51,7 @@ public class ProfileFragment extends Fragment {
     //test logout
     CardView cv_setting;
     AppCompatButton btn_editProfile;
+    ImageView user_img;
     private String login_type;
 
     public ProfileFragment() {
@@ -62,6 +65,7 @@ public class ProfileFragment extends Fragment {
         sharedPreferences = view.getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         cv_setting = view.findViewById(R.id.cv_setting);
         btn_editProfile = view.findViewById(R.id.btn_editProfile);
+        user_img = view.findViewById(R.id.user_img);
     }
 
     private void addEvents()
@@ -96,6 +100,15 @@ public class ProfileFragment extends Fragment {
     {
         String us = sharedPreferences.getString("first_name",null);
         login_type = sharedPreferences.getString("login_type",null);
+        if(sharedPreferences.getString("login_type",null).equals("google"))
+        {
+            String img_url = sharedPreferences.getString("user_img",null);
+            if(!img_url.isEmpty())
+            {
+                Glide.with(this).load(img_url).into(user_img);
+            }
+        }
+
         user_name.setText(us);
     }
 

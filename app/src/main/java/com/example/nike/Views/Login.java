@@ -143,6 +143,7 @@ public class Login extends AppCompatActivity {
                 userAccountHandler.addUserGoogle(email,first_name,url);
             editor.putString("email", email);
             editor.putString("first_name",first_name);
+            editor.putString("user_img",url);
             editor.putString("login_type","google");
             editor.apply();
             updateUI(account);

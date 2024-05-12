@@ -95,7 +95,7 @@ public class Register extends AppCompatActivity {
                 {
                     if(UserAccountHandler.checkUserExist(username))
                         Toast.makeText(Register.this, "Tên đăng nhập này đã tồn tại", Toast.LENGTH_SHORT).show();
-                    else if (!testEmail(email)) {
+                    else if (!checkEmailFormat(email)) {
                         Toast.makeText(Register.this, "Email không đúng định dạng", Toast.LENGTH_SHORT).show();
                     }
                     else if(UserAccountHandler.checkEmailExist(email))
@@ -104,6 +104,11 @@ public class Register extends AppCompatActivity {
                     {
                         UserAccountHandler.addUser(username,password,email,fn,ln);
                         Toast.makeText(Register.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
+                        usernameEditText.setText("");
+                        passwordEditText.setText("");
+                        first_name.setText("");
+                        last_name.setText("");
+                        emailEditText.setText("");
                     }
                 }
                 else
@@ -167,6 +172,7 @@ public class Register extends AppCompatActivity {
                 userAccountHandler.addUserGoogle(email,first_name,url);
             editor.putString("email", email);
             editor.putString("first_name",first_name);
+            editor.putString("user_img",url);
             editor.putString("login_type","google");
             editor.apply();
             updateUI(account);
@@ -196,14 +202,14 @@ public class Register extends AppCompatActivity {
     }
 
 
-    private boolean testEmail(String email) {
+    private boolean checkEmailFormat(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
 
-    private boolean testPassword(String password) {
+    private boolean checkPassword(String password) {
         // Kiểm tra xem mật khẩu có ít nhất 6 ký tự không
         if (password.length() < 8) {
             return false;
