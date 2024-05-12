@@ -41,6 +41,8 @@ import com.google.android.material.button.MaterialButton;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Register extends AppCompatActivity {
     EditText usernameEditText, passwordEditText, emailEditText, first_name, last_name;
@@ -93,6 +95,9 @@ public class Register extends AppCompatActivity {
                 {
                     if(UserAccountHandler.checkUserExist(username))
                         Toast.makeText(Register.this, "Tên đăng nhập này đã tồn tại", Toast.LENGTH_SHORT).show();
+                    else if (!testEmail(email)) {
+                        Toast.makeText(Register.this, "Email không đúng định dạng", Toast.LENGTH_SHORT).show();
+                    }
                     else if(UserAccountHandler.checkEmailExist(email))
                         Toast.makeText(Register.this, "Email này đã được đăng kí", Toast.LENGTH_SHORT).show();
                     else
@@ -182,6 +187,53 @@ public class Register extends AppCompatActivity {
         }
     }
 
+    private boolean testUsername(String username) {
+        // Kiểm tra xem tên người dùng có chứa dấu cách hoặc khoảng trắng không
+        if (username.contains(" ") || username.contains("\t")) {
+            return false;
+        }
+        return true;
+    }
+
+
+    private boolean testEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    private boolean testPassword(String password) {
+        // Kiểm tra xem mật khẩu có ít nhất 6 ký tự không
+        if (password.length() < 8) {
+            return false;
+        }
+
+        // Kiểm tra xem mật khẩu có ít nhất một ký tự hoa không
+        if (!password.matches(".*[A-Z].*")) {
+            return false;
+        }
+
+        // Kiểm tra xem mật khẩu có ít nhất một ký tự thường không
+        if (!password.matches(".*[a-z].*")) {
+            return false;
+        }
+
+        // Kiểm tra xem mật khẩu có ít nhất một số không
+        if (!password.matches(".*\\d.*")) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean testFirstName(String firstName) {
+        return !firstName.trim().isEmpty();
+    }
+
+    private boolean testLastName(String lastName) {
+        return !lastName.trim().isEmpty();
+    }
 
 
 }
