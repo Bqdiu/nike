@@ -4,72 +4,67 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.nike.Model.Product;
 import com.example.nike.R;
 
 import java.util.List;
 
-public class BagAdapter extends RecyclerView.Adapter<BagAdapter.ProductViewHolder> {
-
-    private List<Product> productList;
+public class BagAdapter extends BaseAdapter {
     private Context context;
+    private int layout;
+    private List<BagClass> arraylist;
 
-    public BagAdapter(List<Product> productList, Context context) {
-        this.productList = productList;
+
+    public BagAdapter(Context context, int layout, List<BagClass> arraylist) {
         this.context = context;
+        this.layout = layout;
+        this.arraylist = arraylist;
     }
 
-    @NonNull
-    @Override
-    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_product_bag, parent, false);
-        return new ProductViewHolder(view);
-    }
+
 
     @Override
-    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        Product product = productList.get(position);
-        holder.bind(product);
+    public int getCount() {
+        return arraylist.size();
     }
 
     @Override
-    public int getItemCount() {
-        return productList.size();
+    public Object getItem(int position) {
+        return null;
     }
 
-    public class ProductViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
 
-        ImageView productImageView;
-        TextView nameTextView;
-        TextView descriptionTextView;
-        TextView priceTextView;
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = inflater.inflate(layout, null);
 
-        public ProductViewHolder(@NonNull View itemView) {
-            super(itemView);
-            productImageView = itemView.findViewById(R.id.eachCartItemIV);
-            nameTextView = itemView.findViewById(R.id.Name_Pro);
-            descriptionTextView = itemView.findViewById(R.id.Des_Pro);
-            priceTextView = itemView.findViewById(R.id.Price_Pro);
-        }
+        BagClass bag = arraylist.get(position);
+        //ÁNH XẠ BÊN LAYOUT
+        TextView ten = convertView.findViewById(R.id.namePro);
+        TextView mota = convertView.findViewById(R.id.desPro);
+        TextView mau = convertView.findViewById(R.id.colorPro);
+        TextView size = convertView.findViewById(R.id.sizePro);
+        TextView sluong = convertView.findViewById(R.id.Quantity);
+        TextView gia = convertView.findViewById(R.id.pricePro);
+        ImageView anh = convertView.findViewById(R.id.imgPro);
 
-        public void bind(Product product) {
-            //productImageView.setImageResource(product.getImg());
-            nameTextView.setText(product.getName());
-            descriptionTextView.setText(product.getDescription());
-            priceTextView.setText(String.valueOf(product.getPrice()));
+        //ÁNH XẠ VÀO CLASS
+        ten.setText(bag.getName());
+        mota.setText(bag.getDes());
+        mau.setText(bag.getColor());
+        size.setText(String.valueOf(bag.getSize()));
+        sluong.setText(String.valueOf(bag.getQuantity()));
+        gia.setText(String.valueOf(bag.getPrice()));
+        anh.setImageResource(bag.getIdImg());
 
-            // Xử lý sự kiện khi người dùng nhấp vào sản phẩm
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Xử lý sự kiện tương ứng (ví dụ: mở màn hình chi tiết sản phẩm)
-                }
-            });
-        }
+        return convertView;
     }
 }
