@@ -10,6 +10,12 @@ public class BagClass {
 
     }
 
+    public BagClass(int idImg, String name, double price) {
+        this.idImg = idImg;
+        this.name = name;
+        this.price = price;
+    }
+
     public BagClass(String name, String des, String color,  int size, int quantity, double price, int idImg) {
         this.name = name;
         this.des = des;
