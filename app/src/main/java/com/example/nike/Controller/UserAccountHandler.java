@@ -180,7 +180,7 @@ public class UserAccountHandler {
         return user;
     }
 
-    public static UserAccount loadUserByEmail(String email)
+    public static UserAccount getUserByEmail(String email)
     {
         Connection con = null;
         PreparedStatement preparedStatement = null;
@@ -254,4 +254,38 @@ public class UserAccountHandler {
         }
         return isSuccess;
     }
+    public static boolean checkUserPhoneExists(String phone) {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+            con = db.connectionClass();
+            String sql = "select count(*) from user_account where user_phone_number = ?";
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, phone);
+            rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+
 }

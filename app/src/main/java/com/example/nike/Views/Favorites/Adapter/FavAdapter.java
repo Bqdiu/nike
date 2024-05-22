@@ -10,16 +10,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nike.Model.ProductParent;
 import com.example.nike.R;
 import com.example.nike.Views.Bag.Adapter.BagClass;
+import com.example.nike.Views.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder>{
-    private List<BagClass> listFavBag;
+    private ArrayList<ProductParent> listBag;
 
-    public FavAdapter(List<BagClass> listFavBag) {
-        this.listFavBag = listFavBag;
+    public FavAdapter(ArrayList<ProductParent> listBag) {
+        this.listBag = listBag;
     }
 
     @NonNull
@@ -31,19 +34,16 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull FavViewHolder holder, int position) {
-        BagClass favBag = listFavBag.get(position);
-        if(favBag == null){
-            return;
-        }
-        holder.imgProFav.setImageResource(favBag.getIdImg());
-        holder.nameProFav.setText(favBag.getName());
-        holder.priceProFav.setText(String.valueOf(favBag.getPrice()));
+        ProductParent pd = listBag.get(position);
+        holder.imgProFav.setImageBitmap(Util.convertStringToBitmapFromAccess(holder.itemView.getContext(),pd.getThumbnail()));
+        holder.nameProFav.setText(pd.getName());
+        holder.priceProFav.setText(String.valueOf(pd.getPrice()));
     }
 
     @Override
     public int getItemCount() {
-        if(listFavBag != null)
-            return listFavBag.size();
+        if(listBag != null)
+            return listBag.size();
         return 0;
     }
 

@@ -5,6 +5,8 @@ import static com.example.nike.Views.Util.formatCurrency;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -35,11 +37,13 @@ import android.widget.TextView;
 
 import com.example.nike.Controller.ImageHandler;
 import com.example.nike.Controller.ProductSizeHandler;
+import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.MainActivity;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductImage;
 import com.example.nike.Model.ProductSize;
 import com.example.nike.Model.ShopByIcons;
+import com.example.nike.Model.UserAccount;
 import com.example.nike.R;
 import com.example.nike.Views.Shop.Adapter.IconsItemRecycleViewAdapter;
 import com.example.nike.Views.Shop.Adapter.PhotoProductAdapter;
@@ -82,8 +86,12 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
     private SizeItemAdapter sizeAdapter;
 
     private ArrayList<ProductSize> listSize;
+    // control for favorite
+    private Button btnFavorite;
+    private SharedPreferences sharedPreferences;
+    private String user_email;
 
-
+    private UserAccount user;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "object_product";
@@ -172,6 +180,12 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
 
         btnSpinnerSize = view.findViewById(R.id.btnSpinner);
         listSize = ProductSizeHandler.getDataByProductID(mProduct.get(0).getProductID());
+
+        // favorites control
+        sharedPreferences = view.getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        btnFavorite = view.findViewById(R.id.btnFavorite);
+        user_email = sharedPreferences.getString("email",null);
+        user = UserAccountHandler.getUserByEmail(user_email);
     }
     private void setDataRecycleViewPhotoList(){
        
@@ -234,6 +248,13 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
             public void onClick(View v) {
 
                 showPopup();
+
+            }
+        });
+
+        btnFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });

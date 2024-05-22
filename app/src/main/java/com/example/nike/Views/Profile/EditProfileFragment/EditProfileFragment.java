@@ -25,6 +25,9 @@ import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.Model.UserAccount;
 import com.example.nike.R;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class EditProfileFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -38,6 +41,13 @@ public class EditProfileFragment extends Fragment {
     ImageView user_img;
     EditText first_name,last_name,phone_number,address;
     private String email,login_type;
+    private static final String PHONE_NUMBER_PATTERN = "^0[0-9]{9,10}$";
+    private boolean isValidPhoneNumber(String phoneNumber)
+    {
+        Pattern pattern = Pattern.compile(PHONE_NUMBER_PATTERN);
+        Matcher matcher = pattern.matcher(phoneNumber);
+        return matcher.matches();
+    }
 
     public EditProfileFragment() {
         // Required empty public constructor
@@ -93,8 +103,16 @@ public class EditProfileFragment extends Fragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserAccountHandler.editUserProfile(email,first_name.getText().toString(),last_name.getText().toString(),phone_number.getText().toString(),address.getText().toString());
-                onBackPressed();
+                String phone = phone_number.getText().toString();
+                if(!isValidPhoneNumber(phone) && !phone.isEmpty())
+                    Toast.makeText(getContext(), "Số điên thoại không đúng định dạng", Toast.LENGTH_SHORT).show();
+                else if(UserAccountHandler.checkUserPhoneExists(phone) && !phone.isEmpty())
+                    Toast.makeText(getContext(), "Số điện thoại này đã được đăng kí", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    UserAccountHandler.editUserProfile(email,first_name.getText().toString(),last_name.getText().toString(),phone,address.getText().toString());
+                    onBackPressed();
+                }
             }
         });
     }
@@ -111,7 +129,7 @@ public class EditProfileFragment extends Fragment {
                 Glide.with(this).load(img_url).into(user_img);
             }
         }
-        UserAccount userAccount = UserAccountHandler.loadUserByEmail(email);
+        UserAccount userAccount = UserAccountHandler.getUserByEmail(email);
         first_name.setText(userAccount.getFirst_name());
         last_name.setText(userAccount.getLast_name());
         phone_number.setText(userAccount.getPhoneNumber());
@@ -144,4 +162,4 @@ public class EditProfileFragment extends Fragment {
         addEvents();
         return view;
     }
-}
+}   

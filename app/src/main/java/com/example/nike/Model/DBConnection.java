@@ -26,7 +26,7 @@ public class DBConnection {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             ConnectionStr = "jdbc:jtds:sqlserver://"+ip+":"+port+";databaseName="+database+";user="+username+";password="+password+";encrypt=true;trustServerCertificate=true;";
             conn = DriverManager.getConnection(ConnectionStr);
-            System.out.println("Ket noi duoc roi ne");
+//            System.out.println("Ket noi duoc roi ne");
 
         }catch (Exception ex){
             Log.e("Error",ex.getMessage());

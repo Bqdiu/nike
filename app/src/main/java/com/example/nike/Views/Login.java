@@ -45,6 +45,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         AddControls();
         loadGoogleSignIn();
+        loadNormalSignIn();
         addEvents();
     }
 
@@ -104,6 +105,17 @@ public class Login extends AppCompatActivity {
 
     }
 
+
+    private void loadNormalSignIn()
+    {
+        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String email = sharedPreferences.getString("email",null);
+        UserAccount userAccount = UserAccountHandler.getUserByEmail(email);
+        if (userAccount != null) {
+            Intent intent = new Intent(Login.this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
     private void loadGoogleSignIn()
     {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -123,7 +135,6 @@ public class Login extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // Kết quả trả về từ launch của Intent từ GoogleSignInClient.getSignInIntent(...);
         if (requestCode == REQUEST_CODE_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);

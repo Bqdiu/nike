@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nike.Views.Bag.BagFragment;
+import com.example.nike.Views.Favorites.FavoriteFragment;
 import com.example.nike.Views.Home.HomeFragment;
 import com.example.nike.Views.Profile.ProfileFragment;
 import com.example.nike.Views.Shop.ShopFragment;
@@ -31,6 +33,14 @@ public class MainActivity extends AppCompatActivity{
     FrameLayout frameLayout;
     BottomNavigationView bottomNavigationView;
     RelativeLayout actionBar;
+    private boolean doubleBack = false;
+    private Handler handler = new Handler();
+    private Runnable resetDoubleBack = new Runnable() {
+        @Override
+        public void run() {
+            doubleBack = false;
+        }
+    };
 
     private SharedPreferences sharedPreferences;
     @Override
@@ -71,6 +81,7 @@ public class MainActivity extends AppCompatActivity{
                         return true;
                     case R.id.itemFavorites:
                         actionBar.setVisibility(GONE);
+                        LoadFragment(new FavoriteFragment());
                         tvNameOfFragment.setVisibility(GONE);
                         btnBack.setVisibility(GONE);
                         return true;
@@ -99,10 +110,12 @@ public class MainActivity extends AppCompatActivity{
     private void loadDataUser()
     {
         String us = sharedPreferences.getString("first_name",null);
-        Toast.makeText(this, "Welcome " + us, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Welcome " + us, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
-
-
+    }
 }
