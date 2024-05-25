@@ -254,7 +254,7 @@ public class UserAccountHandler {
         }
         return isSuccess;
     }
-    public static boolean checkUserPhoneExists(String phone) {
+    public static boolean checkUserPhoneExists(String phone)    {
         Connection con = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;

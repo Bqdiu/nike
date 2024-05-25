@@ -19,13 +19,19 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.window.OnBackInvokedDispatcher;
 
 import com.example.nike.Views.Bag.BagFragment;
 import com.example.nike.Views.Favorites.FavoriteFragment;
 import com.example.nike.Views.Home.HomeFragment;
+import com.example.nike.Views.Profile.InboxFragment.InboxFragment;
 import com.example.nike.Views.Profile.ProfileFragment;
+import com.example.nike.Views.Shop.Product.DetailProduct;
+import com.example.nike.Views.Shop.Product.SearchProduct;
 import com.example.nike.Views.Shop.ShopFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity{
     ImageButton btnBack;
@@ -33,14 +39,7 @@ public class MainActivity extends AppCompatActivity{
     FrameLayout frameLayout;
     BottomNavigationView bottomNavigationView;
     RelativeLayout actionBar;
-    private boolean doubleBack = false;
-    private Handler handler = new Handler();
-    private Runnable resetDoubleBack = new Runnable() {
-        @Override
-        public void run() {
-            doubleBack = false;
-        }
-    };
+    ImageButton btn_search;
 
     private SharedPreferences sharedPreferences;
     @Override
@@ -58,10 +57,38 @@ public class MainActivity extends AppCompatActivity{
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         tvNameOfFragment = findViewById(R.id.tvNameOfFragment);
         btnBack = findViewById(R.id.btnBack);
+        btn_search = findViewById(R.id.btn_search);
 
     }
     protected void addEvent(){
         LoadFragment(new HomeFragment());
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_search.setVisibility(GONE);
+                SearchProduct searchFragment = new SearchProduct();
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentUtils.addFragment(fm,searchFragment,R.id.frameLayout);
+            }
+        });
+
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
+                if(! (currentFragment instanceof HomeFragment ) && ! (currentFragment instanceof ShopFragment) && ! (currentFragment instanceof DetailProduct))
+                {
+                    btn_search.setVisibility(GONE);
+                    actionBar.setVisibility(GONE);
+                }
+                else
+                {
+                    btn_search.setVisibility(View.VISIBLE);
+                    actionBar.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -105,6 +132,7 @@ public class MainActivity extends AppCompatActivity{
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frameLayout,fragment);
+        ft.addToBackStack(null);
         ft.commit();
     }
     private void loadDataUser()

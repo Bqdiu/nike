@@ -4,6 +4,7 @@ import com.example.nike.Model.DBConnection;
 import com.example.nike.Model.ProductParent;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -60,6 +61,47 @@ public class ProductParentHandler {
             }catch (SQLException e)
             {
                 throw new RuntimeException(e);
+            }
+        }
+        return list;
+    }
+    public static ArrayList<ProductParent> getProductParentByName(String name){
+        ArrayList<ProductParent> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = dbConnection.connectionClass();
+            if (conn != null) {
+                String query = "SELECT * FROM product_parent WHERE product_parent_name LIKE ?";
+                pstmt = conn.prepareStatement(query);
+                pstmt.setString(1, "%" + name + "%");
+
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    ProductParent pp = new ProductParent();
+                    pp.setId(rs.getInt(1));
+                    pp.setName(rs.getString(2));
+                    pp.setObjectID(rs.getInt(3));
+                    pp.setCategoryID(rs.getInt(4));
+                    pp.setThumbnail(rs.getString(5));
+                    pp.setPrice(rs.getInt(6));
+                    pp.setNewRelease(rs.getBoolean(7));
+                    pp.setIconsID(rs.getInt(8));
+                    list.add(pp);
+                }
+            } else {
+                System.out.println("Failed to make connection!");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
         return list;

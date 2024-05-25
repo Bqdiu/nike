@@ -86,10 +86,7 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
     private SizeItemAdapter sizeAdapter;
 
     private ArrayList<ProductSize> listSize;
-    // control for favorite
-    private Button btnFavorite;
-    private SharedPreferences sharedPreferences;
-    private String user_email;
+
 
     private UserAccount user;
     // TODO: Rename parameter arguments, choose names that match
@@ -181,11 +178,6 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         btnSpinnerSize = view.findViewById(R.id.btnSpinner);
         listSize = ProductSizeHandler.getDataByProductID(mProduct.get(0).getProductID());
 
-        // favorites control
-        sharedPreferences = view.getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        btnFavorite = view.findViewById(R.id.btnFavorite);
-        user_email = sharedPreferences.getString("email",null);
-        user = UserAccountHandler.getUserByEmail(user_email);
     }
     private void setDataRecycleViewPhotoList(){
        
@@ -251,14 +243,6 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
 
             }
         });
-
-        btnFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
 
     }
     protected void addControlOfPopupMenu(View view){

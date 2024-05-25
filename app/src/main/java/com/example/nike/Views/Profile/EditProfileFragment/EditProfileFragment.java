@@ -82,6 +82,8 @@ public class EditProfileFragment extends Fragment {
                 onBackPressed();
             }
         });
+
+        String old_phone_number = phone_number.getText().toString();
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -104,10 +106,21 @@ public class EditProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String phone = phone_number.getText().toString();
-                if(!isValidPhoneNumber(phone) && !phone.isEmpty())
-                    Toast.makeText(getContext(), "Số điên thoại không đúng định dạng", Toast.LENGTH_SHORT).show();
-                else if(UserAccountHandler.checkUserPhoneExists(phone) && !phone.isEmpty())
-                    Toast.makeText(getContext(), "Số điện thoại này đã được đăng kí", Toast.LENGTH_SHORT).show();
+                if(!phone.isEmpty())
+                {
+                    if(!isValidPhoneNumber(phone))
+                        Toast.makeText(getContext(), "Số điên thoại không đúng định dạng", Toast.LENGTH_SHORT).show();
+                    else if(UserAccountHandler.checkUserPhoneExists(phone))
+                    {
+                        if(old_phone_number.equals(phone))
+                        {
+                            UserAccountHandler.editUserProfile(email,first_name.getText().toString(),last_name.getText().toString(),phone,address.getText().toString());
+                            onBackPressed();
+                        }
+                        else
+                            Toast.makeText(getContext(), "Số điện thoại này đã được đăng kí", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 else
                 {
                     UserAccountHandler.editUserProfile(email,first_name.getText().toString(),last_name.getText().toString(),phone,address.getText().toString());

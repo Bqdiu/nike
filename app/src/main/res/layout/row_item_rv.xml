@@ -34,7 +34,7 @@
             android:ellipsize="end"/>
         <TextView
             android:id="@+id/priceProduct"
-            android:layout_width="150dp"
+            android:layout_width="200dp"
             android:paddingLeft="2dp"
             android:layout_height="wrap_content"
             android:text="đ3.519.000"/>
