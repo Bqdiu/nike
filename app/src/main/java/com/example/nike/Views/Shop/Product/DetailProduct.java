@@ -230,7 +230,8 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
             @Override
             public void onClick(View v) {
                 androidx.fragment.app.FragmentManager fm = getActivity().getSupportFragmentManager();
-                fm.popBackStack("TabLayoutOfShop", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                fm.popBackStack("TabLayoutOfShop", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                fm.popBackStack();
                 btnBack.setVisibility(View.GONE);
                 tvNameFragment.setText("Shop");
             }

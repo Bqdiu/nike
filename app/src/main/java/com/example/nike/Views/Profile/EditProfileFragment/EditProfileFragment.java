@@ -120,6 +120,11 @@ public class EditProfileFragment extends Fragment {
                         else
                             Toast.makeText(getContext(), "Số điện thoại này đã được đăng kí", Toast.LENGTH_SHORT).show();
                     }
+                    else
+                    {
+                        UserAccountHandler.editUserProfile(email,first_name.getText().toString(),last_name.getText().toString(),phone,address.getText().toString());
+                        onBackPressed();
+                    }
                 }
                 else
                 {

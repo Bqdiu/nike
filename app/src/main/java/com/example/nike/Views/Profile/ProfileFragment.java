@@ -26,6 +26,7 @@ import com.example.nike.R;
 import com.example.nike.Views.Login;
 import com.example.nike.Views.Profile.EditProfileFragment.EditProfileFragment;
 import com.example.nike.Views.Profile.InboxFragment.InboxFragment;
+import com.example.nike.Views.Profile.SettingFragment.SettingFragment;
 import com.example.nike.Views.Register;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -81,8 +82,9 @@ public class ProfileFragment extends Fragment {
         cv_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signOutGoogleAccount(v);
-
+                SettingFragment settingFragment = new SettingFragment();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm,settingFragment,R.id.frameLayout);
             }
         });
         btn_editProfile.setOnClickListener(new View.OnClickListener() {
@@ -112,21 +114,6 @@ public class ProfileFragment extends Fragment {
         user_name.setText(us);
     }
 
-    private void signOutGoogleAccount(View view)
-    {
-        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(view.getContext(), new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build());
-        googleSignInClient.signOut().addOnCompleteListener(ActivityCompat.getMainExecutor(view.getContext()), new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                // Delete user info from SharePreferences
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.clear();
-                editor.apply();
-                Intent intent = new Intent(view.getContext(), Login.class);
-                startActivity(intent);
-            }
-        });
-    }
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
