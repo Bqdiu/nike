@@ -12,12 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.media3.common.util.Log;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.example.nike.Controller.UserAccountHandler;
+import com.example.nike.Model.UserAccount;
 import com.example.nike.R;
 import com.example.nike.Views.Login;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -28,23 +34,48 @@ import com.google.android.gms.tasks.Task;
 
 public class SettingFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String get_email = "param1";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private SharedPreferences sharedPreferences;
-    CardView cs_logout;
+    CardView cs_email,cs_phone,cs_about_version,cs_terms_of_use,cs_terms_of_sale,cs_privacy_policy,cs_returns_policy,cs_logout;
+    TextView email,phone;
+    ImageButton btnBack;
     private void addControls(View view)
     {
         sharedPreferences = view.getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        cs_email = view.findViewById(R.id.cs_email);
+        cs_phone = view.findViewById(R.id.cs_phone);
+        cs_about_version = view.findViewById(R.id.cs_about_version);
+        cs_terms_of_use = view.findViewById(R.id.cs_terms_of_use);
+        cs_terms_of_sale = view.findViewById(R.id.cs_terms_of_sale);
+        cs_privacy_policy = view.findViewById(R.id.cs_privacy_policy);
+        cs_returns_policy = view.findViewById(R.id.cs_returns_policy);
         cs_logout = view.findViewById(R.id.cs_logout);
+        btnBack = view.findViewById(R.id.btnBack);
+        email = view.findViewById(R.id.email);
+        phone = view.findViewById(R.id.phone);
+        email.setText(sharedPreferences.getString("email",null));
+        UserAccount us = UserAccountHandler.getUserByEmail(email.getText().toString());
+        String get_phone = us.getPhoneNumber();
+        if(get_phone != null)
+            phone.setText(get_phone);
+        else
+            phone.setText("Add");
     }
 
     private void addEvents()
     {
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.popBackStack();
+            }
+        });
         cs_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,11 +128,10 @@ public class SettingFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static SettingFragment newInstance(String param1, String param2) {
+    public static SettingFragment newInstance(String param1) {
         SettingFragment fragment = new SettingFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(get_email, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -110,8 +140,7 @@ public class SettingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam1 = getArguments().getString(get_email);
         }
     }
 
