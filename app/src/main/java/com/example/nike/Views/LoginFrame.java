@@ -26,9 +26,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 
-public class Login extends AppCompatActivity {
+public class LoginFrame extends AppCompatActivity {
     EditText username, password;
     TextView register;
     MaterialButton signinbtn;
@@ -61,7 +60,7 @@ public class Login extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Login.this,Register.class);
+                Intent intent = new Intent(LoginFrame.this, RegisterFrame.class);
                 startActivity(intent);
             }
         });
@@ -86,14 +85,14 @@ public class Login extends AppCompatActivity {
                         editor.putString("first_name",userAccount.getFirst_name());
                         editor.putString("login_type","normal");
                         editor.apply();
-                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        Intent intent = new Intent(LoginFrame.this, MainActivity.class);
                         startActivity(intent);
                     }
                     else
-                        Toast.makeText(Login.this, "Tài khoản hoặc mật khẩu không chính xác", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginFrame.this, "Tài khoản hoặc mật khẩu không chính xác", Toast.LENGTH_SHORT).show();
                 }
                 else
-                    Toast.makeText(Login.this, "Hãy nhập đủ thông tin đăng nhập", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginFrame.this, "Hãy nhập đủ thông tin đăng nhập", Toast.LENGTH_SHORT).show();
             }
         });
         btn_google.setOnClickListener(new View.OnClickListener() {
@@ -106,13 +105,15 @@ public class Login extends AppCompatActivity {
     }
 
 
+
+
     private void loadNormalSignIn()
     {
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         String email = sharedPreferences.getString("email",null);
         UserAccount userAccount = UserAccountHandler.getUserByEmail(email);
         if (userAccount != null) {
-            Intent intent = new Intent(Login.this, MainActivity.class);
+            Intent intent = new Intent(LoginFrame.this, MainActivity.class);
             startActivity(intent);
         }
     }
@@ -148,7 +149,9 @@ public class Login extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             String email = account.getEmail();
             String first_name = account.getGivenName();
-            String url = account.getPhotoUrl().toString();
+            String url = "";
+            if(account.getPhotoUrl() != null)
+                url = account.getPhotoUrl().toString();
             System.out.println(email + " " + first_name);
             if(!userAccountHandler.checkEmailExist(email))
                 userAccountHandler.addUserGoogle(email,first_name,url);
@@ -167,7 +170,7 @@ public class Login extends AppCompatActivity {
 
     private void updateUI(GoogleSignInAccount account) {
         if (account != null) {
-            Intent intent = new Intent(Login.this, MainActivity.class);
+            Intent intent = new Intent(LoginFrame.this, MainActivity.class);
             startActivity(intent);
         } else {
 //            Toast.makeText(this, "Bạn đã đăng xuất", Toast.LENGTH_SHORT).show();

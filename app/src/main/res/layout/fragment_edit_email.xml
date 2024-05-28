@@ -21,6 +21,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             />
+
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
@@ -28,8 +29,8 @@
             android:layout_centerInParent="true"
             android:text="Edit Email Address"
             android:textColor="@color/black"
-            android:textSize="20dp"
-            />
+            android:textSize="18sp" />
+
 
     </RelativeLayout>
 
@@ -42,12 +43,56 @@
 
 
         <TextView
-            android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp"
+            android:layout_marginTop="10dp"
             android:text="Your current account email address is:" />
+
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="boquangdieu2003@gmail.com" />
+
+        <EditText
+            android:id="@+id/newEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/radius_custom_text_field"
+            android:hint="New Email Address" />
+
+        <EditText
+            android:id="@+id/comfirmEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/radius_custom_text_field"
+            android:hint="Comfirm Email Address" />
+
+        <Button
+            android:id="@+id/btn_done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radius_custom_btn_logout"
+            android:layout_margin="20dp"
+            android:enabled="false"
+            android:textSize="16sp"
+            android:text="Done" />
+
+
     </LinearLayout>
 
 

@@ -1,9 +1,7 @@
 package com.example.nike.Views.Profile.SettingFragment;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,7 +11,6 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.media3.common.util.Log;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +20,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.nike.Controller.UserAccountHandler;
+import com.example.nike.FragmentUtils;
 import com.example.nike.Model.UserAccount;
 import com.example.nike.R;
-import com.example.nike.Views.Login;
+import com.example.nike.Views.LoginFrame;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -82,6 +80,15 @@ public class SettingFragment extends Fragment {
                 showAlertDialog(v);
             }
         });
+        cs_email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String sendEmail = sharedPreferences.getString("email",null);
+                EditEmailFragment editEmailFragment = EditEmailFragment.newInstance(sendEmail);
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm,editEmailFragment,R.id.frameLayout);
+            }
+        });
     }
 
     private void showAlertDialog(View v)
@@ -119,7 +126,7 @@ public class SettingFragment extends Fragment {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.apply();
-                Intent intent = new Intent(view.getContext(), Login.class);
+                Intent intent = new Intent(view.getContext(), LoginFrame.class);
                 startActivity(intent);
             }
         });

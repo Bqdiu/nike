@@ -1,15 +1,8 @@
 package com.example.nike.Views;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.IntentSenderRequest;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,18 +17,11 @@ import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.MainActivity;
 import com.example.nike.R;
 import com.example.nike.Model.DBConnection;
-import com.google.android.gms.auth.api.identity.BeginSignInRequest;
-import com.google.android.gms.auth.api.identity.BeginSignInResult;
-import com.google.android.gms.auth.api.identity.Identity;
-import com.google.android.gms.auth.api.identity.SignInClient;
-import com.google.android.gms.auth.api.identity.SignInCredential;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 
@@ -44,7 +30,7 @@ import java.sql.Connection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Register extends AppCompatActivity {
+public class RegisterFrame extends AppCompatActivity {
     EditText usernameEditText, passwordEditText, emailEditText, first_name, last_name;
     TextView login;
     MaterialButton signUpButton;
@@ -73,7 +59,7 @@ public class Register extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Register.this, Login.class);
+                Intent intent = new Intent(RegisterFrame.this, LoginFrame.class);
                 startActivity(intent);
             }
         });
@@ -94,16 +80,16 @@ public class Register extends AppCompatActivity {
                 if(!username.isEmpty() && !email.isEmpty() && !password.isEmpty() && !fn.isEmpty() && !ln.isEmpty())
                 {
                     if(UserAccountHandler.checkUserExist(username))
-                        Toast.makeText(Register.this, "Tên đăng nhập này đã tồn tại", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterFrame.this, "Tên đăng nhập này đã tồn tại", Toast.LENGTH_SHORT).show();
                     else if (!checkEmailFormat(email)) {
-                        Toast.makeText(Register.this, "Email không đúng định dạng", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterFrame.this, "Email không đúng định dạng", Toast.LENGTH_SHORT).show();
                     }
                     else if(UserAccountHandler.checkEmailExist(email))
-                        Toast.makeText(Register.this, "Email này đã được đăng kí", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterFrame.this, "Email này đã được đăng kí", Toast.LENGTH_SHORT).show();
                     else
                     {
                         UserAccountHandler.addUser(username,password,email,fn,ln);
-                        Toast.makeText(Register.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterFrame.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
                         usernameEditText.setText("");
                         passwordEditText.setText("");
                         first_name.setText("");
@@ -112,7 +98,7 @@ public class Register extends AppCompatActivity {
                     }
                 }
                 else
-                    Toast.makeText(Register.this, "Vui lòng nhập đủ thông tin đăng kí", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterFrame.this, "Vui lòng nhập đủ thông tin đăng kí", Toast.LENGTH_SHORT).show();
             }
         });
         btn_google.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +109,9 @@ public class Register extends AppCompatActivity {
         });
 
     }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,7 +175,7 @@ public class Register extends AppCompatActivity {
     private void updateUI(GoogleSignInAccount account) {
         if (account != null) {
             // User logged
-            Intent intent = new Intent(Register.this, MainActivity.class);
+            Intent intent = new Intent(RegisterFrame.this, MainActivity.class);
             startActivity(intent);
         } else {
             // User not log in or is log out

@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.example.nike.R;
-import com.example.nike.Views.Login;
-import com.example.nike.Views.Register;
+import com.example.nike.Views.LoginFrame;
 
 public class LoadingMainActivity extends AppCompatActivity {
 
@@ -19,7 +17,7 @@ public class LoadingMainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplicationContext(), Login.class);
+                Intent intent = new Intent(getApplicationContext(), LoginFrame.class);
                 startActivity(intent);
                 finish();
             }

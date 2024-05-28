@@ -1,41 +1,27 @@
 package com.example.nike.Views.Profile;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.nike.FragmentUtils;
 import com.example.nike.R;
-import com.example.nike.Views.Login;
 import com.example.nike.Views.Profile.EditProfileFragment.EditProfileFragment;
 import com.example.nike.Views.Profile.InboxFragment.InboxFragment;
 import com.example.nike.Views.Profile.SettingFragment.SettingFragment;
-import com.example.nike.Views.Register;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
-import java.util.concurrent.Executor;
-import java.util.zip.Inflater;
 public class ProfileFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
