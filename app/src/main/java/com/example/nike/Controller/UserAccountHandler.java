@@ -254,6 +254,35 @@ public class UserAccountHandler {
         }
         return isSuccess;
     }
+
+    public static boolean editEmailUser(String email, String newEmail)
+    {
+        boolean isSuccess = false;
+        Connection conn = null;
+        try {
+            conn = db.connectionClass();
+
+            String query = "update user_account set user_email = ? where user_email = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, newEmail);
+            preparedStatement.setString(2, email);
+            int rowsInserted = preparedStatement.executeUpdate();
+            if (rowsInserted > 0) {
+                isSuccess = true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return isSuccess;
+    }
     public static boolean checkUserPhoneExists(String phone)    {
         Connection con = null;
         PreparedStatement preparedStatement = null;

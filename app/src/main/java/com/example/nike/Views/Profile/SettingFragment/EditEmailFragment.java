@@ -1,11 +1,19 @@
 package com.example.nike.Views.Profile.SettingFragment;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Shader;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -15,9 +23,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.Mailer.MailAPI;
 import com.example.nike.R;
+import com.example.nike.Views.LoginFrame;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,6 +47,7 @@ public class EditEmailFragment extends Fragment {
     private EditText newEmail,comfirmEmail;
     private Button btn_done;
     private TextView tv_email;
+    private SharedPreferences sharedPreferences;
 
     private void addControls(View view)
     {
@@ -40,6 +57,7 @@ public class EditEmailFragment extends Fragment {
         newEmail = view.findViewById(R.id.newEmail);
         comfirmEmail = view.findViewById(R.id.comfirmEmail);
         btn_done = view.findViewById(R.id.btn_done);
+        sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
     }
 
     private void addEvents()
@@ -87,7 +105,38 @@ public class EditEmailFragment extends Fragment {
         btn_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendEmail();
+                // check email instance of database -> change email address
+                if(UserAccountHandler.checkEmailExist(newEmail.getText().toString()))
+                {
+                    Toast.makeText(getContext(), "Email này đã được đăng kí", Toast.LENGTH_SHORT).show();
+                }
+                else if(getEmail.equals(newEmail.getText().toString()))
+                {
+                    Toast.makeText(getContext(), "Bạn đã đăng kí email này", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    UserAccountHandler.editEmailUser(getEmail,newEmail.getText().toString());
+                    Toast.makeText(getContext(), "Thay đổi thành công. Hãy đăng nhập lại", Toast.LENGTH_SHORT).show();
+                    sendEmail();
+                    signOutGoogleAccount(v);
+                }
+            }
+        });
+    }
+
+    private void signOutGoogleAccount(View view)
+    {
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(view.getContext(), new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build());
+        googleSignInClient.signOut().addOnCompleteListener(ActivityCompat.getMainExecutor(view.getContext()), new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                // Delete user info from SharePreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+                Intent intent = new Intent(view.getContext(), LoginFrame.class);
+                startActivity(intent);
             }
         });
     }
