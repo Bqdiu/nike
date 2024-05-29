@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Views.Profile.SettingFragment.TermOfSaleFragment"
+    android:padding="15dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="NIKE TERMS OF SALE"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="(Western Europe, Central Europe, Eastern Europe)"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:text="These Terms of Sale apply to Western Europe, Central Europe, and Eastern Europe, except Bulgaria, Croatia, Norway, Romania, Slovakia, Switzerland, and Turkey, which are governed by different terms. "/>
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Please read these Terms of Sale carefully before ordering Products online from the NIKE Platform. "
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="AUSTRIA, FRANCE, GERMANY, HUNGARY, ITALY, POLAND."
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="APPLICABILITY"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="You are reading these Terms of Sale (“Terms of Sale”) because you are using a NIKE website, digital experience, social media platform, mobile app, wearable technology, or one of our other products or services, all of which are part of NIKE’s Platform (“Platform”). These Terms of Sale create a legally binding agreement between you and NIKE and its affiliates (which we may refer to as “NIKE,” “we,” “us,” or “our”) regarding orders placed for products available on the Platform.  Please review our List of Local Entities for the name of the NIKE entity responsible for providing the Platform to you and the appropriate contact information. Nike may revise these Terms of Sale without notice by posting revised Terms of Sale on its Platform.  The Terms of Sale posted on the Platform at the time you place your order on the Platform will govern that purchase.  Please read these terms carefully and check that the details of your order are complete and accurate before submitting your order. Your use of the Platform is also governed by NIKE’s Terms of Use and Privacy Policy. The Terms of Use are incorporated herein by this reference. [See Hungary terms.]. "
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="PLACING ORDERS ON THE PLATFORM "
+                android:layout_marginTop="10dp"/>
+
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Our Terms May Change.  Some jurisdictions do not permit unilateral updates or changes to consumer terms, so this paragraph may not apply to you.  [See Canada terms.] We may update these Terms from time to time.  If a material change is made, we will post a notice on the Platform or send you a notification.  Read through any changes, and if you don’t agree to them, please stop using the Platform.  If you continue to use our Platform after we notify you of changes, you will be deemed to have accepted the updated Terms, except to the extent prohibited by applicable law."
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:text="Terms of Sale.  By making any purchase with us, you also agree to the Terms of Sale that apply in your country or region. [See Hungarian terms.]"
+                />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:text="Privacy Policy.  Our Privacy Policy describes the collection and use of personal information on the Platform and applies to your use of the Platform."
+                />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:text="The Platform is intended solely for NIKE to sell NIKE products direct to end consumers, and therefore purchase of products for resale is strictly prohibited. Purchase for resale means the purchase of NIKE product by someone who resells, or intends to resell, the NIKE product to others (consumers, businesses or any third party).  If NIKE believes you are involved in purchase for resale, NIKE reserves the right to take any action against you, including, without limitation, to restrict sales to you, cancel your orders, and/or suspend or close your account.  "
+                />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:text="Important Notice for Amateur Athletes.  You are responsible for ensuring that your participation on the Platform does not affect your eligibility as an amateur athlete.  Please check with your amateur athletic association for the rules that apply to you.  NIKE is not responsible or liable for your use of the Platform resulting in your ineligibility as an amateur athlete. "
+                />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

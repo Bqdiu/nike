@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.FragmentUtils;
@@ -87,6 +89,53 @@ public class SettingFragment extends Fragment {
                 EditEmailFragment editEmailFragment = EditEmailFragment.newInstance(sendEmail);
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentUtils.addFragment(fm,editEmailFragment,R.id.frameLayout);
+            }
+        });
+
+        //About this version
+        cs_about_version.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AboutVersionFragment aboutVersionFragment = AboutVersionFragment.newInstance();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm, aboutVersionFragment, R.id.frameLayout);
+            }
+        });
+
+        //Terms of Use
+        cs_terms_of_use.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TermsOfUserFragment termsOfUserFragment = TermsOfUserFragment.newInstance();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm, termsOfUserFragment, R.id.frameLayout);
+            }
+        });
+
+        //Terms of Sale
+        cs_terms_of_sale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TermOfSaleFragment termOfSaleFragment = TermOfSaleFragment.newInstance();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm, termOfSaleFragment, R.id.frameLayout);
+            }
+        });
+
+        //Privacy Policy
+        cs_privacy_policy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PrivacyPolicyFragment privacyPolicyFragment = PrivacyPolicyFragment.newInstance();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm, privacyPolicyFragment, R.id.frameLayout);
+            }
+        });
+
+        cs_returns_policy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWebPage("https://www.nike.com/help/a/returns-policy");
             }
         });
     }
@@ -159,4 +208,20 @@ public class SettingFragment extends Fragment {
         addEvents();
         return view;
     }
+
+    //Mở link từ app sang web nha
+    private void openWebPage(String url) {
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+
+        // Kiểm tra xem thiết bị có ứng dụng nào có thể xử lý Intent này hay không
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // Mở trình duyệt web mặc định
+            startActivity(intent);
+        } else {
+            // Nếu không tìm thấy trình duyệt web, bạn có thể cung cấp một thông báo cho người dùng
+            Toast.makeText(getContext(), "Không tìm thấy trình duyệt web", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
