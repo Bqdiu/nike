@@ -4,75 +4,99 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Views.Shop.Product.SearchResult">
-
-
-    <RelativeLayout
-        android:id="@+id/actionBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-        <ImageButton
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_arrow_back_24"
-            android:backgroundTint="@color/white"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            />
-
-        <TextView
-            android:id="@+id/tv_text_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Search"
-            android:textColor="@color/black"
-            android:textSize="20dp" />
-        <ImageButton
-            android:id="@+id/btn_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/baseline_search_24" />
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_notfound"
+    tools:context=".Views.Shop.Product.SearchResult"
+    >
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/actionBar"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:layout_marginTop="12dp"
-        android:textColor="@color/black"
-        android:text="No Products Found" />
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+        <RelativeLayout
+            android:id="@+id/actionBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_arrow_back_24"
+                android:backgroundTint="@color/white"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                />
 
-    <TextView
-        android:id="@+id/tv_message"
-        android:layout_width="245dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_notfound"
-        android:gravity="center"
-        android:textSize="16dp"
-        android:layout_marginTop="12dp"
-        android:textColor="#787474"
-        android:text="Please adjust your search and try again"
+            <TextView
+                android:id="@+id/tv_text_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Search"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+            <ImageButton
+                android:id="@+id/btn_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/baseline_search_24" />
+        </RelativeLayout>
 
-        />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_search_result"
-        app:layout_constraintTop_toBottomOf="@+id/tv_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+
+            app:layout_constraintTop_toBottomOf="@+id/actionBar"
+            tools:ignore="MissingConstraints">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_notfound"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="No Products Found"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_message"
+                    android:layout_width="245dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="Please adjust your search and try again"
+                    android:textColor="#787474"
+                    android:textSize="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_notfound"
+
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_search_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_message"
+
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
