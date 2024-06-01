@@ -35,6 +35,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.nike.Controller.FavoriteProductHandler;
 import com.example.nike.Controller.ImageHandler;
 import com.example.nike.Controller.ProductSizeHandler;
 import com.example.nike.Controller.UserAccountHandler;
@@ -87,8 +88,10 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
 
     private ArrayList<ProductSize> listSize;
 
-
+    private Product CurrentProduct;
     private UserAccount user;
+    private Button btnAddToWhistList;
+    private SharedPreferences sharedPreferences;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "object_product";
@@ -178,6 +181,8 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         btnSpinnerSize = view.findViewById(R.id.btnSpinner);
         listSize = ProductSizeHandler.getDataByProductID(mProduct.get(0).getProductID());
 
+        sharedPreferences = view.getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        btnAddToWhistList = view.findViewById(R.id.btnFavorite);
     }
     private void setDataRecycleViewPhotoList(){
        
@@ -242,6 +247,18 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
 
                 showPopup();
 
+            }
+        });
+
+        btnAddToWhistList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = sharedPreferences.getString("email",null).toString();
+                int UserID = UserAccountHandler.getUserByEmail(email).getId();
+                if(CurrentProduct != null)
+                FavoriteProductHandler.insertFavoriteProduct(UserID,CurrentProduct.getProductID());
+                else
+                    FavoriteProductHandler.insertFavoriteProduct(UserID,mProduct.get(0).getProductID());
             }
         });
 
@@ -317,5 +334,6 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
     public void onPhotoClick(Product product) {
 
         bindingDataOfProduct(product);
+        CurrentProduct = product;
     }
 }
