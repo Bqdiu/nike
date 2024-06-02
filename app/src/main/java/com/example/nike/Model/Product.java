@@ -15,10 +15,17 @@ public class Product implements Serializable {
     String description;
     String description2;
 
+    boolean isFavorite;
 
+    public boolean isFavorite() {
+        return isFavorite;
+    }
 
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
 
-    public Product(int productID, int productParentID, String name, String moreInfo, String img,int price, String sizeAndFit, String styleCode, String colorShown, String description, String description2 ) {
+    public Product(int productID, int productParentID, String name, String moreInfo, String img, int price, String sizeAndFit, String styleCode, String colorShown, String description, String description2 ) {
         this.productID = productID;
         this.productParentID = productParentID;
         this.name = name;

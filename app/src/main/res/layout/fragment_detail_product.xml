@@ -135,7 +135,8 @@
                 app:cornerRadius="50dp"
                 android:layout_marginTop="3dp"
                 android:textColor="@color/black"
-                android:text="Favorite &#x1F5A4;"
+                android:text="Favorite"
+
                 android:textAllCaps="false"/>
 
         </LinearLayout>

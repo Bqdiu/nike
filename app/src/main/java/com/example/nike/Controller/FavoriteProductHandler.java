@@ -53,4 +53,59 @@ public class FavoriteProductHandler {
         }
         return list;
     }
+    public static boolean CheckProductFavorite(int userID,int productID)  {
+        Connection conn = dbConnection.connectionClass();
+
+        if(conn!=null){
+            String sql = "SELECT COUNT(*) FROM user_favorite_products where user_id = ? and product_id = ?";
+            PreparedStatement preparedStatement = null;
+            ResultSet rs = null;
+
+
+            try{
+                preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setInt(1,userID);
+                preparedStatement.setInt(2,productID);
+               rs = preparedStatement.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }catch (SQLException e)
+            {
+                throw new RuntimeException(e);
+            }finally {
+                try {
+                    if (rs != null) {
+                        rs.close();
+                    }
+                    if (preparedStatement != null) {
+                        preparedStatement.close();
+                    }
+                    if (conn != null) {
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+        }
+        return false;
+    }
+    public static boolean removeFavoriteProduct(int user_id, int product_id)
+    {
+        Connection conn = dbConnection.connectionClass();
+        String sql = "delete from user_favorite_products where user_id = ? and product_id = ?";
+        PreparedStatement preparedStatement = null;
+        try{
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1,user_id);
+            preparedStatement.setInt(2,product_id);
+            int rowInserted = preparedStatement.executeUpdate();
+            return rowInserted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

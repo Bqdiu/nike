@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,6 +26,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -34,6 +37,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nike.Controller.FavoriteProductHandler;
 import com.example.nike.Controller.ImageHandler;
@@ -53,6 +57,7 @@ import com.example.nike.Views.Shop.Adapter.SizeItemAdapter;
 
 import org.w3c.dom.Text;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -155,7 +160,7 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
 
         return view;
     }
-    private void addControl(View view,Activity currentActivity){
+    private void addControl(View view,Activity currentActivity) {
         // Nếu Activity là loại Activity bạn mong muốn, bạn có thể tìm kiếm ImageButton từ đó
         btnBack = currentActivity.findViewById(R.id.btnBack);
         // Kiểm tra xem ImageButton có null hay không trước khi thực hiện thay đổi
@@ -183,6 +188,12 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
 
         sharedPreferences = view.getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         btnAddToWhistList = view.findViewById(R.id.btnFavorite);
+        String email = sharedPreferences.getString("email",null).toString();
+        int UserID = UserAccountHandler.getUserByEmail(email).getId();
+        if(FavoriteProductHandler.CheckProductFavorite(UserID,mProduct.get(0).getProductID())){
+            mProduct.get(0).setFavorite(true);
+            btnAddToWhistList.setText("Favorited");
+        }
     }
     private void setDataRecycleViewPhotoList(){
        
@@ -228,6 +239,44 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         tvStyle.setText("Style: "+product.getStyleCode());
         tvShown.setText("Shown: "+product.getColorShown());
         listSize = ProductSizeHandler.getDataByProductID(product.getProductID());
+        String email = sharedPreferences.getString("email",null).toString();
+        int UserID = UserAccountHandler.getUserByEmail(email).getId();
+        if(FavoriteProductHandler.CheckProductFavorite(UserID,product.getProductID())){
+            product.setFavorite(true);
+            btnAddToWhistList.setText("Favorited");
+        }else {
+            product.setFavorite(false);
+            btnAddToWhistList.setText("Favorite");
+        }
+
+    }
+    private void CustomToast(View currentView, String msg){
+
+
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.custom_toast,currentView.findViewById(R.id.customToast));
+        TextView msgTv = view.findViewById(R.id.msgToast);
+
+
+
+        Toast toast = new Toast(currentView.getContext());
+        toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 120);
+        msgTv.setText(msg);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(view);
+
+       //ViewGroup.LayoutParams params = view.getLayoutParams();
+        //if (params == null) {
+          //  params = new ViewGroup.LayoutParams(
+             //       ViewGroup.LayoutParams.MATCH_PARENT,
+               //    ViewGroup.LayoutParams.WRAP_CONTENT
+            //);
+        //} else {
+         //   params.width = ViewGroup.LayoutParams.MATCH_PARENT; // hoặc chiều rộng mong muốn khác
+        //}
+        //view.setLayoutParams(params);
+        toast.show();
+
 
     }
     private void addEvent(){
@@ -255,10 +304,29 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
             public void onClick(View v) {
                 String email = sharedPreferences.getString("email",null).toString();
                 int UserID = UserAccountHandler.getUserByEmail(email).getId();
-                if(CurrentProduct != null)
-                FavoriteProductHandler.insertFavoriteProduct(UserID,CurrentProduct.getProductID());
-                else
+                if(CurrentProduct != null && CurrentProduct.isFavorite() == false){
+                    btnAddToWhistList.setText("Favorited");
+                    CurrentProduct.setFavorite(true);
+                    CustomToast(v,"Added to Favorites");
+                    FavoriteProductHandler.insertFavoriteProduct(UserID,CurrentProduct.getProductID());
+                } else if (CurrentProduct != null && CurrentProduct.isFavorite() == true){
+                    btnAddToWhistList.setText("Favorite");
+                    CurrentProduct.setFavorite(false);
+                    CustomToast(v,"Removed from Favorites");
+                    FavoriteProductHandler.removeFavoriteProduct(UserID,CurrentProduct.getProductID());
+                }
+                if (CurrentProduct == null && mProduct.get(0).isFavorite() == false){
+                    btnAddToWhistList.setText("Favorited");
+                    mProduct.get(0).setFavorite(true);
+                    CustomToast(v,"Added to Favorites");
                     FavoriteProductHandler.insertFavoriteProduct(UserID,mProduct.get(0).getProductID());
+                } else if(CurrentProduct == null && mProduct.get(0).isFavorite() == true){
+                    btnAddToWhistList.setText("Favorite");
+                    mProduct.get(0).setFavorite(false);
+                    CustomToast(v,"Removed from Favorites");
+                    FavoriteProductHandler.removeFavoriteProduct(UserID,mProduct.get(0).getProductID());
+                }
+
             }
         });
 
@@ -335,5 +403,6 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
 
         bindingDataOfProduct(product);
         CurrentProduct = product;
+
     }
 }

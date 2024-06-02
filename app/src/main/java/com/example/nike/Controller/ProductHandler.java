@@ -33,7 +33,7 @@ public class ProductHandler {
                    product.setDescription(rs.getString(9));
                    product.setDescription2(rs.getString(10));
                    product.setPrice(rs.getInt(11));
-
+                   product.setFavorite(false);
 
                    list.add(product);
 
@@ -66,7 +66,7 @@ public class ProductHandler {
                     product.setDescription(rs.getString(9));
                     product.setDescription2(rs.getString(10));
                     product.setPrice(rs.getInt(11));
-
+                    product.setFavorite(false);
                     list.add(product);
 
                 }
@@ -98,7 +98,7 @@ public class ProductHandler {
                     product.setDescription(rs.getString(9));
                     product.setDescription2(rs.getString(10));
                     product.setPrice(rs.getInt(11));
-
+                    product.setFavorite(false);
                 }
 
 

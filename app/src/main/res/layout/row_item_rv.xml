@@ -8,6 +8,18 @@
     app:cardElevation="0dp"
     android:id="@+id/cardViewItem">
 
+
+    <Button
+        android:visibility="gone"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="end"
+
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/baseline_favorite_red_24"
+        />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,5 +50,6 @@
             android:paddingLeft="2dp"
             android:layout_height="wrap_content"
             android:text="đ3.519.000"/>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>
