@@ -1,60 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Views.Favorites.FavoriteFragment"
     >
-
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/relativeNonData"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp">
-
-        <ToggleButton
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-
-
-            android:gravity="right"
-            android:padding="20dp"
-            android:textColor="#5E5959"
-
-            android:textOff="Edit"
-            android:textOn="Done"
-            android:textSize="16dp"
-            android:textAllCaps="false"
-            style="@style/CustomToggleButton"
+        android:layout_centerInParent="true"
+        >
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/favorite_border_foreground"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+        <TextView
+            android:layout_below="@id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Items added to your Favorites will be \nsaved here."
+            android:gravity="center"
+            android:textColor="@color/black"
             />
 
     </RelativeLayout>
 
-
-        <TextView
-            android:id="@+id/tv_favorite"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
 
-            android:layout_marginLeft="20dp"
-            android:text="Favorites"
-            android:textColor="@color/black"
-            android:textFontWeight="500"
-            android:textSize="23dp"
-         />
+            >
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleFav"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tv_favorite" />
-    </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/r1"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+
+                <ToggleButton
+                    android:id="@+id/toggleBtnFavorite"
+                    style="@style/CustomToggleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
 
 
-</ScrollView>
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+                    android:padding="20dp"
+
+                    android:textAllCaps="false"
+                    android:textColor="#5E5959"
+                    android:textOff="Edit"
+                    android:textOn="Done"
+                    android:textSize="16dp" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/tv_favorite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/r1"
+                android:layout_marginLeft="20dp"
+                android:text="Favorites"
+                android:textColor="@color/black"
+                android:textFontWeight="500"
+                android:textSize="23dp" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_favorite">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycleFav"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    app:layout_constraintTop_toBottomOf="@+id/tv_favorite" />
+            </ScrollView>
+
+
+        </RelativeLayout>
+
+
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btnShopingNow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Shop now"
+        android:layout_margin="10dp"
+        app:cornerRadius="30dp"
+        android:layout_alignParentBottom="true"/>
+
+
+
+</RelativeLayout>

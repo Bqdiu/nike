@@ -1,9 +1,12 @@
 package com.example.nike.Views;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import com.example.nike.Controller.UserAccountHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,5 +28,13 @@ public class Util {
     public static String formatCurrency(int price) {
         DecimalFormat formatter = new DecimalFormat("###,###");
         return formatter.format(price);
+    }
+    public static int getUserID(Context view){
+        SharedPreferences sharedPreferences;
+        sharedPreferences = view.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        String email = sharedPreferences.getString("email",null).toString();
+        int UserID = UserAccountHandler.getUserByEmail(email).getId();
+        return UserID;
     }
 }
