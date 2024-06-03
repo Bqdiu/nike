@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_border_popup_menu">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardViewProduct"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        app:cardElevation="0dp"
+
+
+     >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+         >
+
+            <ImageView
+
+                android:id="@+id/imgProduct"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+
+                android:layout_marginBottom="20dp"
+                />
+            <RelativeLayout
+                android:layout_toRightOf="@id/imgProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <TextView
+                    android:id="@+id/tvNameProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nike Air Force 1'07"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tvObject"
+                    android:layout_width="match_parent"
+                    android:layout_below="@id/tvNameProduct"
+                    android:layout_height="wrap_content"
+                    android:text="Men's Shoes"/>
+                <TextView
+                    android:id="@+id/tvStyle"
+                    android:layout_below="@id/tvObject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Black/Black"/>
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="đ2.929.000"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_below="@id/tvStyle"
+                    android:layout_marginTop="50dp"
+                    />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+    <View
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/image_view_border" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Size"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="700"
+       />
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/recycleSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:layout_margin="20dp"
+        android:id="@+id/btnAddToBag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cornerRadius="50dp"
+        android:layout_marginTop="20dp"
+        android:text="Add to Bag"
+        android:textAllCaps="false"
+        android:layout_marginBottom="50dp"/>
+
+</LinearLayout>

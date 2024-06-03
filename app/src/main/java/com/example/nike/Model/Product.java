@@ -15,6 +15,25 @@ public class Product implements Serializable {
     String description;
     String description2;
 
+    String objectName;
+    String categoryName;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getObjectName() {
+        return objectName;
+    }
+
+    public void setObjectName(String objectName) {
+        this.objectName = objectName;
+    }
+
     boolean isFavorite;
 
     public boolean isFavorite() {

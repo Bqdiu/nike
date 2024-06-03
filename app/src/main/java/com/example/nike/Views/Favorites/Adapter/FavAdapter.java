@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nike.Controller.FavoriteProductHandler;
@@ -31,9 +32,11 @@ import java.util.List;
 
 public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder>{
     private ArrayList<UserFavoriteProducts> listBag;
-    private ArrayList<Product> list = new ArrayList<>();
-    public FavAdapter(ArrayList<UserFavoriteProducts> listBag) {
+
+    private ItemClickListener itemClickListener;
+    public FavAdapter(ArrayList<UserFavoriteProducts> listBag,ItemClickListener itemClickListener) {
         this.listBag = listBag;
+        this.itemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -85,6 +88,13 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder>{
 
             }
         });
+        holder.productCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemClickListener.onItemClick(product);
+            }
+        });
+
     }
 
     @Override
@@ -100,7 +110,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder>{
         private TextView priceProFav;
 
         public Button btnFavorite;
-
+        private CardView productCardView;
         private ProgressBar loading;
         public FavViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -110,7 +120,12 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder>{
             priceProFav = itemView.findViewById(R.id.priceProduct);
             btnFavorite = itemView.findViewById(R.id.btnFavoriteIcon);
             loading = itemView.findViewById(R.id.loading);
+            productCardView = itemView.findViewById(R.id.cardViewItem);
         }
+    }
+    public interface ItemClickListener {
+        void onItemClick(Product product);
+
     }
 
 }

@@ -19,6 +19,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"/>
         <ImageView
+
             android:id="@+id/itemCheck"
             android:visibility="gone"
             android:layout_width="wrap_content"

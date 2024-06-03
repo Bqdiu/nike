@@ -16,7 +16,7 @@ public class ProductHandler {
         Connection conn = dbConnection.connectionClass();
         ArrayList<Product> list = new ArrayList<>();
         if(conn!=null){
-            String query = "Select pp.product_parent_name, p.*, pp.product_price from product p inner join product_parent pp on p.product_parent_id = pp.product_parent_id";
+            String query = "Select pp.product_parent_name, p.*, pp.product_price,po.product_object_name,ct.category_product_name from product p inner join product_parent pp on p.product_parent_id = pp.product_parent_id inner join product_object po on pp.product_object_id = po.product_object_id inner join category_product ct on pp.product_category_id = ct.category_product_id";
            try {
                Statement smt = conn.createStatement();
                ResultSet rs = smt.executeQuery(query);
@@ -34,7 +34,8 @@ public class ProductHandler {
                    product.setDescription2(rs.getString(10));
                    product.setPrice(rs.getInt(11));
                    product.setFavorite(false);
-
+                   product.setObjectName(rs.getString(12));
+                   product.setCategoryName(rs.getString(13));
                    list.add(product);
 
                }
@@ -49,7 +50,7 @@ public class ProductHandler {
         Connection conn = dbConnection.connectionClass();
         ArrayList<Product> list = new ArrayList<>();
         if(conn!=null){
-            String query = "select pp.product_parent_name, p.* ,pp.product_price from product p inner join product_parent pp on p.product_parent_id = pp.product_parent_id  inner join product_object po on pp.product_object_id = po.product_object_id where p.product_parent_id ="+ParentID;
+            String query = "Select pp.product_parent_name, p.*, pp.product_price,po.product_object_name,ct.category_product_name from product p inner join product_parent pp on p.product_parent_id = pp.product_parent_id inner join product_object po on pp.product_object_id = po.product_object_id inner join category_product ct on pp.product_category_id = ct.category_product_id where p.product_parent_id ="+ParentID;
             try {
                 Statement smt = conn.createStatement();
                 ResultSet rs = smt.executeQuery(query);
@@ -67,6 +68,8 @@ public class ProductHandler {
                     product.setDescription2(rs.getString(10));
                     product.setPrice(rs.getInt(11));
                     product.setFavorite(false);
+                    product.setObjectName(rs.getString(12));
+                    product.setCategoryName(rs.getString(13));
                     list.add(product);
 
                 }
@@ -81,7 +84,7 @@ public class ProductHandler {
         Product product = new Product();
         Connection conn = dbConnection.connectionClass();
         if (conn!=null){
-            String query = "select pp.product_parent_name, p.*,pp.product_price  from product p inner join product_parent pp on p.product_parent_id = pp.product_parent_id inner join product_object po on pp.product_object_id = po.product_object_id where p.product_id="+ProductID;
+            String query = "Select pp.product_parent_name, p.*, pp.product_price,po.product_object_name,ct.category_product_name from product p inner join product_parent pp on p.product_parent_id = pp.product_parent_id inner join product_object po on pp.product_object_id = po.product_object_id inner join category_product ct on pp.product_category_id = ct.category_product_id where p.product_id="+ProductID;
             try
             {
                 Statement stmt = conn.createStatement();
@@ -99,6 +102,8 @@ public class ProductHandler {
                     product.setDescription2(rs.getString(10));
                     product.setPrice(rs.getInt(11));
                     product.setFavorite(false);
+                    product.setObjectName(rs.getString(12));
+                    product.setCategoryName(rs.getString(13));
                 }
 
 
