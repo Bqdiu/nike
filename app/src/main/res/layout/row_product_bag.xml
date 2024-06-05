@@ -1,105 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="8dp"
     android:layout_marginTop="12dp"
-    android:orientation="vertical" >
-
-    <LinearLayout
+    android:orientation="vertical"
+ >
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewProduct"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <LinearLayout
+        android:layout_height="wrap_content"
+        app:cardElevation="0dp">
+        <RelativeLayout
+            android:layout_gravity="top"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
+            android:layout_height="wrap_content">
             <ImageView
-                android:id="@+id/imgPro"
-                android:layout_width="240dp"
-                android:layout_height="140dp"
-                android:layout_weight="1"
-                android:src="@drawable/adidas_questar_shoes" />
-
-            <LinearLayout
+                android:id="@+id/imgThumbnail"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginRight="10dp"/>
+            <RelativeLayout
+                android:layout_toRightOf="@id/imgThumbnail"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="10dp">
 
+                android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/namePro"
+                    android:id="@+id/tvProductName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Nike Air Force 1'07"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
                     android:textStyle="bold"
+                    android:layout_marginBottom="5dp"
                     />
-
                 <TextView
-                    android:id="@+id/desPro"
+                    android:id="@+id/tvObjectName"
+                    android:layout_below="@id/tvProductName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                     />
-
+                    android:text="Men's Shoes"
+                    android:layout_marginBottom="5dp"
+                    />
                 <TextView
-                    android:id="@+id/colorPro"
+                    android:id="@+id/tvShown"
+                    android:layout_below="@id/tvObjectName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                     />
-
+                    android:text="White/White"
+                    android:layout_marginBottom="5dp"
+                    />
                 <TextView
-                    android:id="@+id/sizePro"
+                    android:id="@+id/tvSize"
+                    android:layout_below="@id/tvShown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                     />
-            </LinearLayout>
-        </LinearLayout>
+                    android:text="44.5"
+                    android:layout_marginBottom="5dp"
+                    />
+            </RelativeLayout>
 
-        <LinearLayout
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <RelativeLayout
+        android:layout_below="@id/cardViewProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:id="@+id/r3"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        >
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnQty"
+            android:layout_width="105dp"
+            android:layout_height="40dp"
+            android:text="Qty 5"
+            android:textColor="@color/black"
+            android:gravity="left|center"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+
+            android:drawableEnd="@drawable/baseline_keyboard_arrow_down_24"
+            android:background="@drawable/button_no_border"
+
+             />
+
+        <TextView
+            android:layout_toRightOf="@+id/btnQty"
+            android:id="@+id/tvPrice"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:textColor="@color/black"
+            android:gravity="right|center"
+            android:text="đ2,890,000"
+            android:textStyle="bold"
+            android:layout_height="40dp"/>
 
-            <ImageView
-                android:id="@+id/reduceQuantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_remove_24" />
+    </RelativeLayout>
+    <View
+        android:id="@+id/hr"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_gravity="bottom"
+        android:layout_below="@+id/r3"
+        android:background="@drawable/image_view_border"
+        />
 
-            <TextView
-                android:id="@+id/Quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="17sp"
-                android:textColor="@color/black"
-                android:layout_marginLeft="4dp"
-                 />
-
-            <ImageView
-                android:id="@+id/increasePro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:src="@drawable/ic_baseline_add_24" />
-
-            <TextView
-                android:id="@+id/pricePro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_marginLeft="270dp"
-                 />
-        </LinearLayout>
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

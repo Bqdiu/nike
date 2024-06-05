@@ -30,21 +30,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.example.nike.Controller.BagHandler;
 import com.example.nike.Controller.FavoriteProductHandler;
+import com.example.nike.Controller.ProductHandler;
 import com.example.nike.Controller.ProductParentHandler;
 import com.example.nike.Controller.ProductSizeHandler;
 import com.example.nike.Controller.UserAccountHandler;
+import com.example.nike.Controller.UserOrderHandler;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductParent;
 import com.example.nike.Model.ProductSize;
 import com.example.nike.Model.UserAccount;
 import com.example.nike.Model.UserFavoriteProducts;
+import com.example.nike.Model.UserOrder;
 import com.example.nike.R;
-import com.example.nike.Views.Bag.Adapter.BagClass;
+
 import com.example.nike.Views.Favorites.Adapter.FavAdapter;
 import com.example.nike.Views.Favorites.Adapter.FavSizeAdapter;
 import com.example.nike.Views.Shop.Adapter.ItemRecycleViewAdapter;
 import com.example.nike.Views.Shop.Adapter.SizeItemAdapter;
+import com.example.nike.Views.Shop.Product.DetailProduct;
 import com.example.nike.Views.Shop.ShopFragment;
 import com.example.nike.Views.Util;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -52,7 +57,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickListener {
+public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickListener,FavSizeAdapter.ItemClickListener {
 
     private RecyclerView recycleFav;
     private ArrayList<UserFavoriteProducts> list;
@@ -78,6 +83,7 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
     private Button btnAddToBag;
 
 
+
     private void addControls(View view)
     {
 
@@ -86,7 +92,7 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
         toggleBtnFavorite = view.findViewById(R.id.toggleBtnFavorite);
         btnShopNow = view.findViewById(R.id.btnShopingNow);
         relativeNonData = view.findViewById(R.id.relativeNonData);
-
+        btnAddToBag = view.findViewById(R.id.btnAddToBag);
         dialog = new Dialog(getContext());
     }
 
@@ -166,9 +172,25 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Selected " + product.getName(),Toast.LENGTH_LONG).show();
+                onItemDetailClick(product);
+                dialog.dismiss();
             }
         });
+    recycleSize.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    });
+    }
+    private void onItemDetailClick(Product product){
+        Bundle bundle = new Bundle();
+        DetailProduct detailProduct = DetailProduct.newInstance(product,ProductHandler.getDataByParentID(product.getProductParentID()));
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frameLayout,detailProduct);
+        ft.addToBackStack("Favorites");
+        ft.commit();
+
     }
     private void BindDataOfPopup(Product product){
         Bitmap bitmap = Util.convertStringToBitmapFromAccess(getContext(),product.getImg());
@@ -214,7 +236,7 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
         tvNameOfObject = view.findViewById(R.id.tvObject);
         tvStyle = view.findViewById(R.id.tvStyle);
         tvPrice = view.findViewById(R.id.tvPrice);
-
+        sizeAdapter.setItemClickListener(this);
         btnAddToBag = view.findViewById(R.id.btnAddToBag);
 
 
@@ -227,4 +249,21 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
         ShowPopup(product);
     }
 
+
+    @Override
+    public void onSizeSelected(ProductSize productSize) {
+        for (ProductSize size : listSize) {
+            size.setSelect(false);
+        }
+        productSize.setSelect(true);
+        sizeAdapter.UpdateSelectedSize(listSize);
+
+        btnAddToBag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserOrderHandler.addOrder(Util.getUserID(getContext()));
+
+            }
+        });
+    }
 }

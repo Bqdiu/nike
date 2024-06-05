@@ -1,0 +1,9 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- Màu nền của button -->
+    <solid android:color="@color/white" /> <!-- Đổi màu theo ý thích của bạn -->
+    <!-- Góc bo tròn của button, chỉnh bán kính theo nhu cầu -->
+    <corners android:radius="0dp" />
+    <!-- Độ rộng của viền (nếu muốn có viền) -->
+    <stroke android:width="0dp" android:color="@android:color/transparent" />
+</shape>

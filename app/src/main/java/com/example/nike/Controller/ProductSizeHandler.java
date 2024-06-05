@@ -16,7 +16,7 @@ public class ProductSizeHandler {
         ArrayList<ProductSize> list = new ArrayList<>();
         Connection conn = dbConnection.connectionClass();
         if(conn!=null){
-            String query = "select p.product_id, s.size_id, s.size_name , pz.soluong from product_size pz inner join product p on pz.product_id = p.product_id inner join size s on pz.size_id = s.size_id where p.product_id ="+productID;
+            String query = "select p.product_id, s.size_id, s.size_name , pz.soluong,pz.product_size_id from product_size pz inner join product p on pz.product_id = p.product_id inner join size s on pz.size_id = s.size_id where p.product_id ="+productID;
             try{
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query);
@@ -27,6 +27,7 @@ public class ProductSizeHandler {
                     Size size = new Size(rs.getInt(2),rs.getString(3));
                     productSize.setSize(size);
                     productSize.setSoluong(rs.getInt(4));
+                    productSize.setProduct_size_id(rs.getInt(5));
                     list.add(productSize);
 
                 }

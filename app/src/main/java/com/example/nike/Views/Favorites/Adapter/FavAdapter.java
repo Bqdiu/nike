@@ -23,7 +23,7 @@ import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductParent;
 import com.example.nike.Model.UserFavoriteProducts;
 import com.example.nike.R;
-import com.example.nike.Views.Bag.Adapter.BagClass;
+
 import com.example.nike.Views.Shop.FragmentOfTabLayout.ObjectProduct;
 import com.example.nike.Views.Util;
 

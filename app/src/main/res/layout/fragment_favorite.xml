@@ -70,7 +70,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="Favorites"
                 android:textColor="@color/black"
-                android:textFontWeight="500"
+                android:textFontWeight="800"
                 android:textSize="23dp" />
 
             <ScrollView

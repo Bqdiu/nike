@@ -41,6 +41,7 @@ import android.widget.Toast;
 
 import com.example.nike.Controller.FavoriteProductHandler;
 import com.example.nike.Controller.ImageHandler;
+import com.example.nike.Controller.ProductHandler;
 import com.example.nike.Controller.ProductSizeHandler;
 import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.MainActivity;
@@ -100,10 +101,11 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "object_product";
-
+    private static final String CurPro = "CurrentProduct";
 
     // TODO: Rename and change types of parameters
     private ArrayList<Product> mProduct;
+    private Button btnAddToBag;
     private int objectID;
     private int categoryID;
     private int selectedItem = -1;
@@ -116,17 +118,29 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
      * this fragment using the provided parameters.
      *
      * @param list Parameter 1.
-     * @param objectID Parameter 2.
-     * @param categoryID Parameter 3.
      * @return A new instance of fragment DetailProduct.
      */
     // TODO: Rename and change types and number of parameters
-    public static DetailProduct newInstance(int categoryID,int objectID,ArrayList<Product> list) {
+    public static DetailProduct newInstance(ArrayList<Product> list) {
         DetailProduct fragment = new DetailProduct();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PARAM1, list);
-        args.putSerializable("ObjectID",objectID);
-        args.putSerializable("CategoryID",categoryID);
+        fragment.setArguments(args);
+        return fragment;
+    }
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param list Parameter 1.
+     * @param curPro Parameter 2.
+     * @return A new instance of fragment DetailProduct.
+     */
+    public static DetailProduct newInstance(Product curPro,ArrayList<Product> list) {
+        DetailProduct fragment = new DetailProduct();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_PARAM1, list);
+        args.putSerializable(CurPro,curPro);
         fragment.setArguments(args);
         return fragment;
     }
@@ -136,8 +150,10 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mProduct = (ArrayList<Product>) getArguments().getSerializable(ARG_PARAM1);
-            objectID = getArguments().getInt("ObjectID");
-            categoryID = getArguments().getInt("CategoryID");
+            if(getArguments().getSerializable("CurrentProduct")!=null){
+                CurrentProduct = (Product) getArguments().getSerializable("CurrentProduct");
+
+            }
         }
     }
 
@@ -152,6 +168,10 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
             addControl(view,currentActivity);
             addEvent();
             bindingDataOfProduct(mProduct.get(0));
+            if(CurrentProduct!=null){
+                setDefaultVALUEOfCurrentProduct(CurrentProduct);
+            }
+
             setDataRecycleViewPhotoList();
             dialog = new Dialog(getContext());
 
@@ -183,6 +203,7 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         tvShown = view.findViewById(R.id.tvShown);
         tvStyle = view.findViewById(R.id.tvStyle);
 
+        btnAddToBag = view.findViewById(R.id.btnAddToBag);
         btnSpinnerSize = view.findViewById(R.id.btnSpinner);
         listSize = ProductSizeHandler.getDataByProductID(mProduct.get(0).getProductID());
 
@@ -210,32 +231,12 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         circleIndicator.setViewPager(imagePager);
         adapter.registerDataSetObserver(circleIndicator.getDataSetObserver());
     }
-    private String getFullObjectName(int categoryID,int objectID){
-        String categoryName = "";
-        if(categoryID == 1){
-            categoryName = "Clothing";
-        }
-        else {
-            categoryName = "Shoes";
-        }
-        String objectName = "";
-        if(objectID == 1){
-            objectName = "Men";
-        }
-        else if(objectID == 2){
-            objectName = "Women";
-        }
-        else {
-            objectName = "Kids";
-        }
-        return objectName +"'s "+categoryName;
-    }
     private void bindingDataOfProduct(Product product){
         setDataPhotoViewPager(product);
         tvNameProduct.setText(product.getName());
         tvPrice.setText("đ"+formatCurrency(product.getPrice()).replace(",", ".")+".000");
         tvDescription.setText(product.getDescription());
-        tvObject.setText(getFullObjectName(categoryID,objectID));
+        tvObject.setText(product.getObjectName()+"'s "+product.getCategoryName());
         tvStyle.setText("Style: "+product.getStyleCode());
         tvShown.setText("Shown: "+product.getColorShown());
         listSize = ProductSizeHandler.getDataByProductID(product.getProductID());
@@ -298,7 +299,12 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
 
             }
         });
-
+        btnAddToBag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopup();
+            }
+        });
         btnAddToWhistList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -398,11 +404,17 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         dialog.setCanceledOnTouchOutside(true); // Cho phép đóng Dialog khi chạm ra ngoài
         dialog.show();
     }
+    private void bindingDataOfCurrentProduct(Product product){
+        bindingDataOfProduct(product);
+        CurrentProduct = product;
+    }
+    private void setDefaultVALUEOfCurrentProduct(Product cur){
+        bindingDataOfCurrentProduct(cur);
+    }
     @Override
     public void onPhotoClick(Product product) {
 
-        bindingDataOfProduct(product);
-        CurrentProduct = product;
+      bindingDataOfCurrentProduct(product);
 
     }
 }

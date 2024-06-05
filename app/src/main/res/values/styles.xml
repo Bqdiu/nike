@@ -10,4 +10,8 @@
         <item name="android:focusableInTouchMode">false</item>
     </style>
 
+    <style name="ButtonNoBorder" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/button_no_border</item>
+    </style>
+
 </resources>

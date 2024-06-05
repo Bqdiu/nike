@@ -1,10 +1,19 @@
 package com.example.nike.Model;
 
 public class ProductSize {
+    int product_size_id;
     int productID;
     Size size;
     int soluong;
     boolean isSelect;
+
+    public int getProduct_size_id() {
+        return product_size_id;
+    }
+
+    public void setProduct_size_id(int product_size_id) {
+        this.product_size_id = product_size_id;
+    }
 
     public boolean isSelect() {
         return isSelect;
@@ -14,11 +23,14 @@ public class ProductSize {
         isSelect = select;
     }
 
-    public ProductSize(int productID, Size size, int soluong) {
+    public ProductSize(int product_size_id, int productID, Size size, int soluong, boolean isSelect) {
+        this.product_size_id = product_size_id;
         this.productID = productID;
         this.size = size;
         this.soluong = soluong;
+        this.isSelect = isSelect;
     }
+
     public ProductSize(){
 
     }

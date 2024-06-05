@@ -121,8 +121,8 @@ public class SearchResult extends Fragment implements ItemRecycleViewAdapter.Ite
     }
 
     @Override
-    public void onItemClick(int categoryID, int objectID, ArrayList<Product> list) {
-        Fragment fragment = DetailProduct.newInstance(categoryID,objectID,list);
+    public void onItemClick(ArrayList<Product> list) {
+        Fragment fragment = DetailProduct.newInstance(list);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frameLayout,fragment);
         ft.addToBackStack(null);

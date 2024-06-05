@@ -7,10 +7,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.nike.Controller.UserAccountHandler;
+import com.example.nike.Model.Bag;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class Util {
 
@@ -37,4 +39,6 @@ public class Util {
         int UserID = UserAccountHandler.getUserByEmail(email).getId();
         return UserID;
     }
+    public static ArrayList<Bag> bags;
+
 }

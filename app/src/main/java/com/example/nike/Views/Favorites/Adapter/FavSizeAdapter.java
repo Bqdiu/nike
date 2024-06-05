@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductSize;
 import com.example.nike.R;
+import com.example.nike.Views.Favorites.FavoriteFragment;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class FavSizeAdapter extends RecyclerView.Adapter<FavSizeAdapter.MyViewHo
     public FavSizeAdapter(ArrayList<ProductSize> listSize) {
         this.listSize = listSize;
     }
+    private ItemClickListener itemClickListener;
 
     @NonNull
     @Override
@@ -31,7 +33,22 @@ public class FavSizeAdapter extends RecyclerView.Adapter<FavSizeAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.tvSize.setText(listSize.get(position).getSize().getName());
+        ProductSize productSize = listSize.get(position);
+        holder.tvSize.setText(productSize.getSize().getName());
+        if(productSize.isSelect() == false){
+            holder.tvSize.setBackgroundResource(R.drawable.custom_btn_size_favorite_non_select);
+        }
+        if(productSize.isSelect() == true){
+            holder.tvSize.setBackgroundResource(R.drawable.custom_btn_size_favorite_selected);
+        }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(itemClickListener!=null){
+                    itemClickListener.onSizeSelected(productSize);
+                }
+            }
+        });
     }
 
     @Override
@@ -39,6 +56,16 @@ public class FavSizeAdapter extends RecyclerView.Adapter<FavSizeAdapter.MyViewHo
         return listSize.size();
     }
 
+    public void setItemClickListener(ItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+    public interface ItemClickListener{
+        void onSizeSelected(ProductSize productSize);
+    }
+    public void UpdateSelectedSize(ArrayList<ProductSize> productSizes){
+        listSize = productSizes;
+        notifyDataSetChanged();
+    }
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private RelativeLayout btnSize;
         private TextView tvSize;

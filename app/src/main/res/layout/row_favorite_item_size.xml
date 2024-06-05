@@ -4,16 +4,17 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/custom_btn_size_favorite_non_select"
     android:layout_marginRight="5dp"
   >
     <TextView
+        android:background="@drawable/custom_btn_size_favorite_non_select"
         android:id="@+id/tvSize"
         android:layout_width="70dp"
         android:padding="10dp"
         android:layout_height="wrap_content"
         android:text="EU 45"
         android:gravity="center"
+        android:textColor="@color/black"
 
         />
 </RelativeLayout>

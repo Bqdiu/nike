@@ -55,7 +55,7 @@ public class ItemRecycleViewAdapter extends RecyclerView.Adapter<ItemRecycleView
             @Override
             public void onClick(View v) {
                 listProduct = ProductHandler.getDataByParentID(pp.getId());
-                itemClickListener.onItemClick(pp.getCategoryID(), pp.getObjectID(),listProduct);
+                itemClickListener.onItemClick(listProduct);
             }
         });
     }
@@ -88,7 +88,7 @@ public class ItemRecycleViewAdapter extends RecyclerView.Adapter<ItemRecycleView
         }
     }
     public interface ItemClickListener {
-        void onItemClick(int categoryID,int objectID,ArrayList<Product> product);
+        void onItemClick(ArrayList<Product> product);
 
     }
 }
