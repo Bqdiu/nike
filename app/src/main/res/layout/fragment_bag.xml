@@ -27,83 +27,94 @@
         android:layout_below="@id/tv_bag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView">
+        android:id="@+id/scrollView"
+        android:layout_above="@id/rEnd">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <ListView
-                android:id="@+id/lvBag"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleBag"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="20dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:weightSum="2"
-               >
-                <TextView
+                android:orientation="vertical"
+                android:id="@+id/haveData">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Subtotal"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:weightSum="2"
 
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/tvSubtotal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"/>
-        </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:weightSum="2"
-                android:paddingTop="10dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Shipping"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Subtotal"
 
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/tvShipping"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/tvSubtotal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"/>
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:weightSum="2"
+                    android:paddingTop="10dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Shipping"
+
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/tvShipping"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:weightSum="2"
+                    android:paddingTop="10dp"
+                    android:layout_marginBottom="20dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Total"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/tvTotal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:weightSum="2"
-                android:paddingTop="10dp"
-                android:layout_marginBottom="20dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Total"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:id="@+id/tvTotal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"/>
-            </LinearLayout>
+
+
 
         </LinearLayout>
     </ScrollView>
@@ -112,6 +123,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:id="@+id/rEnd"
         >
         <View
             android:id="@+id/hr"
@@ -120,14 +132,51 @@
             android:layout_gravity="bottom"
             android:background="@drawable/image_view_border"
             />
+
         <Button
-            android:layout_below="@+id/hr"
-        android:layout_margin="20dp"
-            app:cornerRadius="50dp"
             android:id="@+id/btnCheckout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hr"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
             android:text="Checkout"
             android:textAllCaps="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            app:cornerRadius="50dp" />
     </RelativeLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:id="@+id/nonData">
+        <ImageView
+            android:src="@drawable/baseline_shopping_cart_24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:text="Your Bag is empty\nWhen your add products, they'll\nappear here."/>
+    </LinearLayout>
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btnShoppingNow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="Shop Now"
+        android:textAllCaps="false"
+        android:layout_alignParentBottom="true"
+        app:cornerRadius="50dp"
+        />
 </RelativeLayout>

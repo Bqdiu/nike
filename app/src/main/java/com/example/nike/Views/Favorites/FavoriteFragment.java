@@ -37,6 +37,7 @@ import com.example.nike.Controller.ProductParentHandler;
 import com.example.nike.Controller.ProductSizeHandler;
 import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.Controller.UserOrderHandler;
+import com.example.nike.Model.Bag;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductParent;
 import com.example.nike.Model.ProductSize;
@@ -184,7 +185,6 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
     });
     }
     private void onItemDetailClick(Product product){
-        Bundle bundle = new Bundle();
         DetailProduct detailProduct = DetailProduct.newInstance(product,ProductHandler.getDataByParentID(product.getProductParentID()));
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frameLayout,detailProduct);
@@ -261,7 +261,14 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
         btnAddToBag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserOrderHandler.addOrder(Util.getUserID(getContext()));
+                int user_id = Util.getUserID(getContext());
+                int product_size_id =  productSize.getProduct_size_id();
+                if(BagHandler.isExists(user_id,product_size_id)){
+                    BagHandler.increaseQuantity(user_id,product_size_id);
+                }else{
+                    BagHandler.addToBag(user_id,product_size_id, 1);
+                }
+
 
             }
         });
