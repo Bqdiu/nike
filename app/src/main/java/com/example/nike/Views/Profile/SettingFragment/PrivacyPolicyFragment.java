@@ -3,10 +3,12 @@ package com.example.nike.Views.Profile.SettingFragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -16,7 +18,21 @@ public class PrivacyPolicyFragment extends Fragment {
     TextView txt1, txt2, txt3, txt4, txt5, txt6;
     TextView link1, link2, link3, link4, link5, link6;
     ScrollView scrollView;
-
+    ImageButton btnBack;
+    private void addControls(View view)
+    {
+        btnBack = view.findViewById(R.id.btnBack);
+    }
+    private void addEvents()
+    {
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.popBackStack();
+            }
+        });
+    }
     public PrivacyPolicyFragment() {
     }
 
@@ -118,6 +134,8 @@ public class PrivacyPolicyFragment extends Fragment {
                 scrollView.smoothScrollTo(0, y);
             }
         });
+        addControls(view);
+        addEvents();
         return view;
     }
 
