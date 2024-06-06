@@ -44,7 +44,11 @@ public class LoginFrame extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         AddControls();
         loadGoogleSignIn();
-        loadNormalSignIn();
+        try {
+            loadNormalSignIn();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
         addEvents();
     }
 
@@ -84,6 +88,7 @@ public class LoginFrame extends AppCompatActivity {
                         editor.putString("email", userAccount.getEmail());
                         editor.putString("first_name",userAccount.getFirst_name());
                         editor.putString("login_type","normal");
+                        editor.putString("password",pw);
                         editor.apply();
                         Intent intent = new Intent(LoginFrame.this, MainActivity.class);
                         startActivity(intent);
@@ -107,14 +112,23 @@ public class LoginFrame extends AppCompatActivity {
 
 
 
-    private void loadNormalSignIn()
-    {
+    private void loadNormalSignIn() throws NoSuchAlgorithmException {
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         String email = sharedPreferences.getString("email",null);
         UserAccount userAccount = UserAccountHandler.getUserByEmail(email);
+        String storePassword = sharedPreferences.getString("password",null);
+
+
+        Auth auth = new Auth();
         if (userAccount != null) {
-            Intent intent = new Intent(LoginFrame.this, MainActivity.class);
-            startActivity(intent);
+            String dbPassword = userAccount.getPassword();
+            System.out.println("Store Password: " + storePassword);
+            System.out.println("DB Password: " + dbPassword);
+            if(storePassword.equals(dbPassword))
+            {
+                Intent intent = new Intent(LoginFrame.this, MainActivity.class);
+                startActivity(intent);
+            }
         }
     }
     private void loadGoogleSignIn()
