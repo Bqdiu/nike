@@ -118,18 +118,11 @@ public class LoginFrame extends AppCompatActivity {
         UserAccount userAccount = UserAccountHandler.getUserByEmail(email);
         String storePassword = sharedPreferences.getString("password",null);
 
-
-        Auth auth = new Auth();
-        if (userAccount != null) {
-            String dbPassword = userAccount.getPassword();
-            System.out.println("Store Password: " + storePassword);
-            System.out.println("DB Password: " + dbPassword);
-            if(storePassword.equals(dbPassword))
+            if(userAccount != null)
             {
                 Intent intent = new Intent(LoginFrame.this, MainActivity.class);
                 startActivity(intent);
             }
-        }
     }
     private void loadGoogleSignIn()
     {
