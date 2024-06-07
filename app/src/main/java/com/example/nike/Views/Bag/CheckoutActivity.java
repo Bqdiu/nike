@@ -78,4 +78,15 @@ public class CheckoutActivity extends AppCompatActivity {
         adapter = new BagCheckOutAdapter(getApplicationContext(),R.layout.row_checkout_bag_item,bags);
         lvBagItem.setAdapter(adapter);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
 }

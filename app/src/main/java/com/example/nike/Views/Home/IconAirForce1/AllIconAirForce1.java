@@ -98,5 +98,17 @@ public class AllIconAirForce1 extends Fragment implements ItemRecycleViewAdapter
         ft.addToBackStack(null);
         ft.commit();
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

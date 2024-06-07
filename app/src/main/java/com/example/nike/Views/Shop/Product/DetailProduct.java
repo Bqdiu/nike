@@ -453,6 +453,18 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
       bindingDataOfCurrentProduct(product);
 
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
 }

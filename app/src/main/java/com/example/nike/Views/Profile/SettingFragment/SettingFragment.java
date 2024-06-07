@@ -223,5 +223,17 @@ public class SettingFragment extends Fragment {
             Toast.makeText(getContext(), "Không tìm thấy trình duyệt web", Toast.LENGTH_SHORT).show();
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

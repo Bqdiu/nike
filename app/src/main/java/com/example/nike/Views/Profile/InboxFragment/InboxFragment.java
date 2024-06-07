@@ -79,7 +79,19 @@ public class InboxFragment extends Fragment {
 
         return view;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
     // AsyncTask to fetch data from database in background thread
     private class FetchProductEventsTask extends AsyncTask<Void, Void, List<ProductEvent>> {
 

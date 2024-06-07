@@ -146,4 +146,14 @@ public class MainActivity extends AppCompatActivity{
         super.onBackPressed();
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

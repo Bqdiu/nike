@@ -139,6 +139,21 @@ public class BagFragment extends Fragment implements BagAdapter.ItemClickListene
         }
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     private void ShowPopup(Bag bag){
         dialog = new Dialog(getContext());
         View convertView = LayoutInflater.from(getContext()).inflate(R.layout.custom_size_number_picker,null);

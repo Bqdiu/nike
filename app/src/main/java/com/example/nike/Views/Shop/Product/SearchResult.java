@@ -128,4 +128,18 @@ public class SearchResult extends Fragment implements ItemRecycleViewAdapter.Ite
         ft.addToBackStack(null);
         ft.commit();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

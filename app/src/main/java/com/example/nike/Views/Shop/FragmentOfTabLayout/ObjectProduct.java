@@ -131,6 +131,18 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
         ft.addToBackStack("TabLayoutOfShop");
         ft.commit();
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
 }

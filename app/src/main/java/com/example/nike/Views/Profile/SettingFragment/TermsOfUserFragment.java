@@ -51,4 +51,17 @@ public class TermsOfUserFragment extends Fragment {
         addEvents();
         return view;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

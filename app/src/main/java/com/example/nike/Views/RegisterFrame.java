@@ -230,5 +230,13 @@ public class RegisterFrame extends AppCompatActivity {
         return !lastName.trim().isEmpty();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
