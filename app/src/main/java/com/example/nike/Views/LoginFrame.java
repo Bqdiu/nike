@@ -116,13 +116,20 @@ public class LoginFrame extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         String email = sharedPreferences.getString("email",null);
         UserAccount userAccount = UserAccountHandler.getUserByEmail(email);
-        String storePassword = sharedPreferences.getString("password",null);
-
+        String login_type = sharedPreferences.getString("login_type",null);
+        if(login_type != null && login_type.equals("normal"))
+        {
             if(userAccount != null)
             {
-                Intent intent = new Intent(LoginFrame.this, MainActivity.class);
-                startActivity(intent);
+                String storePassword = sharedPreferences.getString("password",null);
+                String dbPassword = userAccount.getPassword();
+                if(storePassword.equals(dbPassword))
+                {
+                    Intent intent = new Intent(LoginFrame.this, MainActivity.class);
+                    startActivity(intent);
+                }
             }
+        }
     }
     private void loadGoogleSignIn()
     {
@@ -179,11 +186,6 @@ public class LoginFrame extends AppCompatActivity {
         if (account != null) {
             Intent intent = new Intent(LoginFrame.this, MainActivity.class);
             startActivity(intent);
-        } else {
-//            Toast.makeText(this, "Bạn đã đăng xuất", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
 }
