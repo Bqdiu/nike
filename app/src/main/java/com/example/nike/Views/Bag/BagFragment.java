@@ -2,6 +2,7 @@ package com.example.nike.Views.Bag;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -93,6 +94,13 @@ public class BagFragment extends Fragment implements BagAdapter.ItemClickListene
                 LoadFragment(new ShopFragment());
                 BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottom_nav);
                 bottomNavigationView.setSelectedItemId(R.id.itemShop);
+            }
+        });
+        btnCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),CheckoutActivity.class);
+                startActivity(intent);
             }
         });
     }

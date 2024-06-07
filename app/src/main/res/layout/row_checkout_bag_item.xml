@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    >
+    <ImageView
+        android:id="@+id/thumbnailProduct"
+        android:layout_width="150dp"
+        android:layout_height="150dp"/>
+    <RelativeLayout
+        android:layout_toRightOf="@id/thumbnailProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp">
+    <TextView
+        android:id="@+id/tvNameProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Nike Air Force 1 '07"/>
+        <TextView
+            android:layout_below="@id/tvNameProduct"
+            android:id="@+id/tvObjectName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Men's Shoes"/>
+        <TextView
+            android:layout_below="@id/tvObjectName"
+            android:id="@+id/tvQty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="Qty 1"/>
+        <TextView
+            android:layout_below="@id/tvQty"
+            android:id="@+id/tvSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="Size EU 40"/>
+        <TextView
+            android:layout_below="@id/tvSize"
+            android:id="@+id/tvPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="2,929,000đ"/>
+    </RelativeLayout>
+</RelativeLayout>

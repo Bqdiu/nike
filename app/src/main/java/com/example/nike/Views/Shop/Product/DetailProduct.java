@@ -2,6 +2,7 @@ package com.example.nike.Views.Shop.Product;
 
 import static com.example.nike.Views.Util.formatCurrency;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.FragmentManager;
@@ -12,6 +13,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,6 +41,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nike.Controller.BagHandler;
 import com.example.nike.Controller.FavoriteProductHandler;
 import com.example.nike.Controller.ImageHandler;
 import com.example.nike.Controller.ProductHandler;
@@ -55,6 +58,7 @@ import com.example.nike.Views.Shop.Adapter.IconsItemRecycleViewAdapter;
 import com.example.nike.Views.Shop.Adapter.PhotoProductAdapter;
 import com.example.nike.Views.Shop.Adapter.PhotoRecycleViewAdapter;
 import com.example.nike.Views.Shop.Adapter.SizeItemAdapter;
+import com.example.nike.Views.Util;
 
 import org.w3c.dom.Text;
 
@@ -98,6 +102,7 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
     private UserAccount user;
     private Button btnAddToWhistList;
     private SharedPreferences sharedPreferences;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "object_product";
@@ -188,6 +193,7 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
             btnBack.setVisibility(View.VISIBLE);
 
         }
+        productSize = null;
         tvNameFragment = currentActivity.findViewById(R.id.tvNameOfFragment);
         tvNameFragment.setText(mProduct.get(0).getName());
         //Image Product Slider
@@ -215,6 +221,7 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
             mProduct.get(0).setFavorite(true);
             btnAddToWhistList.setText("Favorited");
         }
+
     }
     private void setDataRecycleViewPhotoList(){
        
@@ -280,6 +287,15 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
 
 
     }
+    private void addToBag() {
+        int user_id = Util.getUserID(getContext());
+        int product_size_id = productSize.getProduct_size_id();
+        if (BagHandler.isExists(user_id, product_size_id)) {
+            BagHandler.increaseQuantity(user_id, product_size_id);
+        } else {
+            BagHandler.addToBag(user_id, product_size_id, 1);
+        }
+    }
     private void addEvent(){
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -295,14 +311,26 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
             @Override
             public void onClick(View v) {
 
-                showPopup();
+                showPopup(null);
 
             }
         });
         btnAddToBag.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View v) {
-                showPopup();
+                if (productSize == null) {
+                    showPopup(new PopupCallback() {
+                        @Override
+                        public void onProductSizeSet(ProductSize selectedSize) {
+                            productSize = selectedSize;
+                            addToBag();
+                        }
+                    });
+                } else {
+                    addToBag();
+                }
+
             }
         });
         btnAddToWhistList.setOnClickListener(new View.OnClickListener() {
@@ -348,7 +376,7 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         sizeAdapter = new SizeItemAdapter(getContext(),R.layout.row_item_size,listSize);
         listViewSize.setAdapter(sizeAdapter);
     }
-    protected void addEventOfPopupMenu(View view){
+    protected void addEventOfPopupMenu(View view,final PopupCallback callback){
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -381,14 +409,20 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
                 btnSpinnerSize.setText("Size "+productSize.getSize().getName());
                 dialog.dismiss();
 
+                if (callback != null) {
+                    callback.onProductSizeSet(productSize);
+                }
             }
         });
     }
-    protected void showPopup(){
+    public interface PopupCallback {
+        void onProductSizeSet(ProductSize selectedSize);
+    }
+    protected void showPopup(final PopupCallback callback){
 
         View convertView = LayoutInflater.from(getContext()).inflate(R.layout.popup_menu_size,null);
         addControlOfPopupMenu(convertView);
-        addEventOfPopupMenu(convertView);
+        addEventOfPopupMenu(convertView,callback);
         dialog.setContentView(convertView);
         //dialog.setCancelable(true); // Cho phép đóng Dialog khi chạm ra ngoài
 
@@ -403,7 +437,9 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
 
         dialog.setCanceledOnTouchOutside(true); // Cho phép đóng Dialog khi chạm ra ngoài
         dialog.show();
+
     }
+
     private void bindingDataOfCurrentProduct(Product product){
         bindingDataOfProduct(product);
         CurrentProduct = product;
@@ -417,4 +453,6 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
       bindingDataOfCurrentProduct(product);
 
     }
+
+
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.nike">
+    package="com.example.nike" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,7 +18,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Nike"
-        tools:targetApi="34">
+        tools:targetApi="34" >
+        <activity
+            android:name=".Views.Bag.CheckoutActivity"
+            android:exported="false" />
+
         <activity
             android:name=".LoadingMainActivity"
             android:exported="true" >
@@ -30,14 +34,10 @@
         </activity>
         <activity
             android:name=".Views.RegisterFrame"
-            android:exported="false">
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".Views.LoginFrame"
-            android:exported="false">
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />

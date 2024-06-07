@@ -21,15 +21,20 @@ public class SizeItemAdapter extends ArrayAdapter {
     private ArrayList<ProductSize> productSizeArrayList = new ArrayList<>();
     private Context context;
     private int layout;
-    private int selectedItem=1;
+    private SizeSelectedListener sizeSelectedListener;
+
+
 
     public SizeItemAdapter(@NonNull Context context, int resource, @NonNull ArrayList<ProductSize> objects) {
         super(context, resource, objects);
         this.productSizeArrayList = objects;
         this.context = context;
         this.layout = resource;
+        this.sizeSelectedListener = sizeSelectedListener;
     }
-
+    public interface SizeSelectedListener{
+        void onSizeSelected(ProductSize productSize);
+    }
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -41,10 +46,12 @@ public class SizeItemAdapter extends ArrayAdapter {
         nameSize.setText(productSize.getSize().getName());
         ImageView checked = convertView.findViewById(R.id.itemCheck);
         if(productSize.isSelect() == false){
+
             checked.setVisibility(View.GONE);
         }
         else {
             checked.setVisibility(View.VISIBLE);
+
         }
         return convertView;
     }
