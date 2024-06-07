@@ -21,6 +21,7 @@ import com.example.nike.FragmentUtils;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductParent;
 import com.example.nike.R;
+import com.example.nike.Views.Home.Clothing.AllClothing;
 import com.example.nike.Views.Home.IconAirForce1.AllIconAirForce1;
 import com.example.nike.Views.Home.IconAirJordan1.AllIconAirJordan1;
 import com.example.nike.Views.Shop.Adapter.ItemRecycleViewAdapter;
@@ -43,7 +44,7 @@ public class HomeFragment extends Fragment implements ItemRecycleViewAdapter.Ite
     private String mParam1;
     private String mParam2;
     private String user_name;
-    private RecyclerView rcv_newRelease,rcv_icon_AirForce1,rcv_icon_AirJordan1;
+    private RecyclerView rcv_newRelease,rcv_icon_AirForce1,rcv_icon_AirJordan1,rcv_clothing;
     private ArrayList<ProductParent> productParentListNewRelease = new ArrayList<>();
     private ArrayList<ProductParent> limitProductParentListNewRelease = new ArrayList<>();
     private ItemRecycleViewAdapter adapterNewRelease;
@@ -55,7 +56,11 @@ public class HomeFragment extends Fragment implements ItemRecycleViewAdapter.Ite
     private ArrayList<ProductParent> productParentListIconAirJordan1 = new ArrayList<>();
     private ArrayList<ProductParent> limitProductParentListIconAirJordan1 = new ArrayList<>();
     private ItemRecycleViewAdapter adapterIconAirJordan1;
-    private TextView tv_viewall_NewRelase,tv_viewall_icon_AirForce1,tv_viewall_icon_AirJordan1;
+
+    private ArrayList<ProductParent> productParentListClothing = new ArrayList<>();
+    private ArrayList<ProductParent> limitProductParentListClothing = new ArrayList<>();
+    private ItemRecycleViewAdapter adapterClothing;
+    private TextView tv_viewall_NewRelase,tv_viewall_icon_AirForce1,tv_viewall_icon_AirJordan1,tv_viewall_clothing;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -86,10 +91,10 @@ public class HomeFragment extends Fragment implements ItemRecycleViewAdapter.Ite
         return view;
     }
     private void addControl(View view){
-        tvGreeting = view.findViewById(R.id.greeting);
-        tvGreeting.setText(checkHourGreeting());
         sharedPreferences = view.getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         user_name = sharedPreferences.getString("first_name",null);
+        tvGreeting = view.findViewById(R.id.greeting);
+        tvGreeting.setText(checkHourGreeting());
 
         rcv_newRelease = view.findViewById(R.id.rcv_newRelease);
         tv_viewall_NewRelase = view.findViewById(R.id.tv_viewall_NewRelase);
@@ -99,6 +104,9 @@ public class HomeFragment extends Fragment implements ItemRecycleViewAdapter.Ite
 
         rcv_icon_AirJordan1 = view.findViewById(R.id.rcv_icon_AirJordan1);
         tv_viewall_icon_AirJordan1 = view.findViewById(R.id.tv_viewall_icon_AirJordan1);
+
+        rcv_clothing = view.findViewById(R.id.rcv_clothing);
+        tv_viewall_clothing = view.findViewById(R.id.tv_viewall_clothing);
     }
     private void rcv_loadData()
     {
@@ -139,6 +147,19 @@ public class HomeFragment extends Fragment implements ItemRecycleViewAdapter.Ite
         RecyclerView.LayoutManager layoutManagerIconAirJordan1 = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
         rcv_icon_AirJordan1.setLayoutManager(layoutManagerIconAirJordan1);
         rcv_icon_AirJordan1.setAdapter(adapterIconAirJordan1);
+
+        // Clothing
+        productParentListClothing = ProductParentHandler.getAllClothing();
+        limitProductParentListClothing.clear();
+        for(ProductParent productParent : productParentListClothing)
+        {
+            if(limitProductParentListClothing.size() < 3)
+                limitProductParentListClothing.add(productParent);
+        }
+        adapterClothing = new ItemRecycleViewAdapter(getContext(), limitProductParentListClothing,this);
+        RecyclerView.LayoutManager layoutManagerClothing = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
+        rcv_clothing.setLayoutManager(layoutManagerClothing);
+        rcv_clothing.setAdapter(adapterClothing);
     }
 
     @Override
@@ -177,6 +198,15 @@ public class HomeFragment extends Fragment implements ItemRecycleViewAdapter.Ite
                 FragmentUtils.addFragment(fm,allIconAirJordan1,R.id.frameLayout);
             }
         });
+        tv_viewall_clothing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AllClothing allClothing = new AllClothing();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm,allClothing,R.id.frameLayout);
+            }
+        });
+
     }
     private String checkHourGreeting(){
         String msg="";
