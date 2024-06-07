@@ -178,7 +178,7 @@
                   >
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="45dp"
                         android:hint="First Name"
                         android:padding="10dp"
                         android:textColor="@color/black"
@@ -196,7 +196,7 @@
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="45dp"
                         android:hint="Last Name"
                         android:padding="10dp"
                         android:textColor="@color/black"
@@ -214,7 +214,7 @@
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="45dp"
                         android:hint="Address"
                         android:padding="10dp"
                         android:textColor="@color/black"
@@ -239,7 +239,7 @@
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="45dp"
                         android:hint="Email"
                         android:padding="10dp"
                         android:textColor="@color/black"
@@ -257,7 +257,7 @@
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="45dp"
                         android:hint="Phone Number"
                         android:padding="10dp"
                         android:textColor="@color/black"
@@ -266,11 +266,24 @@
                         android:id="@+id/edtPhoneNumber"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
-
+                <com.paypal.checkout.paymentbutton.PaymentButtonContainer
+                    android:id="@+id/payment_button_container"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:paypal_button_color="black"
+                    app:paypal_button_label="pay"
+                    app:paypal_button_shape="pill"
+                    app:paypal_button_size="large"
+                    app:paypal_button_enabled="true"
+                    app:cornerRadius="50dp"/>
 
             </LinearLayout>
         </LinearLayout>
 
     </ScrollView>
+
+
 
 </RelativeLayout>

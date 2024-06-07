@@ -46,33 +46,53 @@ public class UserOrderHandler {
         }
         return list;
     }
-    public static boolean addOrder(int UserID) {
+    public static int addOrder(int UserID,String firstName,String lastName,String address,String email,String phoneNumber,int totalPrice) {
         boolean isSuccess = false;
         Connection conn = null;
+        int primaryKey = -1;
+        ResultSet rs = null;
+        PreparedStatement preparedStatement = null;
         try {
             conn = dbConnection.connectionClass();
 
-            String query = "INSERT INTO user_order (user_id, createdAt, updatedAt,user_order_total_value) VALUES (?, ?, ?,?)";
+            String query = "INSERT INTO user_order (user_id, first_name,last_name, address,email,phone_number,is_processed,payment_method,total_price,createdAt,updatedAt) VALUES (?,?,?,?,?,?,?,?, ?, ?,?)";
 
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement= conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, UserID);
+            preparedStatement.setString(2,firstName);
+            preparedStatement.setString(3,lastName);
+            preparedStatement.setString(4,address);
+            preparedStatement.setString(5,email);
+            preparedStatement.setString(6,phoneNumber);
+            preparedStatement.setInt(7,1);
+            preparedStatement.setString(8,"Paypal");
+            preparedStatement.setInt(9,totalPrice);
             LocalDateTime now = null;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 now = LocalDateTime.now();
                 String formattedDateTime = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                preparedStatement.setTimestamp(2, Timestamp.valueOf(String.valueOf(formattedDateTime)));
-                preparedStatement.setTimestamp(3, Timestamp.valueOf(String.valueOf(formattedDateTime)));
+                preparedStatement.setTimestamp(10, Timestamp.valueOf(String.valueOf(formattedDateTime)));
+                preparedStatement.setTimestamp(11, Timestamp.valueOf(String.valueOf(formattedDateTime)));
             }
-            preparedStatement.setInt(4,0);
             int rowsInserted = preparedStatement.executeUpdate();
 
             if (rowsInserted > 0) {
                 isSuccess = true;
+                rs=preparedStatement.getGeneratedKeys();
+                if(rs.next()){
+                    primaryKey = rs.getInt(1);
+                }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
             try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (rs != null) {
+                    rs.close();
+                }
                 if (conn != null) {
                     conn.close();
                 }
@@ -80,6 +100,6 @@ public class UserOrderHandler {
                 ex.printStackTrace();
             }
         }
-        return isSuccess;
+        return primaryKey;
     }
 }

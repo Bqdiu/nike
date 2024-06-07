@@ -24,6 +24,7 @@ public class PhotoRecycleViewAdapter extends RecyclerView.Adapter<PhotoRecycleVi
     ArrayList<Product> products = new ArrayList<>();
     Context context;
     ItemClickListener itemClickListener;
+    private int selected= 0;
 
     public PhotoRecycleViewAdapter(ArrayList<Product> list, Context context, ItemClickListener itemClickListener) {
         this.products = list;
@@ -43,11 +44,17 @@ public class PhotoRecycleViewAdapter extends RecyclerView.Adapter<PhotoRecycleVi
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String itemSrc = products.get(position).getImg();
         Bitmap bitmap = Util.convertStringToBitmapFromAccess(context,itemSrc);
-        holder.thumbnail.setImageBitmap(bitmap);
+        if (selected == position) {
+            // Apply blur effect if this is the selected item
+            holder.thumbnail.setImageBitmap(Util.blur(context, bitmap));
+        } else {
+            holder.thumbnail.setImageBitmap(bitmap);
+        }
         holder.photoCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                selected = position;
+                notifyDataSetChanged();
                 itemClickListener.onPhotoClick(products.get(position));
             }
         });

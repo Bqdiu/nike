@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,9 +47,28 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        binding();
         addControl();
         loadDataUser();
         addEvent();
+    }
+    protected void binding(){
+        Intent intent = getIntent();
+
+        if (intent != null && "ShopFragment".equals(intent.getStringExtra("navigateTo"))) {
+
+            LoadFragment(new ShopFragment());
+
+            BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+            bottomNavigationView.setSelectedItemId(R.id.itemShop);
+        }else if(intent != null && "BagFragment".equals(intent.getStringExtra("navigateTo"))){
+            LoadFragment(new BagFragment());
+
+            BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+            bottomNavigationView.setSelectedItemId(R.id.itemBag);
+        }else{
+            LoadFragment(new HomeFragment());
+        }
     }
     protected void addControl(){
         frameLayout = findViewById(R.id.frameLayout);
@@ -61,7 +81,7 @@ public class MainActivity extends AppCompatActivity{
 
     }
     protected void addEvent(){
-        LoadFragment(new HomeFragment());
+
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

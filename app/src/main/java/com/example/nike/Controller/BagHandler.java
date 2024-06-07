@@ -24,7 +24,7 @@ public class BagHandler {
         ResultSet rs = null;
         ArrayList<Bag> list = new ArrayList<>();
         if(conn!=null) {
-            String sql = "select b.bag_id, pp.product_parent_name, po.product_object_name,cp.category_product_name,p.*, s.size_name, b.amount, (b.amount * pp.product_price) as total_price\n" +
+            String sql = "select b.bag_id,b.product_size_id, pp.product_parent_name, po.product_object_name,cp.category_product_name,p.*, s.size_name, b.amount, (b.amount * pp.product_price) as total_price\n" +
                     "from bag b\n" +
                     "inner join product_size ps on b.product_size_id = ps.product_size_id\n" +
                     "inner join product p on ps.product_id = p.product_id\n" +
@@ -39,25 +39,25 @@ public class BagHandler {
                 while (rs.next()){
                     Bag bag = new Bag();
                     bag.setBagID(rs.getInt(1));
-
+                    bag.setProductSizeID(rs.getInt(2));
                     Product product = new Product();
-                    product.setName(rs.getString(2));
-                    product.setCategoryName(rs.getString(3));
-                    product.setObjectName(rs.getString(4));
-                    product.setProductID(rs.getInt(5));
-                    product.setProductParentID(rs.getInt(6));
-                    product.setMoreInfo(rs.getString(7));
-                    product.setImg(rs.getString(8));
-                    product.setSizeAndFit(rs.getString(9));
-                    product.setStyleCode(rs.getString(10));
-                    product.setColorShown(rs.getString(11));
-                    product.setDescription(rs.getString(12));
-                    product.setDescription2(rs.getString(13));
+                    product.setName(rs.getString(3));
+                    product.setCategoryName(rs.getString(4));
+                    product.setObjectName(rs.getString(5));
+                    product.setProductID(rs.getInt(6));
+                    product.setProductParentID(rs.getInt(7));
+                    product.setMoreInfo(rs.getString(8));
+                    product.setImg(rs.getString(9));
+                    product.setSizeAndFit(rs.getString(10));
+                    product.setStyleCode(rs.getString(11));
+                    product.setColorShown(rs.getString(12));
+                    product.setDescription(rs.getString(13));
+                    product.setDescription2(rs.getString(14));
 
                     bag.setProduct(product);
-                    bag.setSizeName(rs.getString(14));
-                    bag.setQuantity(rs.getInt(15));
-                    bag.setTotalPrice(rs.getInt(16));
+                    bag.setSizeName(rs.getString(15));
+                    bag.setQuantity(rs.getInt(16));
+                    bag.setTotalPrice(rs.getInt(17));
 
                     list.add(bag);
                 }
@@ -210,6 +210,34 @@ public class BagHandler {
             preparedStatement.setInt(1, user_id);
             preparedStatement.setInt(2, product_size_id);
             preparedStatement.setInt(3,quantity);
+            int rowsInserted = preparedStatement.executeUpdate();
+
+            if (rowsInserted > 0) {
+                isSuccess = true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return isSuccess;
+    }
+    public static boolean removeAll(int user_id) {
+        boolean isSuccess = false;
+        Connection conn = null;
+        try {
+            conn = dbConnection.connectionClass();
+
+            String query = "DELETE FROM bag where user_id=?";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setInt(1, user_id);
             int rowsInserted = preparedStatement.executeUpdate();
 
             if (rowsInserted > 0) {
