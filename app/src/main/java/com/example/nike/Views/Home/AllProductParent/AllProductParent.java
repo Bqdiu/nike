@@ -1,4 +1,4 @@
-package com.example.nike.Views.Home.Clothing;
+package com.example.nike.Views.Home.AllProductParent;
 
 import android.os.Bundle;
 
@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.nike.Controller.ProductParentHandler;
 import com.example.nike.Model.Product;
@@ -22,31 +23,39 @@ import com.example.nike.Views.Shop.Product.DetailProduct;
 
 import java.util.ArrayList;
 
-public class AllClothing extends Fragment implements ItemRecycleViewAdapter.ItemClickListener{
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class AllProductParent extends Fragment implements ItemRecycleViewAdapter.ItemClickListener{
 
-    private String mParam1;
-    private String mParam2;
+    private static final String ARG_TEXTVIEW = "text_view";
+    private static final String ARG_LIST = "list";
 
+    private String getTextView;
+    private ArrayList<ProductParent> getList;
+
+    private TextView tv_productParent;
     private ImageView btn_back;
-    private RecyclerView rcv_clothingFull;
-    private ArrayList<ProductParent> productParentList = new ArrayList<>();
+    private RecyclerView rcv_productParent;
     private ItemRecycleViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private void addControls(View view) {
+
+    private void addControls(View view)
+    {
+        tv_productParent = view.findViewById(R.id.tv_productParent);
         btn_back = view.findViewById(R.id.btn_back);
-        rcv_clothingFull = view.findViewById(R.id.rcv_clothingFull);
+        rcv_productParent = view.findViewById(R.id.rcv_productParent);
+        tv_productParent.setText(getTextView);
     }
-    private void rcv_loadData() {
-        productParentList = ProductParentHandler.getAllClothing();
-        adapter = new ItemRecycleViewAdapter(getContext(),productParentList,this);
+
+    private void rcv_loadData()
+    {
+        adapter = new ItemRecycleViewAdapter(getContext(),getList,this);
         layoutManager = new GridLayoutManager(getContext(), 2);
-        rcv_clothingFull.setLayoutManager(layoutManager);
-        rcv_clothingFull.setLayoutManager(layoutManager);
-        rcv_clothingFull.setAdapter(adapter);
+        rcv_productParent.setLayoutManager(layoutManager);
+        rcv_productParent.setLayoutManager(layoutManager);
+        rcv_productParent.setAdapter(adapter);
     }
-    private void addEvents() {
+
+    private void addEvents()
+    {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,15 +64,15 @@ public class AllClothing extends Fragment implements ItemRecycleViewAdapter.Item
             }
         });
     }
-    public AllClothing() {
+
+    public AllProductParent() {
         // Required empty public constructor
     }
-
-    public static AllClothing newInstance(String param1, String param2) {
-        AllClothing fragment = new AllClothing();
+    public static AllProductParent newInstance(String textview, ArrayList<ProductParent> list) {
+        AllProductParent fragment = new AllProductParent();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_TEXTVIEW, textview);
+        args.putSerializable(ARG_LIST, list);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,20 +81,21 @@ public class AllClothing extends Fragment implements ItemRecycleViewAdapter.Item
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            getTextView = getArguments().getString(ARG_TEXTVIEW);
+            getList = (ArrayList<ProductParent>) getArguments().getSerializable(ARG_LIST);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_all_clothing, container, false);
+        View view = inflater.inflate(R.layout.fragment_all_product_parent, container, false);
         addControls(view);
         rcv_loadData();
         addEvents();
         return view;
     }
+
     @Override
     public void onItemClick(ArrayList<Product> list) {
         Fragment fragment = DetailProduct.newInstance(list);
@@ -98,6 +108,7 @@ public class AllClothing extends Fragment implements ItemRecycleViewAdapter.Item
     public void onResume() {
         super.onResume();
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

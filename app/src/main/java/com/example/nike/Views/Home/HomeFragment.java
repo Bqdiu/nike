@@ -15,15 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.nike.Views.Home.AllReleaseFragment.AllReleaseProduct;
+import com.example.nike.Views.Home.AllProductParent.AllProductParent;
 import com.example.nike.Controller.ProductParentHandler;
 import com.example.nike.FragmentUtils;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductParent;
 import com.example.nike.R;
-import com.example.nike.Views.Home.Clothing.AllClothing;
-import com.example.nike.Views.Home.IconAirForce1.AllIconAirForce1;
-import com.example.nike.Views.Home.IconAirJordan1.AllIconAirJordan1;
 import com.example.nike.Views.Shop.Adapter.ItemRecycleViewAdapter;
 import com.example.nike.Views.Shop.Product.DetailProduct;
 
@@ -61,6 +58,7 @@ public class HomeFragment extends Fragment implements ItemRecycleViewAdapter.Ite
     private ArrayList<ProductParent> limitProductParentListClothing = new ArrayList<>();
     private ItemRecycleViewAdapter adapterClothing;
     private TextView tv_viewall_NewRelase,tv_viewall_icon_AirForce1,tv_viewall_icon_AirJordan1,tv_viewall_clothing;
+    private FragmentManager fm;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -175,35 +173,48 @@ public class HomeFragment extends Fragment implements ItemRecycleViewAdapter.Ite
         tv_viewall_NewRelase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AllReleaseProduct allReleaseProduct = new AllReleaseProduct();
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentUtils.addFragment(fm,allReleaseProduct,R.id.frameLayout);
+                String txt_TextView = "New Release";
+                ArrayList<ProductParent> list = new ArrayList<>();
+                list = ProductParentHandler.getAllNewRelease();
+                AllProductParent allProductParent = AllProductParent.newInstance(txt_TextView,list);
+                fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm,allProductParent,R.id.frameLayout);
             }
         });
 
         tv_viewall_icon_AirForce1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AllIconAirForce1 allIconAirForce1 = new AllIconAirForce1();
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentUtils.addFragment(fm,allIconAirForce1,R.id.frameLayout);
+                String txt_TextView = "Air Force 1";
+                ArrayList<ProductParent> list = new ArrayList<>();
+                list = ProductParentHandler.getAllProductParentByIcon(1);
+                AllProductParent allProductParent = AllProductParent.newInstance(txt_TextView,list);
+                fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm,allProductParent,R.id.frameLayout);
             }
         });
 
         tv_viewall_icon_AirJordan1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AllIconAirJordan1 allIconAirJordan1 = new AllIconAirJordan1();
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentUtils.addFragment(fm,allIconAirJordan1,R.id.frameLayout);
+                String txt_TextView = "Air Jordan";
+                ArrayList<ProductParent> list = new ArrayList<>();
+                list = ProductParentHandler.getAllProductParentByIcon(3);
+                AllProductParent allProductParent = AllProductParent.newInstance(txt_TextView,list);
+                fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm,allProductParent,R.id.frameLayout);
+
             }
         });
         tv_viewall_clothing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AllClothing allClothing = new AllClothing();
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentUtils.addFragment(fm,allClothing,R.id.frameLayout);
+                String txt_TextView = "Clothing";
+                ArrayList<ProductParent> list = new ArrayList<>();
+                list = ProductParentHandler.getAllClothing();
+                AllProductParent allProductParent = AllProductParent.newInstance(txt_TextView,list);
+                fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm,allProductParent,R.id.frameLayout);
             }
         });
 

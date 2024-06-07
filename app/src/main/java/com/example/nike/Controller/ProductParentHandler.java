@@ -3,6 +3,7 @@ package com.example.nike.Controller;
 import com.example.nike.Model.DBConnection;
 import com.example.nike.Model.ProductParent;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class ProductParentHandler {
+public class ProductParentHandler implements Serializable {
     private static DBConnection dbConnection = new DBConnection();
     public static ArrayList<ProductParent> getData(){
         ArrayList<ProductParent> list = new ArrayList<>();
