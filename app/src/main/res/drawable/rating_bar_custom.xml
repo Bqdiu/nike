@@ -1,0 +1,12 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Empty star -->
+    <item android:id="@android:id/background"
+        android:drawable="@drawable/star_grey" />
+
+    <!-- Filled stars -->
+    <item android:id="@android:id/progress"
+        android:gravity="center_vertical"
+        android:drawable="@drawable/star_black"
+        android:scaleX="0.5"
+        android:scaleY="0.5" />
+</layer-list>

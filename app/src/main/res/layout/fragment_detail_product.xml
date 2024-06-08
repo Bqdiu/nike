@@ -119,6 +119,8 @@
                 tools:ignore="MissingConstraints"
                 android:textAllCaps="false"/>
 
+
+
             <Button
                 android:id="@+id/btnAddToBag"
                 android:layout_width="match_parent"
@@ -127,18 +129,21 @@
                 android:textAllCaps="false"
                 android:layout_marginTop="3dp"
                 app:cornerRadius="50dp"/>
-            <Button
-                android:visibility="gone"
-                android:id="@+id/btnOutOfStock"
-                android:backgroundTint="#E1DFDF"
-                android:textColor="#777272"
-                android:text="Out Of Stock"
-                android:textAllCaps="false"
-                android:layout_marginTop="40dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                app:cornerRadius="50dp"/>
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/btnOutOfStock"
+                    android:backgroundTint="#E1DFDF"
+                    android:textColor="#777272"
+                    android:text="Out Of Stock"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    app:cornerRadius="50dp"/>
+
+
+
             <Button
                 android:id="@+id/btnFavorite"
                 android:layout_width="match_parent"
@@ -150,6 +155,108 @@
                 android:text="Favorite"
 
                 android:textAllCaps="false"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/image_view_border"
+                android:layout_marginTop="40dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/expand_SizeGuide">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSizeAndFit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_no_border"
+                    android:text="Size &amp; Fit"
+                    android:textAllCaps="false"
+                    android:gravity="start|center"
+                    android:drawableEnd="@drawable/baseline_keyboard_arrow_down_24"
+                    />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tvSizeGuide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Size Guide"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="20dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/image_view_border"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/expand_reviews">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardElevation="0dp"
+                    android:id="@+id/cardViewReviews"
+                  >
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnReviews"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_no_border"
+                        android:text="Reviews (2)"
+                        android:textAllCaps="false"
+                        android:gravity="start|center"
+                        android:drawableEnd="@drawable/baseline_keyboard_arrow_down_24"
+                        />
+                    <RatingBar
+                        android:id="@+id/ratingBarReviewsTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:numStars="5"
+                        android:layout_gravity="end"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
+                        android:padding="0px"
+                        android:progressTint="@color/black"
+
+                        android:clickable="true"/>
+
+                </androidx.cardview.widget.CardView>
+                <Button
+                    android:id="@+id/btnWriteReview"
+                    android:layout_width="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/black"
+                    app:cornerRadius="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="Write a Review"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recycleReviews"
+                    android:visibility="gone"/>
+                <Button
+                    android:id="@+id/btnMoreReviews"
+                    android:layout_width="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/black"
+                    app:cornerRadius="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="See More Reviews"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
 
         </LinearLayout>
 

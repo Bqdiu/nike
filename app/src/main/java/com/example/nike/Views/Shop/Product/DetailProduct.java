@@ -3,6 +3,7 @@ package com.example.nike.Views.Shop.Product;
 import static com.example.nike.Views.Util.bags;
 import static com.example.nike.Views.Util.formatCurrency;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -13,9 +14,13 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.view.menu.ActionMenuItemView;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
+import android.transition.TransitionManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -37,8 +43,10 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,12 +56,14 @@ import com.example.nike.Controller.BagHandler;
 import com.example.nike.Controller.FavoriteProductHandler;
 import com.example.nike.Controller.ImageHandler;
 import com.example.nike.Controller.ProductHandler;
+import com.example.nike.Controller.ProductReviewHandler;
 import com.example.nike.Controller.ProductSizeHandler;
 import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.MainActivity;
 import com.example.nike.Model.Bag;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductImage;
+import com.example.nike.Model.ProductReview;
 import com.example.nike.Model.ProductSize;
 import com.example.nike.Model.ShopByIcons;
 import com.example.nike.Model.UserAccount;
@@ -62,13 +72,16 @@ import com.example.nike.Views.Bag.CheckoutActivity;
 import com.example.nike.Views.Shop.Adapter.IconsItemRecycleViewAdapter;
 import com.example.nike.Views.Shop.Adapter.PhotoProductAdapter;
 import com.example.nike.Views.Shop.Adapter.PhotoRecycleViewAdapter;
+import com.example.nike.Views.Shop.Adapter.ReviewRecycleViewAdapter;
 import com.example.nike.Views.Shop.Adapter.SizeItemAdapter;
+import com.example.nike.Views.Shop.FragmentOfTabLayout.ObjectProduct;
 import com.example.nike.Views.Util;
 
 import org.w3c.dom.Text;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.stream.DoubleStream;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -116,9 +129,24 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
     // TODO: Rename and change types of parameters
     private ArrayList<Product> mProduct;
     private Button btnAddToBag;
+    private AppCompatButton btnSizeGuide;
+    private TextView tvSizeGuide;
+    private LinearLayout expandSizeGuide;
+
+    private LinearLayout expandReviews;
+    private CardView cardViewReviews;
+    private Button btnWriteReviews;
+    private AppCompatButton btnReviews;
+    private RatingBar ratingBarReviewsTitle;
+    private RecyclerView recyclerReviews;
+    private ArrayList<ProductReview> productReviews;
+    private ReviewRecycleViewAdapter reviewRecycleViewAdapter;
+    private Button btnMoreReviews;
     private int objectID;
     private int categoryID;
     private int selectedItem = -1;
+    private boolean isExpandedSizeGuide = false;
+    private boolean isExpandedReviews = false;
     public DetailProduct() {
         // Required empty public constructor
     }
@@ -230,6 +258,19 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         listSize = ProductSizeHandler.getDataByProductID(mProduct.get(0).getProductID());
         CurrentProduct = mProduct.get(0);
 
+        btnSizeGuide = view.findViewById(R.id.btnSizeAndFit);
+        tvSizeGuide = view.findViewById(R.id.tvSizeGuide);
+        expandSizeGuide = view.findViewById(R.id.expand_SizeGuide);
+
+        expandReviews = view.findViewById(R.id.expand_reviews);
+        cardViewReviews = view.findViewById(R.id.cardViewReviews);
+        btnWriteReviews = view.findViewById(R.id.btnWriteReview);
+        btnMoreReviews = view.findViewById(R.id.btnMoreReviews);
+        btnReviews = view.findViewById(R.id.btnReviews);
+        ratingBarReviewsTitle = view.findViewById(R.id.ratingBarReviewsTitle);
+        recyclerReviews = view.findViewById(R.id.recycleReviews);
+        productReviews = new ArrayList<>();
+
     }
     private void setDataRecycleViewPhotoList(){
        
@@ -274,6 +315,22 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
             btnAddToBag.setVisibility(View.VISIBLE);
         }
 
+        productReviews = ProductReviewHandler.getDataByProductID(product.getProductID());
+        ArrayList<ProductReview> reviewsTmp = new ArrayList<>();
+        for(int i = 0;i<productReviews.size();i++){
+            if(i<2){
+                ProductReview pr = productReviews.get(i);
+                reviewsTmp.add(pr);
+            }
+        }
+        reviewRecycleViewAdapter = new ReviewRecycleViewAdapter(reviewsTmp);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
+        recyclerReviews.setLayoutManager(layoutManager);
+        recyclerReviews.setAdapter(reviewRecycleViewAdapter);
+
+        float avgRating = (float) productReviews.stream().mapToDouble(ProductReview::getReviewRate).average().orElse(0.0);
+        ratingBarReviewsTitle.setRating(avgRating);
+        btnReviews.setText("Reviews ("+productReviews.size()+")");
     }
     private int totalQuantityProduct(){
         return listSize.stream().mapToInt(ProductSize::getSoluong).sum();
@@ -321,7 +378,65 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         }
         showPopupAddToBag();
     }
+
+    private void onExpandSizeGuideClick(){
+        isExpandedSizeGuide = !isExpandedSizeGuide;
+        if(isExpandedSizeGuide){
+            tvSizeGuide.setVisibility(View.VISIBLE);
+
+        }else{
+            tvSizeGuide.setVisibility(View.GONE);
+        }
+        TransitionManager.beginDelayedTransition(expandSizeGuide);
+
+
+    }
+    private void updateRecycleReview(){
+        productReviews = ProductReviewHandler.getDataByProductID(CurrentProduct.getProductID());
+        ArrayList<ProductReview> reviewsTmp = new ArrayList<>();
+        for(int i = 0;i<productReviews.size();i++){
+            if(i<2){
+                ProductReview pr = productReviews.get(i);
+                reviewsTmp.add(pr);
+            }
+        }
+
+        reviewRecycleViewAdapter.notifyDataSetChanged();
+    }
+    private void onExpandReviewsClick(){
+        isExpandedReviews = !isExpandedReviews;
+        if(isExpandedReviews){
+            updateRecycleReview();
+            btnWriteReviews.setVisibility(View.VISIBLE);
+            recyclerReviews.setVisibility(View.VISIBLE);
+            btnMoreReviews.setVisibility(View.VISIBLE);
+        }else{
+            btnWriteReviews.setVisibility(View.GONE);
+            recyclerReviews.setVisibility(View.GONE);
+            btnMoreReviews.setVisibility(View.GONE);
+        }
+        TransitionManager.beginDelayedTransition(expandReviews);
+    }
     private void addEvent(){
+        btnReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onExpandReviewsClick();
+            }
+        });
+        tvSizeGuide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("https://www.nike.com/vn/size-fit/mens-footwear");
+                startActivity(new Intent(Intent.ACTION_VIEW,uri));
+            }
+        });
+        btnSizeGuide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onExpandSizeGuideClick();
+            }
+        });
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
