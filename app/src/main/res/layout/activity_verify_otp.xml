@@ -54,7 +54,6 @@
         android:layout_marginTop="20dp"
         app:lineColor="#120A0A"
         app:itemCount="6"
-        android:inputType="number"
         android:cursorVisible="true"
         android:itemBackground="#F1EBEB"
         app:cursorColor="@color/black"
@@ -70,7 +69,9 @@
         android:layout_margin="20dp"
         app:layout_constraintTop_toBottomOf="@+id/otp_code"
         android:textSize="20sp"
-        android:text="VERIFY CODE" />
+        android:text="VERIFY CODE"
+        android:enabled="false"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

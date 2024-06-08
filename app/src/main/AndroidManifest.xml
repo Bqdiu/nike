@@ -22,7 +22,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="34">
         <activity
-            android:name=".ForgetPasswordSuccessMessage"
+            android:name=".Views.ForgetPasswordSuccessMessage"
             android:exported="false" />
         <activity
             android:name=".Views.ResetPasswordFrame"
