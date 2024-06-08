@@ -63,11 +63,23 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white" />
 
+    <TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Forgot password ?"
+        android:textColor="@color/white"
+        android:gravity="right"
+        android:textSize="18sp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/password"
+        />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signinbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/password"
+        android:layout_below="@id/forgot_password"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"

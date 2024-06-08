@@ -29,7 +29,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class LoginFrame extends AppCompatActivity {
     EditText username, password;
-    TextView register;
+    TextView register,forgot_password;
     MaterialButton signinbtn;
 
     UserAccountHandler userAccountHandler = new UserAccountHandler();
@@ -58,6 +58,7 @@ public class LoginFrame extends AppCompatActivity {
         signinbtn = (MaterialButton) findViewById(R.id.signinbtn);
         btn_google = findViewById(R.id.btn_SignInGoogle);
         register = findViewById(R.id.regiter);
+        forgot_password = findViewById(R.id.forgot_password);
     }
 
     private void addEvents(){
@@ -104,6 +105,14 @@ public class LoginFrame extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signIn();
+            }
+        });
+
+        forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginFrame.this, ForgotPasswordFrame.class);
+                startActivity(intent);
             }
         });
 
