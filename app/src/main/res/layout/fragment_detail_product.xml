@@ -128,6 +128,18 @@
                 android:layout_marginTop="3dp"
                 app:cornerRadius="50dp"/>
             <Button
+                android:visibility="gone"
+                android:id="@+id/btnOutOfStock"
+                android:backgroundTint="#E1DFDF"
+                android:textColor="#777272"
+                android:text="Out Of Stock"
+                android:textAllCaps="false"
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:cornerRadius="50dp"/>
+            <Button
                 android:id="@+id/btnFavorite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

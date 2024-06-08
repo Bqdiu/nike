@@ -29,6 +29,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.nike.BuildConfig;
 import com.example.nike.Controller.BagHandler;
 import com.example.nike.Controller.FavoriteProductHandler;
+import com.example.nike.Controller.ProductSizeHandler;
 import com.example.nike.Controller.UserOrderHandler;
 import com.example.nike.Controller.UserOrderProductsHandler;
 import com.example.nike.MainActivity;
@@ -183,7 +184,9 @@ public class CheckoutActivity extends AppCompatActivity {
         layoutFirstName.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                if(s.length()==0){
+                    layoutFirstName.setError("Please enter your first name");
+                }
             }
 
             @Override
@@ -203,7 +206,9 @@ public class CheckoutActivity extends AppCompatActivity {
         layoutLastName.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                if(s.length()==0){
+                    layoutLastName.setError("Please enter your last name");
+                }
             }
 
             @Override
@@ -223,7 +228,9 @@ public class CheckoutActivity extends AppCompatActivity {
         layoutAddress.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                if(s.length()==0){
+                    layoutAddress.setError("Please enter your address");
+                }
             }
 
             @Override
@@ -243,7 +250,9 @@ public class CheckoutActivity extends AppCompatActivity {
         layoutNumberPhone.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                if(s.length()==0){
+                    layoutNumberPhone.setError("Please enter your phone number");
+                }
             }
 
             @Override
@@ -266,7 +275,9 @@ public class CheckoutActivity extends AppCompatActivity {
         layoutEmail.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                if(s.length()==0) {
+                    layoutEmail.setError("Please enter your email");
+                }
             }
 
             @Override
@@ -335,6 +346,7 @@ public class CheckoutActivity extends AppCompatActivity {
                                     for(int i=0;i<bags.size();i++){
                                         Bag bag = bags.get(i);
                                         UserOrderProductsHandler.insertOrder(primaryKey,bag.getProductSizeID(),bag.getQuantity());
+                                        ProductSizeHandler.updateTotalQuantity(bag.getProductSizeID(),bag.getQuantity());
                                     }
                                     BagHandler.removeAll(user_id);
                                 }

@@ -263,11 +263,12 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
             public void onClick(View v) {
                 int user_id = Util.getUserID(getContext());
                 int product_size_id =  productSize.getProduct_size_id();
-                if(BagHandler.isExists(user_id,product_size_id)){
+                if(BagHandler.isExists(user_id,product_size_id) && productSize.getSoluong()!=0){
                     BagHandler.increaseQuantity(user_id,product_size_id);
-                }else{
+                }else if(!BagHandler.isExists(user_id,product_size_id) && productSize.getSoluong()!=0){
                     BagHandler.addToBag(user_id,product_size_id, 1);
                 }
+
 
 
             }

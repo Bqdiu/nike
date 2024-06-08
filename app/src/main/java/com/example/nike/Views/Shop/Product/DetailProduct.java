@@ -48,6 +48,7 @@ import com.example.nike.Controller.ProductHandler;
 import com.example.nike.Controller.ProductSizeHandler;
 import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.MainActivity;
+import com.example.nike.Model.Bag;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductImage;
 import com.example.nike.Model.ProductSize;
@@ -100,7 +101,7 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
 
     private Product CurrentProduct;
     private UserAccount user;
-    private Button btnAddToWhistList;
+    private Button btnAddToWhistList,btnOutOfStock;
     private SharedPreferences sharedPreferences;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -211,16 +212,19 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
 
         btnAddToBag = view.findViewById(R.id.btnAddToBag);
         btnSpinnerSize = view.findViewById(R.id.btnSpinner);
-        listSize = ProductSizeHandler.getDataByProductID(mProduct.get(0).getProductID());
+
 
         sharedPreferences = view.getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         btnAddToWhistList = view.findViewById(R.id.btnFavorite);
+        btnOutOfStock = view.findViewById(R.id.btnOutOfStock);
         String email = sharedPreferences.getString("email",null).toString();
         int UserID = UserAccountHandler.getUserByEmail(email).getId();
         if(FavoriteProductHandler.CheckProductFavorite(UserID,mProduct.get(0).getProductID())){
             mProduct.get(0).setFavorite(true);
             btnAddToWhistList.setText("Favorited");
         }
+        listSize = ProductSizeHandler.getDataByProductID(mProduct.get(0).getProductID());
+        CurrentProduct = mProduct.get(0);
 
     }
     private void setDataRecycleViewPhotoList(){
@@ -256,7 +260,19 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
             product.setFavorite(false);
             btnAddToWhistList.setText("Favorite");
         }
+        if(totalQuantityProduct() == 0){
+            btnOutOfStock.setVisibility(View.VISIBLE);
+            btnSpinnerSize.setVisibility(View.GONE);
+            btnAddToBag.setVisibility(View.GONE);
+        }else {
+            btnOutOfStock.setVisibility(View.GONE);
+            btnSpinnerSize.setVisibility(View.VISIBLE);
+            btnAddToBag.setVisibility(View.VISIBLE);
+        }
 
+    }
+    private int totalQuantityProduct(){
+        return listSize.stream().mapToInt(ProductSize::getSoluong).sum();
     }
     private void CustomToast(View currentView, String msg){
 
@@ -419,12 +435,11 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         void onProductSizeSet(ProductSize selectedSize);
     }
     protected void showPopup(final PopupCallback callback){
-
+        updateProductSizeList();
         View convertView = LayoutInflater.from(getContext()).inflate(R.layout.popup_menu_size,null);
         addControlOfPopupMenu(convertView);
         addEventOfPopupMenu(convertView,callback);
         dialog.setContentView(convertView);
-        //dialog.setCancelable(true); // Cho phép đóng Dialog khi chạm ra ngoài
 
 
         Window window = dialog.getWindow();
@@ -435,11 +450,16 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
 
-        dialog.setCanceledOnTouchOutside(true); // Cho phép đóng Dialog khi chạm ra ngoài
+        dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
     }
-
+    private void updateProductSizeList() {
+        listSize = ProductSizeHandler.getDataByProductID(CurrentProduct.getProductID());
+        if (sizeAdapter != null) {
+            sizeAdapter.notifyDataSetChanged();
+        }
+    }
     private void bindingDataOfCurrentProduct(Product product){
         bindingDataOfProduct(product);
         CurrentProduct = product;

@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +29,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nike.Controller.BagHandler;
 import com.example.nike.Controller.ProductHandler;
+import com.example.nike.Controller.ProductSizeHandler;
 import com.example.nike.Model.Bag;
+import com.example.nike.Model.ProductSize;
 import com.example.nike.R;
 import com.example.nike.Views.Bag.Adapter.BagAdapter;
 import com.example.nike.Views.Shop.Product.DetailProduct;
@@ -36,7 +39,9 @@ import com.example.nike.Views.Shop.ShopFragment;
 import com.example.nike.Views.Util;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class BagFragment extends Fragment implements BagAdapter.ItemClickListener {
     private LinearLayout nonData;
@@ -193,10 +198,19 @@ public class BagFragment extends Fragment implements BagAdapter.ItemClickListene
             public void onClick(View v) {
                 int value = numberPicker.getValue();
                 String selectedValue = displayedValues[value];
+                ProductSize productSize = ProductSizeHandler.getDetailProductSize(bag.getProductSizeID());
                 if( !selectedValue.equals("Remove")){
                     int newQuantity = Integer.parseInt(selectedValue);
-                    if(bag.getQuantity() != newQuantity)
-                    BagHandler.updateQuantity(Util.getUserID(getContext()),bag.getBagID(),Integer.parseInt(selectedValue));
+                    int inventoryQuantity = productSize.getSoluong();
+                    if(bag.getQuantity() != newQuantity && newQuantity <= inventoryQuantity)
+                    BagHandler.updateQuantity(Util.getUserID(getContext()),bag.getBagID(),newQuantity);
+                    else if(bag.getQuantity() != newQuantity && newQuantity > inventoryQuantity && inventoryQuantity != 0){
+                        BagHandler.updateQuantity(Util.getUserID(getContext()),bag.getBagID(),inventoryQuantity);
+                        Toast.makeText(getContext(),"The remaining quantity of the product is "+inventoryQuantity,Toast.LENGTH_LONG).show();
+                    }else {
+                        BagHandler.deleteProduct(bag.getBagID());
+                        Toast.makeText(getContext(),"The product is out of stock",Toast.LENGTH_LONG).show();
+                    }
                 }else{
                     BagHandler.deleteProduct(bag.getBagID());
                 }
@@ -212,11 +226,21 @@ public class BagFragment extends Fragment implements BagAdapter.ItemClickListene
     }
     private void data(){
         bags = BagHandler.getBag(Util.getUserID(getContext()));
+        bags.stream()
+                .map(bag -> {
+                    ProductSize productSize = ProductSizeHandler.getDetailProductSize(bag.getProductSizeID());
+                    return new AbstractMap.SimpleEntry<>(bag, productSize);
+                })
+                .filter(entry -> entry.getValue() != null && entry.getValue().getSoluong() == 0)
+                .forEach(entry -> BagHandler.deleteProduct(entry.getKey().getBagID()));
+        bags = BagHandler.getBag(Util.getUserID(getContext()));
         bagAdapter = new BagAdapter(bags,this);
         bagAdapter.setItemClickListener(this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         recyclerBag.setLayoutManager(layoutManager);
         recyclerBag.setAdapter(bagAdapter);
+
+
 
     }
     @Override

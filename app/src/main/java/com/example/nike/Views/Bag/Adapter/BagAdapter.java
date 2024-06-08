@@ -16,8 +16,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nike.Controller.BagHandler;
 import com.example.nike.Controller.ProductHandler;
+import com.example.nike.Controller.ProductSizeHandler;
 import com.example.nike.Model.Bag;
+import com.example.nike.Model.ProductSize;
 import com.example.nike.R;
 import com.example.nike.Views.Shop.Product.DetailProduct;
 import com.example.nike.Views.Util;
@@ -50,18 +53,17 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
         return new MyViewHolder(view);
     }
     private String extractNumericPart(String sizeName) {
-        // Find the first space character and get the substring after it
+
         int spaceIndex = sizeName.indexOf(' ');
         if (spaceIndex != -1 && spaceIndex + 1 < sizeName.length()) {
             return sizeName.substring(spaceIndex + 1);
         }
-        // Return the original string if no space is found or space is at the end
+
         return sizeName;
     }
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Bag bag = list.get(position);
-
         Bitmap bitmap = Util.convertStringToBitmapFromAccess(holder.itemView.getContext(),bag.getProduct().getImg());
         holder.imgThumbnail.setImageBitmap(bitmap);
 
