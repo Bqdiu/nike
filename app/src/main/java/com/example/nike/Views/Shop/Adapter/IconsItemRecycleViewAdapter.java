@@ -7,11 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nike.Controller.ProductParentHandler;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductParent;
 import com.example.nike.Model.ShopByIcons;
@@ -25,6 +27,7 @@ public class IconsItemRecycleViewAdapter extends RecyclerView.Adapter<IconsItemR
     ArrayList<ShopByIcons> shopByIcons = new ArrayList<>();
     Context context;
 
+    private IconItemClickListener itemClickListener;
 
     public IconsItemRecycleViewAdapter(ArrayList<ShopByIcons> shopByIcons, Context context) {
         this.shopByIcons = shopByIcons;
@@ -45,6 +48,17 @@ public class IconsItemRecycleViewAdapter extends RecyclerView.Adapter<IconsItemR
         Bitmap bitmap = Util.convertStringToBitmapFromAccess(holder.itemView.getContext(),icons.getThumbnail());
         holder.thumbnail.setImageBitmap(bitmap);
         holder.tvNameIcons.setText(icons.getName());
+        holder.cardViewItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<ProductParent> list = ProductParentHandler.getAllProductParentByIcon(icons.getId());
+                if (itemClickListener != null) {
+                    itemClickListener.onIconItemClick(icons.getName(),list);
+                } else {
+                    Toast.makeText(context, "ItemClickListener is not set", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -63,8 +77,11 @@ public class IconsItemRecycleViewAdapter extends RecyclerView.Adapter<IconsItemR
             cardViewItem = itemView.findViewById(R.id.cardViewIcon);
         }
     }
-    public interface ItemClickListener {
-        void onItemClick(ArrayList<ProductParent> product);
+    public interface IconItemClickListener {
+        void onIconItemClick(String name, ArrayList<ProductParent> list);
+    }
 
+    public void setIconItemClickListener(IconItemClickListener listener) {
+        this.itemClickListener = listener;
     }
 }

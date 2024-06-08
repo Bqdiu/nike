@@ -36,6 +36,7 @@ public class AllProductParent extends Fragment implements ItemRecycleViewAdapter
     private RecyclerView rcv_productParent;
     private ItemRecycleViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private TextView txt_empty;
 
     private void addControls(View view)
     {
@@ -43,15 +44,24 @@ public class AllProductParent extends Fragment implements ItemRecycleViewAdapter
         btn_back = view.findViewById(R.id.btn_back);
         rcv_productParent = view.findViewById(R.id.rcv_productParent);
         tv_productParent.setText(getTextView);
+        txt_empty = view.findViewById(R.id.txt_empty);
     }
 
     private void rcv_loadData()
     {
-        adapter = new ItemRecycleViewAdapter(getContext(),getList,this);
-        layoutManager = new GridLayoutManager(getContext(), 2);
-        rcv_productParent.setLayoutManager(layoutManager);
-        rcv_productParent.setLayoutManager(layoutManager);
-        rcv_productParent.setAdapter(adapter);
+        if(getList.size() > 0)
+        {
+            adapter = new ItemRecycleViewAdapter(getContext(),getList,this);
+            layoutManager = new GridLayoutManager(getContext(), 2);
+            rcv_productParent.setLayoutManager(layoutManager);
+            rcv_productParent.setLayoutManager(layoutManager);
+            rcv_productParent.setAdapter(adapter);
+        }
+        else
+        {
+            txt_empty.setVisibility(View.VISIBLE);
+        }
+
     }
 
     private void addEvents()
