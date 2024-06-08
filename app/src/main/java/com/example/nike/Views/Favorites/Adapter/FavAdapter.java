@@ -18,9 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nike.Controller.FavoriteProductHandler;
 import com.example.nike.Controller.ProductHandler;
+import com.example.nike.Controller.ProductSizeHandler;
 import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductParent;
+import com.example.nike.Model.ProductSize;
 import com.example.nike.Model.UserFavoriteProducts;
 import com.example.nike.R;
 
@@ -28,12 +30,14 @@ import com.example.nike.Views.Shop.FragmentOfTabLayout.ObjectProduct;
 import com.example.nike.Views.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder>{
     private ArrayList<UserFavoriteProducts> listBag;
 
     private ItemClickListener itemClickListener;
+    private ArrayList<ProductSize> listSize;
     public FavAdapter(ArrayList<UserFavoriteProducts> listBag,ItemClickListener itemClickListener) {
         this.listBag = listBag;
         this.itemClickListener = itemClickListener;
@@ -45,10 +49,18 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder>{
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_rv, parent, false);
         return new FavViewHolder(view);
     }
-
+    private int totalQuantityProduct(){
+        return listSize.stream().mapToInt(ProductSize::getSoluong).sum();
+    }
     @Override
     public void onBindViewHolder(@NonNull FavViewHolder holder, int position) {
         UserFavoriteProducts pd = listBag.get(position);
+        listSize = ProductSizeHandler.getDataByProductID(pd.getProduct_id());
+        if(totalQuantityProduct() == 0){
+            holder.tvSoldOut.setVisibility(View.VISIBLE);
+        }else{
+            holder.tvSoldOut.setVisibility(View.GONE);
+        }
         Product product = ProductHandler.getDetailProduct(pd.getProduct_id());
         holder.imgProFav.setImageBitmap(Util.convertStringToBitmapFromAccess(holder.itemView.getContext(),product.getImg()));
         holder.nameProFav.setText(product.getName());
@@ -108,10 +120,11 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder>{
         private ImageView imgProFav;
         private TextView nameProFav;
         private TextView priceProFav;
-
+        private TextView tvSoldOut;
         public Button btnFavorite;
         private CardView productCardView;
         private ProgressBar loading;
+
         public FavViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -121,6 +134,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.FavViewHolder>{
             btnFavorite = itemView.findViewById(R.id.btnFavoriteIcon);
             loading = itemView.findViewById(R.id.loading);
             productCardView = itemView.findViewById(R.id.cardViewItem);
+            tvSoldOut = itemView.findViewById(R.id.tvSoldOut);
         }
     }
     public interface ItemClickListener {

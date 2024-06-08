@@ -49,7 +49,7 @@ public class SizeItemAdapter extends ArrayAdapter {
         nameSize.setText(productSize.getSize().getName());
         ImageView checked = convertView.findViewById(R.id.itemCheck);
         if(productSize.getSoluong() == 0){
-            relativeSize.setBackgroundColor(Color.parseColor("#CFCFCF"));
+            relativeSize.setBackgroundColor(Color.parseColor("#EAEAEA"));
             nameSize.setTextColor(Color.parseColor("#777272"));
             relativeSize.setClickable(true);
         }else {

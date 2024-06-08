@@ -34,7 +34,17 @@
             android:layout_height="150dp"
             android:background="#F4F4F4"
             android:scaleType="centerCrop"
+            android:layout_marginBottom="6dp"
             />
+        <TextView
+
+            android:visibility="gone"
+            android:id="@+id/tvSoldOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sold Out"
+            android:textStyle="bold"
+            android:textColor="#A80000"/>
         <TextView
             android:id="@+id/nameProduct"
             android:layout_width="150dp"

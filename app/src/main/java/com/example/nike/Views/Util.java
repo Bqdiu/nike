@@ -11,6 +11,7 @@ import androidx.renderscript.Element;
 import androidx.renderscript.RenderScript;
 import androidx.renderscript.ScriptIntrinsicBlur;
 
+import com.example.nike.Controller.BagHandler;
 import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.Model.Bag;
 

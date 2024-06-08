@@ -17,7 +17,8 @@
     <item android:title="Bag"
         android:id="@+id/itemBag"
         app:showAsAction="withText"
-        android:icon="@drawable/baseline_shopping_bag_24"/>
+        android:icon="@drawable/baseline_shopping_bag_24"
+        />
     <item android:title="Profile"
         android:id="@+id/itemProfile"
         android:icon="@drawable/account_1"

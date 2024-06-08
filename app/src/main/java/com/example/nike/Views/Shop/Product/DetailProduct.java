@@ -1,5 +1,6 @@
 package com.example.nike.Views.Shop.Product;
 
+import static com.example.nike.Views.Util.bags;
 import static com.example.nike.Views.Util.formatCurrency;
 
 import android.annotation.SuppressLint;
@@ -7,6 +8,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -41,6 +43,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.nike.Controller.BagHandler;
 import com.example.nike.Controller.FavoriteProductHandler;
 import com.example.nike.Controller.ImageHandler;
@@ -55,6 +58,7 @@ import com.example.nike.Model.ProductSize;
 import com.example.nike.Model.ShopByIcons;
 import com.example.nike.Model.UserAccount;
 import com.example.nike.R;
+import com.example.nike.Views.Bag.CheckoutActivity;
 import com.example.nike.Views.Shop.Adapter.IconsItemRecycleViewAdapter;
 import com.example.nike.Views.Shop.Adapter.PhotoProductAdapter;
 import com.example.nike.Views.Shop.Adapter.PhotoRecycleViewAdapter;
@@ -274,6 +278,10 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
     private int totalQuantityProduct(){
         return listSize.stream().mapToInt(ProductSize::getSoluong).sum();
     }
+    private int totalQuantityBag(){
+        bags = BagHandler.getBag(Util.getUserID(getContext()));
+        return bags.stream().mapToInt(Bag::getQuantity).sum();
+    }
     private void CustomToast(View currentView, String msg){
 
 
@@ -311,6 +319,7 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         } else {
             BagHandler.addToBag(user_id, product_size_id, 1);
         }
+        showPopupAddToBag();
     }
     private void addEvent(){
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -341,10 +350,12 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
                         public void onProductSizeSet(ProductSize selectedSize) {
                             productSize = selectedSize;
                             addToBag();
+
                         }
                     });
                 } else {
                     addToBag();
+
                 }
 
             }
@@ -431,6 +442,42 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
             }
         });
     }
+
+    private void showPopupAddToBag(){
+
+        View convertView = LayoutInflater.from(getContext()).inflate(R.layout.add_to_bag_successfully_custom_popup,null);
+        LottieAnimationView addToBagAnimation = convertView.findViewById(R.id.lottieAddToBag);
+        TextView tvAddToBag = convertView.findViewById(R.id.tvAddToBag);
+
+        tvAddToBag.setText("Added To Bag\n( "+ totalQuantityBag()+" items )");
+        addToBagAnimation.animate().setDuration(3000).setStartDelay(0);
+        tvAddToBag.animate().setDuration(3000).setDuration(0);
+
+        dialog.setContentView(convertView);
+
+
+        Window window = dialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        window.setGravity(Gravity.CENTER);
+
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    dialog.dismiss();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 3000);
+
+    }
     public interface PopupCallback {
         void onProductSizeSet(ProductSize selectedSize);
     }
@@ -456,6 +503,22 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
     }
     private void updateProductSizeList() {
         listSize = ProductSizeHandler.getDataByProductID(CurrentProduct.getProductID());
+
+
+        boolean foundSelected = false;
+        for (ProductSize ps : listSize) {
+            if (productSize != null && ps.getProduct_size_id() == productSize.getProduct_size_id()) {
+                ps.setSelect(true);
+                foundSelected = true;
+            } else {
+                ps.setSelect(false);
+            }
+        }
+
+        if (!foundSelected) {
+            productSize = null;
+        }
+
         if (sizeAdapter != null) {
             sizeAdapter.notifyDataSetChanged();
         }

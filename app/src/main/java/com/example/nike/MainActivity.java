@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity{
     }
     protected void binding(){
         Intent intent = getIntent();
-
+        bottomNavigationView = findViewById(R.id.bottom_nav);
         if (intent != null && "ShopFragment".equals(intent.getStringExtra("navigateTo"))) {
 
             LoadFragment(new ShopFragment());
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity{
     }
     protected void addControl(){
         frameLayout = findViewById(R.id.frameLayout);
-        bottomNavigationView = findViewById(R.id.bottom_nav);
+
         actionBar = findViewById(R.id.actionBar);
         sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         tvNameOfFragment = findViewById(R.id.tvNameOfFragment);
@@ -160,7 +161,6 @@ public class MainActivity extends AppCompatActivity{
         String us = sharedPreferences.getString("first_name",null);
 //        Toast.makeText(this, "Welcome " + us, Toast.LENGTH_SHORT).show();
     }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();

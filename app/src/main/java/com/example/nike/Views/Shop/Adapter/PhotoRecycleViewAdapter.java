@@ -8,12 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nike.Controller.ProductSizeHandler;
 import com.example.nike.Model.Product;
+import com.example.nike.Model.ProductSize;
 import com.example.nike.R;
 import com.example.nike.Views.Util;
 
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 public class PhotoRecycleViewAdapter extends RecyclerView.Adapter<PhotoRecycleViewAdapter.MyViewHolder> {
 
     ArrayList<Product> products = new ArrayList<>();
+    ArrayList<ProductSize> listSize = new ArrayList<>();
     Context context;
     ItemClickListener itemClickListener;
     private int selected= 0;
@@ -39,11 +43,20 @@ public class PhotoRecycleViewAdapter extends RecyclerView.Adapter<PhotoRecycleVi
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_recycle_photo,parent,false);
         return new MyViewHolder(view);
     }
-
+    private int totalQuantityProduct(){
+        return listSize.stream().mapToInt(ProductSize::getSoluong).sum();
+    }
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        String itemSrc = products.get(position).getImg();
+        Product product =  products.get(position);
+        listSize = ProductSizeHandler.getDataByProductID(product.getProductID());
+        String itemSrc = product.getImg();
         Bitmap bitmap = Util.convertStringToBitmapFromAccess(context,itemSrc);
+        if(totalQuantityProduct() == 0 ){
+            holder.tvOutOfStock.setVisibility(View.VISIBLE);
+        }else{
+            holder.tvOutOfStock.setVisibility(View.GONE);
+        }
         if (selected == position) {
             // Apply blur effect if this is the selected item
             holder.thumbnail.setImageBitmap(Util.blur(context, bitmap));
@@ -68,10 +81,12 @@ public class PhotoRecycleViewAdapter extends RecyclerView.Adapter<PhotoRecycleVi
     public class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView thumbnail;
         CardView photoCardView;
+        TextView tvOutOfStock;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             thumbnail = itemView.findViewById(R.id.photoThumbnail);
             photoCardView = itemView.findViewById(R.id.photoCardView);
+            tvOutOfStock = itemView.findViewById(R.id.tvOutOfStock);
         }
     }
     public interface ItemClickListener{

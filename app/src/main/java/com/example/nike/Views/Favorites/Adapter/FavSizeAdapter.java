@@ -1,5 +1,6 @@
 package com.example.nike.Views.Favorites.Adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,12 +36,22 @@ public class FavSizeAdapter extends RecyclerView.Adapter<FavSizeAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         ProductSize productSize = listSize.get(position);
         holder.tvSize.setText(productSize.getSize().getName());
-        if(productSize.isSelect() == false){
+        if(productSize.getSoluong() == 0){
+            holder.tvSize.setBackgroundResource(R.drawable.custom_btn_size_favorite_sold_out);
+            holder.tvSize.setTextColor(Color.parseColor("#777272"));
+            holder.tvSize.setClickable(true);
+        }else{
+            if(productSize.isSelect() == false){
             holder.tvSize.setBackgroundResource(R.drawable.custom_btn_size_favorite_non_select);
+            }
+            if(productSize.isSelect() == true){
+                holder.tvSize.setBackgroundResource(R.drawable.custom_btn_size_favorite_selected);
+            }
+            holder.tvSize.setTextColor(Color.BLACK);
+            holder.tvSize.setClickable(false);
         }
-        if(productSize.isSelect() == true){
-            holder.tvSize.setBackgroundResource(R.drawable.custom_btn_size_favorite_selected);
-        }
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

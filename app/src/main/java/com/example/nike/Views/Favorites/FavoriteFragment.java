@@ -2,6 +2,7 @@ package com.example.nike.Views.Favorites;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.nike.Controller.BagHandler;
 import com.example.nike.Controller.FavoriteProductHandler;
 import com.example.nike.Controller.ProductHandler;
@@ -37,6 +40,7 @@ import com.example.nike.Controller.ProductParentHandler;
 import com.example.nike.Controller.ProductSizeHandler;
 import com.example.nike.Controller.UserAccountHandler;
 import com.example.nike.Controller.UserOrderHandler;
+import com.example.nike.MainActivity;
 import com.example.nike.Model.Bag;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductParent;
@@ -46,6 +50,8 @@ import com.example.nike.Model.UserFavoriteProducts;
 import com.example.nike.Model.UserOrder;
 import com.example.nike.R;
 
+import com.example.nike.Views.Bag.BagFragment;
+import com.example.nike.Views.Bag.CheckoutActivity;
 import com.example.nike.Views.Favorites.Adapter.FavAdapter;
 import com.example.nike.Views.Favorites.Adapter.FavSizeAdapter;
 import com.example.nike.Views.Shop.Adapter.ItemRecycleViewAdapter;
@@ -80,11 +86,11 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
     private TextView tvNameProduct;
     private TextView tvNameOfObject;
     private TextView tvStyle;
-    private TextView tvPrice;
+    private TextView tvPrice,titleSize;
     private Button btnAddToBag;
-
-
-
+    private Button btnMoreDetails;
+    private TextView tvValidation;
+    private Boolean isSelectedSize = false;
     private void addControls(View view)
     {
 
@@ -109,6 +115,7 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
 
             }
         });
+
         btnShopNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,12 +184,21 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
                 dialog.dismiss();
             }
         });
-    recycleSize.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    });
+        btnMoreDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemDetailClick(product);
+                dialog.dismiss();
+            }
+        });
+        btnAddToBag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isSelectedSize == false){
+                        tvValidation.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
     private void onItemDetailClick(Product product){
         DetailProduct detailProduct = DetailProduct.newInstance(product,ProductHandler.getDataByParentID(product.getProductParentID()));
@@ -192,14 +208,62 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
         ft.commit();
 
     }
+    private int totalQuantityProduct(){
+        return listSize.stream().mapToInt(ProductSize::getSoluong).sum();
+    }
     private void BindDataOfPopup(Product product){
         Bitmap bitmap = Util.convertStringToBitmapFromAccess(getContext(),product.getImg());
         imgProduct.setImageBitmap(bitmap);
-
         tvNameProduct.setText(product.getName());
         tvStyle.setText(product.getStyleCode());
        tvPrice.setText("đ"+Util.formatCurrency(product.getPrice())+",000");
        tvNameOfObject.setText(product.getObjectName()+"'s "+product.getCategoryName());
+
+       if(totalQuantityProduct() == 0){
+           recycleSize.setVisibility(View.GONE);
+           btnAddToBag.setVisibility(View.GONE);
+           titleSize.setVisibility(View.GONE);
+           btnMoreDetails.setVisibility(View.VISIBLE);
+       }else {
+           recycleSize.setVisibility(View.VISIBLE);
+           btnAddToBag.setVisibility(View.VISIBLE);
+           titleSize.setVisibility(View.VISIBLE);
+           btnMoreDetails.setVisibility(View.GONE);
+       }
+    }
+    private void showPopUpAddToBagSuccessful(){
+        dialog = new Dialog(getContext());
+        View convertView = LayoutInflater.from(getContext()).inflate(R.layout.custom_favorites_add_to_bag_popup,null);
+        LottieAnimationView lottieSuccessful = convertView.findViewById(R.id.lottieAddToBag);
+        TextView tvAddToBag = convertView.findViewById(R.id.tvAddToBag);
+        Button btnViewBag = convertView.findViewById(R.id.btnViewBag);
+        dialog.setContentView(convertView);
+
+
+        Window window = dialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.BOTTOM);
+
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        dialog.setCanceledOnTouchOutside(true); // Cho phép đóng Dialog khi chạm ra ngoài
+        dialog.show();
+
+        lottieSuccessful.animate().setDuration(3000).setStartDelay(0);
+        tvAddToBag.animate().setStartDelay(3000).setStartDelay(0);
+        btnViewBag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                LoadFragment(new BagFragment());
+                BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottom_nav);
+                bottomNavigationView.setSelectedItemId(R.id.itemBag);
+            }
+        });
+
+
     }
     private void ShowPopup(Product product){
         View convertView = LayoutInflater.from(getContext()).inflate(R.layout.custom_favorite_popup,null);
@@ -220,6 +284,8 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
 
         dialog.setCanceledOnTouchOutside(true); // Cho phép đóng Dialog khi chạm ra ngoài
         dialog.show();
+
+
     }
     private void addControlOfPopupMenu(View view, Product product){
         recycleSize = view.findViewById(R.id.recycleSize);
@@ -238,9 +304,9 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
         tvPrice = view.findViewById(R.id.tvPrice);
         sizeAdapter.setItemClickListener(this);
         btnAddToBag = view.findViewById(R.id.btnAddToBag);
-
-
-
+        btnMoreDetails = view.findViewById(R.id.btnMoreDetails);
+        titleSize = view.findViewById(R.id.sizeTitle);
+        tvValidation = view.findViewById(R.id.tvValidationSelectSize);
 
     }
 
@@ -257,17 +323,34 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
         }
         productSize.setSelect(true);
         sizeAdapter.UpdateSelectedSize(listSize);
-
+        isSelectedSize = true;
         btnAddToBag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int user_id = Util.getUserID(getContext());
                 int product_size_id =  productSize.getProduct_size_id();
-                if(BagHandler.isExists(user_id,product_size_id) && productSize.getSoluong()!=0){
-                    BagHandler.increaseQuantity(user_id,product_size_id);
-                }else if(!BagHandler.isExists(user_id,product_size_id) && productSize.getSoluong()!=0){
-                    BagHandler.addToBag(user_id,product_size_id, 1);
+                if(product_size_id != -1){
+                    tvValidation.setVisibility(View.GONE);
+                    if(BagHandler.isExists(user_id,product_size_id) && productSize.getSoluong()!=0){
+                        BagHandler.increaseQuantity(user_id,product_size_id);
+                        isSelectedSize = false;
+                    }else if(!BagHandler.isExists(user_id,product_size_id) && productSize.getSoluong()!=0){
+                        BagHandler.addToBag(user_id,product_size_id, 1);
+                        isSelectedSize = false;
+                    }
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                dialog.dismiss();
+                                showPopUpAddToBagSuccessful();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, 500);
                 }
+
 
 
 
@@ -286,6 +369,9 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
 
