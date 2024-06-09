@@ -55,15 +55,19 @@
             android:layout_height="wrap_content"
             android:text="6/9/2024"/>
         <TextView
+            android:padding="10dp"
+            android:background="@drawable/image_border"
             android:id="@+id/tv_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvCreatedAt"
-            android:textSize="20sp"
+            android:textSize="18dp"
             android:text="Detail Order"
             android:paddingTop="8dp"
             android:paddingBottom="10dp"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             />
 
     </RelativeLayout>
