@@ -26,21 +26,28 @@ import com.example.nike.R;
 import com.example.nike.Views.Home.AllProductParent.AllProductParent;
 import com.example.nike.Views.Shop.Adapter.IconsItemRecycleViewAdapter;
 import com.example.nike.Views.Shop.Adapter.ItemRecycleViewAdapter;
+import com.example.nike.Views.Shop.Product.AllShopByIcons;
 import com.example.nike.Views.Shop.Product.DetailProduct;
 
 import java.util.ArrayList;
 
 public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.ItemClickListener,IconsItemRecycleViewAdapter.IconItemClickListener {
-    private RecyclerView recyclerViewNewRelease;
-    private ItemRecycleViewAdapter adapter;
+    private RecyclerView recyclerViewNewRelease,clothingRecycleView;
+    private ItemRecycleViewAdapter adapter,adapterClothing;
     private ArrayList<ProductParent> productParentArrayList = new ArrayList<>();
     private ArrayList<ProductParent> limitProductParentArrayList = new ArrayList<>();
-    private TextView tvNewRelease;
+
+    // clothing
+    private ArrayList<ProductParent> clothingList = new ArrayList<>();
+    private ArrayList<ProductParent> limitClothingList = new ArrayList<>();
+
+    private TextView tvNewRelease,tvClothing;
     //Shop By Icons
     private RecyclerView shopByIconsRecycleView;
     private IconsItemRecycleViewAdapter shopByIconsAdapter;
     ArrayList<ShopByIcons> shopByIconsList;
-    private TextView tv_viewall_NewRelase;
+    ArrayList<ShopByIcons> limitShopByIconsList;
+    private TextView tv_viewall_NewRelase,tv_viewall_ShopByIcon,tv_viewall_clothing;
     private FragmentManager fm;
     private int objectID;
     private static final String ARG_PARAM1 = "param1";
@@ -88,9 +95,11 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
     private void addControl(View view){
         recyclerViewNewRelease = view.findViewById(R.id.newReleaseRecycleView);
         tvNewRelease = view.findViewById(R.id.tvNewRelease);
-
         shopByIconsRecycleView = view.findViewById(R.id.shopByIconsRecycleView);
         tv_viewall_NewRelase = view.findViewById(R.id.tv_viewall_NewRelase);
+        tv_viewall_ShopByIcon = view.findViewById(R.id.tv_viewall_ShopByIcon);
+        tv_viewall_clothing = view.findViewById(R.id.tv_viewall_clothing);
+        tvClothing = view.findViewById(R.id.tvClothing);
     }
     private void data(){
         //New Release
@@ -113,12 +122,35 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
         }
         //Shop By Icons
         shopByIconsList = IconsHandler.getData();
-        shopByIconsAdapter = new IconsItemRecycleViewAdapter(shopByIconsList, getContext());
+        limitShopByIconsList = new ArrayList<>();
+        for (ShopByIcons shopByIcons : shopByIconsList)
+        {
+            if(limitShopByIconsList.size() < 5)
+                limitShopByIconsList.add(shopByIcons);
+        }
+        shopByIconsAdapter = new IconsItemRecycleViewAdapter(limitShopByIconsList, getContext());
         shopByIconsAdapter.setIconItemClickListener(this);
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
         shopByIconsRecycleView.setLayoutManager(layoutManager1);
         shopByIconsRecycleView.setAdapter(shopByIconsAdapter);
-
+        // clothing
+        clothingList = ProductParentHandler.getAllClothingByObjectID(objectID);
+        if(clothingList.isEmpty()){
+            tvClothing.setVisibility(View.GONE);
+            tv_viewall_clothing.setVisibility(View.GONE);
+        }
+        else {
+            tvClothing.setVisibility(View.VISIBLE);
+            for(ProductParent productParent : clothingList)
+            {
+                if(limitClothingList.size() < 3)
+                    limitClothingList.add(productParent);
+            }
+            adapter = new ItemRecycleViewAdapter(getContext(),limitProductParentArrayList,this);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
+            recyclerViewNewRelease.setLayoutManager(layoutManager);
+            recyclerViewNewRelease.setAdapter(adapter);
+        }
     }
 
     private void addEvents() {
@@ -131,6 +163,17 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
                 AllProductParent allProductParent = AllProductParent.newInstance(txt_TextView,list);
                 fm = getActivity().getSupportFragmentManager();
                 FragmentUtils.addFragment(fm,allProductParent,R.id.frameLayout);
+            }
+        });
+        tv_viewall_ShopByIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String txt_TextView = "Shop By Icons";
+                ArrayList<ShopByIcons> list = new ArrayList<>();
+                list = IconsHandler.getData();
+                AllShopByIcons allShopByIcons = AllShopByIcons.newInstance(txt_TextView,list);
+                fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm,allShopByIcons,R.id.frameLayout);
             }
         });
 
@@ -165,3 +208,5 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
         FragmentUtils.addFragment(fm,allProductParent,R.id.frameLayout);
     }
 }
+
+

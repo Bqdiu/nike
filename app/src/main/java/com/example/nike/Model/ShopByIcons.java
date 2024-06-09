@@ -1,6 +1,8 @@
 package com.example.nike.Model;
 
-public class ShopByIcons {
+import java.io.Serializable;
+
+public class ShopByIcons implements Serializable {
     private int id;
     private String name;
     private String thumbnail;
