@@ -31,7 +31,7 @@
             android:padding="0dp"
             android:clickable="true"
             android:progressTint="@color/black"
-
+            android:isIndicator="true"
 
             />
     </RelativeLayout>

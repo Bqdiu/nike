@@ -2,6 +2,7 @@ package com.example.nike.Views.Shop.Product;
 
 import static com.example.nike.Views.Util.bags;
 import static com.example.nike.Views.Util.formatCurrency;
+import static com.example.nike.Views.Util.getUserID;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -23,6 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
+import android.text.Editable;
+import android.text.Html;
+import android.text.TextWatcher;
 import android.transition.TransitionManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -62,6 +66,8 @@ import com.example.nike.Views.Shop.Adapter.PhotoRecycleViewAdapter;
 import com.example.nike.Views.Shop.Adapter.ReviewRecycleViewAdapter;
 import com.example.nike.Views.Shop.Adapter.SizeItemAdapter;
 import com.example.nike.Views.Util;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
@@ -280,6 +286,7 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         listSize = ProductSizeHandler.getDataByProductID(product.getProductID());
         String email = sharedPreferences.getString("email",null).toString();
         int UserID = UserAccountHandler.getUserByEmail(email).getId();
+
         if(FavoriteProductHandler.CheckProductFavorite(UserID,product.getProductID())){
             product.setFavorite(true);
             btnAddToWhistList.setText("Favorited");
@@ -313,6 +320,14 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         float avgRating = (float) productReviews.stream().mapToDouble(ProductReview::getReviewRate).average().orElse(0.0);
         ratingBarReviewsTitle.setRating(avgRating);
         btnReviews.setText("Reviews ("+productReviews.size()+")");
+
+        if(ProductReviewHandler.checkReviewerExist(UserID,product.getProductID())){
+            btnWriteReviews.setVisibility(View.GONE);
+        }
+        if(productReviews.size()==0){
+            btnMoreReviews.setVisibility(View.GONE);
+        }
+
     }
     private int totalQuantityProduct(){
         return listSize.stream().mapToInt(ProductSize::getSoluong).sum();
@@ -389,9 +404,13 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         isExpandedReviews = !isExpandedReviews;
         if(isExpandedReviews){
             updateRecycleReview();
-            btnWriteReviews.setVisibility(View.VISIBLE);
-            recyclerReviews.setVisibility(View.VISIBLE);
-            btnMoreReviews.setVisibility(View.VISIBLE);
+            if(ProductReviewHandler.checkReviewerExist(Util.getUserID(getContext()),CurrentProduct.getProductID())==false){
+                btnWriteReviews.setVisibility(View.VISIBLE);
+            }if(productReviews.size()>0){
+                recyclerReviews.setVisibility(View.VISIBLE);
+                btnMoreReviews.setVisibility(View.VISIBLE);
+            }
+
         }else{
             btnWriteReviews.setVisibility(View.GONE);
             recyclerReviews.setVisibility(View.GONE);
@@ -399,7 +418,130 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         }
         TransitionManager.beginDelayedTransition(expandReviews);
     }
+    private void showPopupWriteReview(){
+        View convertView = LayoutInflater.from(getContext()).inflate(R.layout.custom_popup_write_review,null);
+        //add Control
+        TextView tvOverallRating = convertView.findViewById(R.id.titleOrverallRating);
+        TextView tvYourReview = convertView.findViewById(R.id.tvYourReview);
+        TextView tvRatingBarValidation = convertView.findViewById(R.id.tvErrorRatingBar);
+        RatingBar ratingBar = convertView.findViewById(R.id.rating);
+        TextInputLayout layoutReviewTitle = convertView.findViewById(R.id.layoutReviewTitle);
+        TextInputLayout layoutYourReview = convertView.findViewById(R.id.layoutYourReview);
+        Button btnSubmit = convertView.findViewById(R.id.btnSubmit);
+        TextView btnClose = convertView.findViewById(R.id.btnClose);
+        String text = "Overall rating <font color='red'>*</font>";
+        tvOverallRating.setText(Html.fromHtml(text));
+        String text1 = "Your Review <font color='red'>*</font>";
+        tvYourReview.setText(Html.fromHtml(text1));
+
+        //addEvent
+
+        layoutReviewTitle.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()==0){
+                    layoutReviewTitle.setError("Summarise your review in 150 characters or less.");
+                }
+            }
+
+            @SuppressLint("SuspiciousIndentation")
+            @Override
+            public void afterTextChanged(Editable s) {
+                    if(s.length()>0)
+                    layoutReviewTitle.setError(null);
+
+            }
+        });
+        layoutYourReview.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()<30){
+                    layoutYourReview.setError("Describe what you liked, what you didn't like and other key things shoppers should know. Minimum 30 characters.");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                    if(s.length()>=30)
+                    layoutYourReview.setError(null);
+
+            }
+        });
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean flag= true;
+                if(layoutReviewTitle.getEditText().getText().length()==0){
+                    layoutReviewTitle.setError("Summarise your review in 150 characters or less.");
+                    flag = false;
+
+                }else{
+                    layoutReviewTitle.setError(null);
+                }
+                if(layoutYourReview.getEditText().getText().length()<30){
+                    flag = false;
+                    layoutYourReview.setError("Describe what you liked, what you didn't like and other key things shoppers should know. Minimum 30 characters.");
+                }else{
+                    layoutYourReview.setError(null);
+                }
+                if(ratingBar.getRating() == 0){
+                    flag = false;
+                    tvRatingBarValidation.setVisibility(View.VISIBLE);
+                }else{
+                    tvRatingBarValidation.setVisibility(View.VISIBLE);
+                }
+                if(flag==false){
+                    return;
+                }else{
+                    int productID = CurrentProduct.getProductID();
+                    String title = layoutReviewTitle.getEditText().getText().toString();
+                    String content = layoutYourReview.getEditText().getText().toString();
+                    float rate = ratingBar.getRating();
+                    ProductReviewHandler.submitReview(getUserID(getContext()),productID,title,content,rate);
+                    Toast.makeText(getContext(),"Review Successful",Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                    updateRecycleReview();
+                }
+            }
+        });
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        //Popup Show
+        dialog.setContentView(convertView);
+
+
+        Window window = dialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.CENTER);
+
+
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+    }
     private void addEvent(){
+        btnWriteReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupWriteReview();
+            }
+        });
         btnReviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

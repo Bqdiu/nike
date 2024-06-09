@@ -4,7 +4,10 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/rounded_border_popup_leaving"
+    android:layout_margin="20dp"
+    >
 
     <TextView
         android:id="@+id/tv_title"
