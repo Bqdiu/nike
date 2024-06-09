@@ -12,28 +12,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.window.OnBackInvokedDispatcher;
 
 import com.example.nike.Views.Bag.BagFragment;
 import com.example.nike.Views.Favorites.FavoriteFragment;
 import com.example.nike.Views.Home.HomeFragment;
-import com.example.nike.Views.Profile.InboxFragment.InboxFragment;
 import com.example.nike.Views.Profile.ProfileFragment;
 import com.example.nike.Views.Shop.Product.DetailProduct;
-import com.example.nike.Views.Shop.Product.SearchProduct;
+import com.example.nike.Views.Shop.Product.SearchProductFragment;
 import com.example.nike.Views.Shop.ShopFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity{
     ImageButton btnBack;
@@ -87,7 +80,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 btn_search.setVisibility(GONE);
-                SearchProduct searchFragment = new SearchProduct();
+                SearchProductFragment searchFragment = new SearchProductFragment();
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentUtils.addFragment(fm,searchFragment,R.id.frameLayout);
             }

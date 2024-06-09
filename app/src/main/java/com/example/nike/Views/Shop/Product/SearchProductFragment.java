@@ -24,11 +24,10 @@ import com.example.nike.FragmentUtils;
 import com.example.nike.Model.HistorySearch;
 import com.example.nike.Model.UserAccount;
 import com.example.nike.R;
-import com.example.nike.Views.Profile.InboxFragment.InboxFragment;
 
 import java.util.ArrayList;
 
-public class SearchProduct extends Fragment {
+public class SearchProductFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -43,12 +42,12 @@ public class SearchProduct extends Fragment {
     private ArrayList<String> list= new ArrayList<>();
     private SharedPreferences sharedPreferences;
     private UserAccount userAccount;
-    public SearchProduct() {
+    public SearchProductFragment() {
         // Required empty public constructor
     }
 
-    public static SearchProduct newInstance(String param1, String param2) {
-        SearchProduct fragment = new SearchProduct();
+    public static SearchProductFragment newInstance(String param1, String param2) {
+        SearchProductFragment fragment = new SearchProductFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -80,7 +79,7 @@ public class SearchProduct extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 HistorySearchHandler.addHistorySearch(userAccount.getId(),query);
-                SearchResult searchResultFragment = SearchResult.newInstance(query);
+                SearchResultFragment searchResultFragment = SearchResultFragment.newInstance(query);
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentUtils.addFragment(fm,searchResultFragment,R.id.frameLayout);
 //                loadHistorySearch();
@@ -111,7 +110,7 @@ public class SearchProduct extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String query = (String) parent.getItemAtPosition(position);
-                SearchResult searchResultFragment = SearchResult.newInstance(query);
+                SearchResultFragment searchResultFragment = SearchResultFragment.newInstance(query);
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentUtils.addFragment(fm,searchResultFragment,R.id.frameLayout);
             }

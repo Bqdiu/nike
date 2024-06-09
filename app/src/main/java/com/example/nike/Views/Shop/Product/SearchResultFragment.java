@@ -23,7 +23,7 @@ import com.example.nike.Views.Shop.Adapter.ItemRecycleViewAdapter;
 import java.util.ArrayList;
 
 
-public class SearchResult extends Fragment implements ItemRecycleViewAdapter.ItemClickListener {
+public class SearchResultFragment extends Fragment implements ItemRecycleViewAdapter.ItemClickListener {
 
     private static final String product_parent_name = "product_parent_name";
     private String name_search;
@@ -91,11 +91,11 @@ public class SearchResult extends Fragment implements ItemRecycleViewAdapter.Ite
         fm.popBackStack();
     }
 
-    public SearchResult() {
+    public SearchResultFragment() {
     }
 
-    public static SearchResult newInstance(String param1) {
-        SearchResult fragment = new SearchResult();
+    public static SearchResultFragment newInstance(String param1) {
+        SearchResultFragment fragment = new SearchResultFragment();
         Bundle args = new Bundle();
         args.putString(product_parent_name, param1);
         fragment.setArguments(args);

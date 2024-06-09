@@ -3,26 +3,21 @@ package com.example.nike.Views.Shop.Product;
 import static com.example.nike.Views.Util.bags;
 import static com.example.nike.Views.Util.formatCurrency;
 
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -31,13 +26,10 @@ import android.os.Handler;
 import android.transition.TransitionManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -45,9 +37,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,33 +45,25 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.nike.Controller.BagHandler;
 import com.example.nike.Controller.FavoriteProductHandler;
 import com.example.nike.Controller.ImageHandler;
-import com.example.nike.Controller.ProductHandler;
 import com.example.nike.Controller.ProductReviewHandler;
 import com.example.nike.Controller.ProductSizeHandler;
 import com.example.nike.Controller.UserAccountHandler;
+import com.example.nike.FragmentUtils;
 import com.example.nike.MainActivity;
 import com.example.nike.Model.Bag;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductImage;
 import com.example.nike.Model.ProductReview;
 import com.example.nike.Model.ProductSize;
-import com.example.nike.Model.ShopByIcons;
 import com.example.nike.Model.UserAccount;
 import com.example.nike.R;
-import com.example.nike.Views.Bag.CheckoutActivity;
-import com.example.nike.Views.Shop.Adapter.IconsItemRecycleViewAdapter;
 import com.example.nike.Views.Shop.Adapter.PhotoProductAdapter;
 import com.example.nike.Views.Shop.Adapter.PhotoRecycleViewAdapter;
 import com.example.nike.Views.Shop.Adapter.ReviewRecycleViewAdapter;
 import com.example.nike.Views.Shop.Adapter.SizeItemAdapter;
-import com.example.nike.Views.Shop.FragmentOfTabLayout.ObjectProduct;
 import com.example.nike.Views.Util;
 
-import org.w3c.dom.Text;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.stream.DoubleStream;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -503,6 +485,16 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
                     FavoriteProductHandler.removeFavoriteProduct(UserID,mProduct.get(0).getProductID());
                 }
 
+            }
+        });
+
+        btnMoreReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int product_id = CurrentProduct.getProductID();
+                SeeMoreReviewFragment seeMoreReview = SeeMoreReviewFragment.newInstance(product_id);
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm,seeMoreReview,R.id.frameLayout);
             }
         });
 
