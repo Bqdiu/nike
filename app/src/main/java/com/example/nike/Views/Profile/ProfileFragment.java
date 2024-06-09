@@ -20,7 +20,9 @@ import com.example.nike.FragmentUtils;
 import com.example.nike.R;
 import com.example.nike.Views.Profile.EditProfileFragment.EditProfileFragment;
 import com.example.nike.Views.Profile.InboxFragment.InboxFragment;
+import com.example.nike.Views.Profile.OrderFragment.OrderFragment;
 import com.example.nike.Views.Profile.SettingFragment.SettingFragment;
+import com.example.nike.Views.Util;
 
 public class ProfileFragment extends Fragment {
 
@@ -34,9 +36,7 @@ public class ProfileFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     CardView cv_inbox;
     TextView user_name;
-
-    //test logout
-    CardView cv_setting;
+    CardView cv_setting,cv_orders;
     AppCompatButton btn_editProfile;
     ImageView user_img;
     private String login_type;
@@ -49,6 +49,7 @@ public class ProfileFragment extends Fragment {
     {
         user_name = view.findViewById(R.id.user_name);
         cv_inbox = view.findViewById(R.id.cs_inbox);
+        cv_orders = view.findViewById(R.id.cv_orders);
         sharedPreferences = view.getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         cv_setting = view.findViewById(R.id.cv_setting);
         btn_editProfile = view.findViewById(R.id.btn_editProfile);
@@ -71,6 +72,15 @@ public class ProfileFragment extends Fragment {
                 SettingFragment settingFragment = new SettingFragment();
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentUtils.addFragment(fm,settingFragment,R.id.frameLayout);
+            }
+        });
+
+        cv_orders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderFragment orderFragment = new OrderFragment();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm,orderFragment,R.id.frameLayout);
             }
         });
         btn_editProfile.setOnClickListener(new View.OnClickListener() {

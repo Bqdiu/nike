@@ -102,4 +102,29 @@ public class UserOrderHandler {
         }
         return primaryKey;
     }
+
+    public static ArrayList<UserOrder> getOrdersByUserID(int UserID){
+        Connection conn = dbConnection.connectionClass();
+        ArrayList<UserOrder> list = new ArrayList<>();
+        if(conn!=null){
+            String sql = "Select * from user_order where user_id ="+UserID;
+            try
+            {
+                Statement stm = conn.createStatement();
+                ResultSet rs = stm.executeQuery(sql);
+                while (rs.next()){
+                    UserOrder userOrder = new UserOrder();
+                    userOrder.setUser_order_id(rs.getInt(1));
+                    userOrder.setUser_id(rs.getInt(2));
+                    userOrder.setCreatedAt(rs.getTimestamp(11));
+                    userOrder.setUpdatedAt(rs.getTimestamp(12));
+                    list.add(userOrder);
+                }
+                conn.close();
+            }catch (SQLException e){
+                throw new RuntimeException(e);
+            }
+        }
+        return list;
+    }
 }
