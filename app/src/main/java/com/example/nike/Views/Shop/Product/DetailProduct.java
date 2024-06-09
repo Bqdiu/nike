@@ -339,7 +339,7 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
         bags = BagHandler.getBag(Util.getUserID(getContext()));
         return bags.stream().mapToInt(Bag::getQuantity).sum();
     }
-    private void CustomToast(View currentView, String msg){
+    private void   CustomToast(View currentView, String msg){
 
 
         LayoutInflater inflater = getLayoutInflater();

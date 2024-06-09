@@ -8,14 +8,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nike.Controller.BagHandler;
 import com.example.nike.Controller.UserAccountHandler;
@@ -85,7 +88,11 @@ public class OrderFragment extends Fragment {
                 fm.popBackStack();
             }
         });
+
     }
+
+
+
     public OrderFragment() {
     }
 
@@ -96,25 +103,6 @@ public class OrderFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    private void bindData() {
-        int totalPrice = calculateTotalPrice();
-        int totalItems = calculateTotalQuantity();
-        tvSubtotal.setText(Util.formatCurrency(totalPrice) + ",000đ");
-        int shoppingFee = 0;
-        if (totalItems == 1) {
-            shoppingFee = 250;
-            tvShipping.setText(shoppingFee + ",000đ");
-        } else {
-            tvShipping.setText("Free");
-        }
-        TotalPrice = totalPrice + shoppingFee;
-        DecimalFormat df = new DecimalFormat("#.##");
-        formattedResult = df.format(TotalPrice*1000*0.00003935);
-
-        //tvTotal.setText(String.valueOf(formattedResult));
-        tvTotal.setText(Util.formatCurrency(TotalPrice) + ",000đ");
     }
 
     private void data() {

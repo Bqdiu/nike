@@ -37,7 +37,7 @@ public class UserOrderProductsHandler {
         ArrayList<UserOrderProducts> list = new ArrayList<>();
         if (conn != null) {
             String sql = "SELECT uop.user_order_id, uop.product_size_id, pp.product_parent_name, po.product_object_name, " +
-                    "cp.category_product_name, p.*, s.size_name, uop.amount, (uop.amount * pp.product_price) as total_price " +
+                    "cp.category_product_name, p.*, s.size_name, uop.amount, (uop.amount * pp.product_price) as total_price, uo.createdAt " +
                     "FROM user_order_products uop " +
                     "INNER JOIN product_size ps ON uop.product_size_id = ps.product_size_id " +
                     "INNER JOIN product p ON ps.product_id = p.product_id " +
@@ -70,9 +70,10 @@ public class UserOrderProductsHandler {
                     product.setDescription2(rs.getString(14));
                     userOrderProduct.setProduct(product);
                     userOrderProduct.setSizeName(rs.getString(15));
-
                     userOrderProduct.setAmount(rs.getInt(16));
                     userOrderProduct.setTotalPrice(rs.getInt(17));
+                    userOrderProduct.setDate(rs.getString(18));
+
                     list.add(userOrderProduct);
                 }
             } catch (SQLException e) {

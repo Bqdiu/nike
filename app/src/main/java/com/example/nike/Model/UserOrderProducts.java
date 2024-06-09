@@ -8,6 +8,15 @@ public class UserOrderProducts {
     private int amount;
     private int totalPrice;
     private int quantity;
+    private String date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public Product getProduct() {
         return product;
