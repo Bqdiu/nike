@@ -472,7 +472,7 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
 
             @Override
             public void afterTextChanged(Editable s) {
-                    if(s.length()>=30)
+                if(s.length()>=30)
                     layoutYourReview.setError(null);
 
             }

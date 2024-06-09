@@ -192,4 +192,41 @@ public class ProductParentHandler implements Serializable {
         return list;
     }
 
+    public static String getNameProductParent(int product_id)
+    {
+        String productParentName = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = dbConnection.connectionClass();
+            if (conn != null) {
+                String query = "SELECT pp.product_parent_name " +
+                        "FROM product p " +
+                        "JOIN product_parent pp ON p.product_parent_id = pp.product_parent_id " +
+                        "WHERE p.product_id = ?";
+                pstmt = conn.prepareStatement(query);
+                pstmt.setInt(1, product_id);
+
+                rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    productParentName = rs.getString("product_parent_name");
+                }
+            } else {
+                System.out.println("Failed to make connection!");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return productParentName;
+    }
 }
