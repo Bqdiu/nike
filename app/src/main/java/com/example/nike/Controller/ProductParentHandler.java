@@ -128,7 +128,7 @@ public class ProductParentHandler implements Serializable {
         ArrayList<ProductParent> list = new ArrayList<>();
         Connection conn = dbConnection.connectionClass();
         if(conn!=null){
-            String query = "select * from product_parent where product_category_id = 1 and product_oject_id = " + object_id;
+            String query = "select * from product_parent where product_category_id = 1 and product_object_id = " + object_id;
             try{
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query);

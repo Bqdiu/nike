@@ -100,6 +100,7 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
         tv_viewall_ShopByIcon = view.findViewById(R.id.tv_viewall_ShopByIcon);
         tv_viewall_clothing = view.findViewById(R.id.tv_viewall_clothing);
         tvClothing = view.findViewById(R.id.tvClothing);
+        clothingRecycleView = view.findViewById(R.id.clothingRecycleView);
     }
     private void data(){
         //New Release
@@ -146,10 +147,10 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
                 if(limitClothingList.size() < 3)
                     limitClothingList.add(productParent);
             }
-            adapter = new ItemRecycleViewAdapter(getContext(),limitProductParentArrayList,this);
+            adapterClothing = new ItemRecycleViewAdapter(getContext(),limitClothingList,this);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
-            recyclerViewNewRelease.setLayoutManager(layoutManager);
-            recyclerViewNewRelease.setAdapter(adapter);
+            clothingRecycleView.setLayoutManager(layoutManager);
+            clothingRecycleView.setAdapter(adapterClothing);
         }
     }
 
