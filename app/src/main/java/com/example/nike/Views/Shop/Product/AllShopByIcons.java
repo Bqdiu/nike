@@ -64,7 +64,13 @@ public class AllShopByIcons extends Fragment implements IconsItemRecycleViewAdap
 
     private void addEvents()
     {
-
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                fm.popBackStack();
+            }
+        });
     }
 
     public AllShopByIcons() {

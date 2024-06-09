@@ -111,6 +111,7 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
         }
         else {
             tvNewRelease.setVisibility(View.VISIBLE);
+            limitProductParentArrayList.clear();
             for(ProductParent productParent : productParentArrayList)
             {
                 if(limitProductParentArrayList.size() < 3)
@@ -142,6 +143,7 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
         }
         else {
             tvClothing.setVisibility(View.VISIBLE);
+            limitClothingList.clear();
             for(ProductParent productParent : clothingList)
             {
                 if(limitClothingList.size() < 3)
@@ -175,6 +177,18 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
                 AllShopByIcons allShopByIcons = AllShopByIcons.newInstance(txt_TextView,list);
                 fm = getActivity().getSupportFragmentManager();
                 FragmentUtils.addFragment(fm,allShopByIcons,R.id.frameLayout);
+            }
+        });
+
+        tv_viewall_clothing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String txt_TextView = "Clothing";
+                ArrayList<ProductParent> list = new ArrayList<>();
+                list = ProductParentHandler.getAllClothingByObjectID(objectID);
+                AllProductParent allProductParent = AllProductParent.newInstance(txt_TextView,list);
+                fm = getActivity().getSupportFragmentManager();
+                FragmentUtils.addFragment(fm,allProductParent,R.id.frameLayout);
             }
         });
 

@@ -26,15 +26,12 @@ import com.example.nike.R;
 import com.example.nike.Views.Util;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
-public class OrderFragment extends Fragment {
+public class DetailOrderFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    private String mParam1;
+    private int getUserOrderID;
     private String mParam2;
     private UserAccount user = new UserAccount();
     private ArrayList<UserOrder> listUserOrder = new ArrayList<>();
@@ -47,7 +44,7 @@ public class OrderFragment extends Fragment {
     private TextView tvSubtotal,tvShipping,tvTotal;
     private int TotalPrice;
     private String formattedResult;
-    private UserOrderAdapter adapter;
+    private UserOderProductAdapter adapter;
     private ListView lvUserOrderProduct;
     private void addControls(View view)
     {
@@ -85,30 +82,20 @@ public class OrderFragment extends Fragment {
 
 
 
-    public OrderFragment() {
+    public DetailOrderFragment() {
     }
 
-    public static OrderFragment newInstance(String param1, String param2) {
-        OrderFragment fragment = new OrderFragment();
+    public static DetailOrderFragment newInstance(int param1) {
+        DetailOrderFragment fragment = new DetailOrderFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_PARAM1, param1);
         fragment.setArguments(args);
         return fragment;
     }
 
     private void data() {
-        listOrder = UserOrderProductsHandler.getUserOrderProducts(Util.getUserID(getContext()));
-        Set<Integer> seenOrderIds = new HashSet<>();
-        ArrayList<UserOrderProducts> filteredList = new ArrayList<>();
-        for (UserOrderProducts order : listOrder) {
-            int orderId = order.getUser_order_id();
-            if (!seenOrderIds.contains(orderId)) {
-                seenOrderIds.add(orderId);
-                filteredList.add(order);
-            }
-        }
-        adapter = new UserOrderAdapter(getContext(), R.layout.layout_item_order, filteredList);
+        listOrder = UserOrderProductsHandler.getUserOrderProductsByUserOrderID(Util.getUserID(getContext()), getUserOrderID);
+        adapter = new UserOderProductAdapter(getContext(), R.layout.row_user_order_product, listOrder);
         lvUserOrderProduct.setAdapter(adapter);
     }
 
@@ -123,15 +110,14 @@ public class OrderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            getUserOrderID = getArguments().getInt(ARG_PARAM1);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_order, container, false);
+        View view = inflater.inflate(R.layout.fragment_detail_order, container, false);
         addControls(view);
         data();
         addEvents();

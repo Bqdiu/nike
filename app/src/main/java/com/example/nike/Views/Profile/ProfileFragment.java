@@ -20,9 +20,9 @@ import com.example.nike.FragmentUtils;
 import com.example.nike.R;
 import com.example.nike.Views.Profile.EditProfileFragment.EditProfileFragment;
 import com.example.nike.Views.Profile.InboxFragment.InboxFragment;
+import com.example.nike.Views.Profile.OrderFragment.DetailOrderFragment;
 import com.example.nike.Views.Profile.OrderFragment.OrderFragment;
 import com.example.nike.Views.Profile.SettingFragment.SettingFragment;
-import com.example.nike.Views.Util;
 
 public class ProfileFragment extends Fragment {
 

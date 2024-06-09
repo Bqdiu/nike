@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="15dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    >
+    <ImageView
+        android:id="@+id/thumbnailProduct"
+        android:layout_width="120dp"
+        android:layout_height="130dp"/>
+    <RelativeLayout
+        android:layout_toRightOf="@id/thumbnailProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp">
+        <TextView
+            android:id="@+id/tvNameProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Nike Air Force 1 '07"/>
+        <TextView
+            android:layout_below="@id/tvNameProduct"
+            android:id="@+id/tvObjectName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Men's Shoes"/>
+        <TextView
+            android:layout_below="@id/tvObjectName"
+            android:id="@+id/tvQty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="Qty 1"/>
+        <TextView
+            android:layout_below="@id/tvQty"
+            android:id="@+id/tvSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="Size EU 40"/>
+<!--        <TextView-->
+<!--            android:layout_below="@id/tvSize"-->
+<!--            android:id="@+id/tvPrice"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="2,929,000đ"/>-->
+        <TextView
+            android:layout_below="@id/tvSize"
+            android:id="@+id/tvCreatedAt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="6/9/2024"/>
+        <TextView
+            android:id="@+id/tv_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCreatedAt"
+            android:textSize="20sp"
+            android:text="Detail Order"
+            android:paddingTop="8dp"
+            android:paddingBottom="10dp"
+            android:layout_alignParentEnd="true"
+            />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
