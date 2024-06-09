@@ -203,9 +203,7 @@ public class FavoriteFragment extends Fragment implements FavAdapter.ItemClickLi
     private void onItemDetailClick(Product product){
         DetailProduct detailProduct = DetailProduct.newInstance(product,ProductHandler.getDataByParentID(product.getProductParentID()));
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.frameLayout,detailProduct);
-        ft.addToBackStack("Favorites");
-        ft.commit();
+        ft.replace(R.id.frameLayout,detailProduct).addToBackStack("Favorites").commit();
 
     }
     private int totalQuantityProduct(){

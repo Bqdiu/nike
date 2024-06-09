@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +35,7 @@ import com.example.nike.Controller.ProductHandler;
 import com.example.nike.Controller.ProductParentHandler;
 import com.example.nike.Controller.ProductReviewHandler;
 import com.example.nike.Mailer.Utils;
+import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductReview;
 import com.example.nike.R;
 import com.example.nike.Views.Shop.Adapter.ReviewRecycleViewAdapter;
@@ -165,6 +167,7 @@ public class SeeMoreReviewFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 fm.popBackStack();
+
             }
         });
 
