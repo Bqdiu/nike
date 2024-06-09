@@ -4,6 +4,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Views.LoginLobby">
+    tools:context=".Views.LoginLobby"
+    android:id="@+id/loginMainLobby">
+    <ImageView
+        android:id="@+id/imgBg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_animation_list"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        >
+        <View
+            android:id="@+id/gradient_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/gradient_background"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:layout_margin="20dp">
+            <ImageView
+                android:src="@drawable/whitelogo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bringing Nike Members\nthe best products, inspiration\nand stories and sport."
+                android:textColor="@color/white"
+                android:layout_marginBottom="20dp"
+                android:textSize="23dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                >
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSignUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sign Up"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/black"
+                    android:textAllCaps="false"
+                    app:cornerRadius="20dp"
+                    android:layout_marginRight="10dp"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSignIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cornerRadius="20dp"
+                    android:backgroundTint="@color/amp_transparent"
+                    android:text="Sign In"
+                    android:textAllCaps="false"
+                    app:strokeWidth="1dip"
+                    app:strokeColor="@color/favorite_red_background"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
 
 </androidx.cardview.widget.CardView>

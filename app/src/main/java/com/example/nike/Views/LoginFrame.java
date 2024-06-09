@@ -35,6 +35,7 @@ public class LoginFrame extends AppCompatActivity {
     UserAccountHandler userAccountHandler = new UserAccountHandler();
 
     ImageView btn_google;
+
     private static final int REQUEST_CODE_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
     private SharedPreferences sharedPreferences;

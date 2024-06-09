@@ -22,7 +22,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="34">
         <activity
-            android:name=".LoginLobby"
+            android:name=".Views.LoginLobby"
             android:exported="false" />
         <activity
             android:name=".Views.ForgetPasswordSuccessMessage"

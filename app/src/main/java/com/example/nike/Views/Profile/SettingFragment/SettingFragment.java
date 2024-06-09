@@ -26,6 +26,7 @@ import com.example.nike.FragmentUtils;
 import com.example.nike.Model.UserAccount;
 import com.example.nike.R;
 import com.example.nike.Views.LoginFrame;
+import com.example.nike.Views.LoginLobby;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -175,7 +176,7 @@ public class SettingFragment extends Fragment {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.apply();
-                Intent intent = new Intent(view.getContext(), LoginFrame.class);
+                Intent intent = new Intent(view.getContext(), LoginLobby.class);
                 startActivity(intent);
             }
         });
