@@ -27,6 +27,7 @@ import com.example.nike.Views.Util;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class OrderFragment extends Fragment {
@@ -49,6 +50,7 @@ public class OrderFragment extends Fragment {
     private String formattedResult;
     private UserOrderAdapter adapter;
     private ListView lvUserOrderProduct;
+    private  ArrayList<Integer> listTotalPrice;
     private void addControls(View view)
     {
         sharedPreferences = view.getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
@@ -108,7 +110,21 @@ public class OrderFragment extends Fragment {
                 filteredList.add(order);
             }
         }
-        adapter = new UserOrderAdapter(getContext(), R.layout.layout_item_order, filteredList);
+        // get list total price
+        listTotalPrice = new ArrayList<>();
+        for(int i = 0; i < filteredList.size(); i++)
+        {
+            int totalPrice = 0;
+            UserOrderProducts orderFilted = filteredList.get(i);
+            for(int j = 0; j < listOrder.size(); j ++)
+            {
+                UserOrderProducts orderProducts = listOrder.get(j);
+                if(orderFilted.getUser_order_id() == orderProducts.getUser_order_id())
+                    totalPrice += orderProducts.getTotalPrice();
+            }
+            listTotalPrice.add(totalPrice);
+        }
+        adapter = new UserOrderAdapter(getContext(), R.layout.layout_item_order, filteredList,listTotalPrice);
         lvUserOrderProduct.setAdapter(adapter);
     }
 

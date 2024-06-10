@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/thumbnailProduct"
         android:layout_width="120dp"
-        android:layout_height="130dp"/>
+        android:layout_height="140dp"/>
     <RelativeLayout
         android:layout_toRightOf="@id/thumbnailProduct"
         android:layout_width="match_parent"
@@ -40,20 +40,15 @@
             android:id="@+id/tvSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:text="Size EU 40"/>
-<!--        <TextView-->
-<!--            android:layout_below="@id/tvSize"-->
-<!--            android:id="@+id/tvPrice"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="2,929,000đ"/>-->
+
         <TextView
             android:layout_below="@id/tvSize"
             android:id="@+id/tvCreatedAt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="6/9/2024"/>
+
         <TextView
             android:padding="10dp"
             android:background="@drawable/image_border"
@@ -71,7 +66,16 @@
             />
 
     </RelativeLayout>
-
-
+            <TextView
+                android:layout_below="@id/thumbnailProduct"
+                android:id="@+id/totalPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="Total order: 2,929,000đ"/>
 
 </RelativeLayout>

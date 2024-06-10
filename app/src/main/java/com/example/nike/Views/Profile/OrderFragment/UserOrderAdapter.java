@@ -28,19 +28,23 @@ import java.util.Date;
 public class UserOrderAdapter extends ArrayAdapter {
     private Context context;
     private ArrayList<UserOrderProducts> userOrderProducts;
+    private ArrayList<Integer> totalPriceList;
     private int layout;
+    private int totalPriceOrder;
 
-    public UserOrderAdapter(@NonNull Context context, int resource, @NonNull ArrayList<UserOrderProducts> objects) {
+    public UserOrderAdapter(@NonNull Context context, int resource, @NonNull ArrayList<UserOrderProducts> objects,@NonNull ArrayList<Integer> listTotalPrice) {
         super(context, resource, objects);
         this.context = context;
         this.userOrderProducts = objects;
         this.layout = resource;
+        this.totalPriceList = listTotalPrice;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         UserOrderProducts userODP = userOrderProducts.get(position);
+        totalPriceOrder = totalPriceList.get(position);
         if(convertView == null){
             convertView = LayoutInflater.from(context).inflate(layout,null);
         }
@@ -55,8 +59,8 @@ public class UserOrderAdapter extends ArrayAdapter {
         tvQty.setText("Qty "+userODP.getAmount());
         TextView tvSize = convertView.findViewById(R.id.tvSize);
         tvSize.setText("Size "+userODP.getSizeName());
-//        TextView tvPrice = convertView.findViewById(R.id.tvPrice);
-//        tvPrice.setText(Util.formatCurrency(userODP.getTotalPrice())+",000đ");
+        TextView totalPrice = convertView.findViewById(R.id.totalPrice);
+        totalPrice.setText("Total order price: " + Util.formatCurrency(totalPriceOrder)+",000đ");
         TextView tvCreatedAt = convertView.findViewById(R.id.tvCreatedAt);
         String dateString = userODP.getDate();
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -75,7 +79,8 @@ public class UserOrderAdapter extends ArrayAdapter {
             public void onClick(View v) {
                 FragmentActivity activity = (FragmentActivity) context;
                 FragmentManager fm = activity.getSupportFragmentManager();
-                DetailOrderFragment detailOrderFragment = DetailOrderFragment.newInstance(userODP.getUser_order_id());
+
+                DetailOrderFragment detailOrderFragment = DetailOrderFragment.newInstance(userODP.getUser_order_id(),totalPriceOrder);
                 FragmentUtils.addFragment(fm, detailOrderFragment, R.id.frameLayout);
             }
         });

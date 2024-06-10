@@ -30,9 +30,10 @@ import java.util.ArrayList;
 public class DetailOrderFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
-
+    private static final String ARG_PARAM2 = "param2";
     private int getUserOrderID;
-    private String mParam2;
+    private int getTotalPrice;
+
     private UserAccount user = new UserAccount();
     private ArrayList<UserOrder> listUserOrder = new ArrayList<>();
     private ImageButton btn_back;
@@ -42,7 +43,6 @@ public class DetailOrderFragment extends Fragment {
     private RecyclerView recyclerUserOrderProducts;
     private ArrayList<UserOrderProducts> listOrder = new ArrayList<>();
     private TextView tvSubtotal,tvShipping,tvTotal;
-    private int TotalPrice;
     private String formattedResult;
     private UserOderProductAdapter adapter;
     private ListView lvUserOrderProduct;
@@ -85,10 +85,11 @@ public class DetailOrderFragment extends Fragment {
     public DetailOrderFragment() {
     }
 
-    public static DetailOrderFragment newInstance(int param1) {
+    public static DetailOrderFragment newInstance(int param1, int param2) {
         DetailOrderFragment fragment = new DetailOrderFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, param1);
+        args.putInt(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -111,6 +112,8 @@ public class DetailOrderFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             getUserOrderID = getArguments().getInt(ARG_PARAM1);
+            getTotalPrice = getArguments().getInt(ARG_PARAM2);
+
         }
     }
 
