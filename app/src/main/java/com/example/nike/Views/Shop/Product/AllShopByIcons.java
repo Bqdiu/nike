@@ -28,9 +28,12 @@ public class AllShopByIcons extends Fragment implements IconsItemRecycleViewAdap
     private static final String ARG_TEXTVIEW = "text_view";
     private static final String ARG_LIST = "list";
 
-    private String getTextView;
-    private ArrayList<ShopByIcons> getList;
+    private static final String ARG_OBJECT_ID = "object_id";
 
+
+    private String getTextView;
+    private ArrayList<Integer> getList;
+    private int getObjectID;
     private TextView tv_ShopByIcon;
     private ImageView btn_back;
     private RecyclerView rcv_ShopByIcon;
@@ -49,7 +52,7 @@ public class AllShopByIcons extends Fragment implements IconsItemRecycleViewAdap
     {
         if(getList.size() > 0)
         {
-            adapter = new IconsItemRecycleViewAdapter(getList,getContext());
+            adapter = new IconsItemRecycleViewAdapter(getList,getObjectID,getContext());
             adapter.setIconItemClickListener(this);
             layoutManager = new GridLayoutManager(getContext(), 2);
             rcv_ShopByIcon.setLayoutManager(layoutManager);
@@ -77,11 +80,13 @@ public class AllShopByIcons extends Fragment implements IconsItemRecycleViewAdap
         // Required empty public constructor
     }
 
-    public static AllShopByIcons newInstance(String textview, ArrayList<ShopByIcons> list) {
+    public static AllShopByIcons newInstance(String textview, ArrayList<Integer> list,int objectID) {
         AllShopByIcons fragment = new AllShopByIcons();
         Bundle args = new Bundle();
         args.putString(ARG_TEXTVIEW, textview);
         args.putSerializable(ARG_LIST, list);
+        args.putInt(ARG_OBJECT_ID, objectID);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -90,7 +95,8 @@ public class AllShopByIcons extends Fragment implements IconsItemRecycleViewAdap
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             getTextView = getArguments().getString(ARG_TEXTVIEW);
-            getList = (ArrayList<ShopByIcons>) getArguments().getSerializable(ARG_LIST);
+            getList = (ArrayList<Integer>) getArguments().getSerializable(ARG_LIST);
+            getObjectID = getArguments().getInt(ARG_OBJECT_ID);
         }
     }
 

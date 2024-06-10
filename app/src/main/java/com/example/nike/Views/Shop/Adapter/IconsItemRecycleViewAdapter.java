@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nike.Controller.IconsHandler;
 import com.example.nike.Controller.ProductParentHandler;
 import com.example.nike.Model.Product;
 import com.example.nike.Model.ProductParent;
@@ -24,15 +25,16 @@ import java.util.ArrayList;
 
 public class IconsItemRecycleViewAdapter extends RecyclerView.Adapter<IconsItemRecycleViewAdapter.MyViewHolder> {
 
-    ArrayList<ShopByIcons> shopByIcons = new ArrayList<>();
+    int object_id;
+    ArrayList<Integer> shopByIcons = new ArrayList<>();
     Context context;
 
     private IconItemClickListener itemClickListener;
 
-    public IconsItemRecycleViewAdapter(ArrayList<ShopByIcons> shopByIcons, Context context) {
+    public IconsItemRecycleViewAdapter(ArrayList<Integer> shopByIcons, int object_id, Context context) {
         this.shopByIcons = shopByIcons;
         this.context = context;
-
+        this.object_id = object_id;
     }
 
     @NonNull
@@ -44,14 +46,15 @@ public class IconsItemRecycleViewAdapter extends RecyclerView.Adapter<IconsItemR
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        ShopByIcons icons = shopByIcons.get(position);
+        int icon_id_position = shopByIcons.get(position);
+        ShopByIcons icons = IconsHandler.getDetailByIconId(icon_id_position);
         Bitmap bitmap = Util.convertStringToBitmapFromAccess(holder.itemView.getContext(),icons.getThumbnail());
         holder.thumbnail.setImageBitmap(bitmap);
         holder.tvNameIcons.setText(icons.getName());
         holder.cardViewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<ProductParent> list = ProductParentHandler.getAllProductParentByIcon(icons.getId());
+                ArrayList<ProductParent> list = ProductParentHandler.getAllProductParentByIconAndObjectID(icons.getId(),object_id);
                 if (itemClickListener != null) {
                     itemClickListener.onIconItemClick(icons.getName(),list);
                 } else {

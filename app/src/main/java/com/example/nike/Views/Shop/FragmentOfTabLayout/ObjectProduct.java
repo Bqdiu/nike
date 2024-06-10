@@ -45,8 +45,8 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
     //Shop By Icons
     private RecyclerView shopByIconsRecycleView;
     private IconsItemRecycleViewAdapter shopByIconsAdapter;
-    ArrayList<ShopByIcons> shopByIconsList;
-    ArrayList<ShopByIcons> limitShopByIconsList;
+    ArrayList<Integer> shopByIconsList;
+    ArrayList<Integer> limitShopByIconsList;
     private TextView tv_viewall_NewRelase,tv_viewall_ShopByIcon,tv_viewall_clothing;
     private FragmentManager fm;
     private int objectID;
@@ -123,14 +123,15 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
             recyclerViewNewRelease.setAdapter(adapter);
         }
         //Shop By Icons
-        shopByIconsList = IconsHandler.getDataByObjectID(objectID);
+
+        shopByIconsList = IconsHandler.getDataByObjectIDDistinct(objectID);
         limitShopByIconsList = new ArrayList<>();
-        for (ShopByIcons shopByIcons : shopByIconsList)
+        for (Integer shopByIcons : shopByIconsList)
         {
             if(limitShopByIconsList.size() < 5)
                 limitShopByIconsList.add(shopByIcons);
         }
-        shopByIconsAdapter = new IconsItemRecycleViewAdapter(limitShopByIconsList, getContext());
+        shopByIconsAdapter = new IconsItemRecycleViewAdapter(limitShopByIconsList,objectID, getContext());
         shopByIconsAdapter.setIconItemClickListener(this);
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
         shopByIconsRecycleView.setLayoutManager(layoutManager1);
@@ -172,9 +173,7 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
             @Override
             public void onClick(View v) {
                 String txt_TextView = "Shop By Icons";
-                ArrayList<ShopByIcons> list = new ArrayList<>();
-                list = IconsHandler.getDataByObjectID(objectID);
-                AllShopByIcons allShopByIcons = AllShopByIcons.newInstance(txt_TextView,list);
+                AllShopByIcons allShopByIcons = AllShopByIcons.newInstance(txt_TextView,shopByIconsList,objectID);
                 fm = getActivity().getSupportFragmentManager();
                 FragmentUtils.addFragment(fm,allShopByIcons,R.id.frameLayout);
             }
