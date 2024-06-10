@@ -36,4 +36,29 @@ public class IconsHandler {
         }
         return list;
     }
+
+
+    public static ArrayList<ShopByIcons> getDataByObjectID(int object_id){
+        Connection conn = dbConnection.connectionClass();
+        ArrayList<ShopByIcons> list = new ArrayList<>();
+        if(conn!=null){
+            String query = "Select * from product_icons icon inner join product_parent pp on icon.product_icons_id = pp.product_icons_id where pp.product_object_id = " + object_id;
+            try {
+                Statement smt = conn.createStatement();
+                ResultSet rs = smt.executeQuery(query);
+                while(rs.next()){
+                    ShopByIcons i = new ShopByIcons();
+                    i.setId(rs.getInt(1));
+                    i.setName(rs.getString(2));
+                    i.setThumbnail(rs.getString(3));
+                    list.add(i);
+
+                }
+                conn.close();
+            }catch (SQLException e){
+                throw new RuntimeException(e);
+            }
+        }
+        return list;
+    }
 }

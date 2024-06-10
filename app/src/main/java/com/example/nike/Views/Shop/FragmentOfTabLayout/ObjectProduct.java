@@ -123,7 +123,7 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
             recyclerViewNewRelease.setAdapter(adapter);
         }
         //Shop By Icons
-        shopByIconsList = IconsHandler.getData();
+        shopByIconsList = IconsHandler.getDataByObjectID(objectID);
         limitShopByIconsList = new ArrayList<>();
         for (ShopByIcons shopByIcons : shopByIconsList)
         {
@@ -173,7 +173,7 @@ public class ObjectProduct extends Fragment implements ItemRecycleViewAdapter.It
             public void onClick(View v) {
                 String txt_TextView = "Shop By Icons";
                 ArrayList<ShopByIcons> list = new ArrayList<>();
-                list = IconsHandler.getData();
+                list = IconsHandler.getDataByObjectID(objectID);
                 AllShopByIcons allShopByIcons = AllShopByIcons.newInstance(txt_TextView,list);
                 fm = getActivity().getSupportFragmentManager();
                 FragmentUtils.addFragment(fm,allShopByIcons,R.id.frameLayout);
