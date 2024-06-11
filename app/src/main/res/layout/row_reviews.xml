@@ -9,16 +9,16 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/reviewsTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:layout_centerVertical="true"
             android:text="Easy on Air Force 1"
-            android:maxLines="2"/>
+            android:maxLines="5"/>
         <RatingBar
             android:id="@+id/ratingBar"
-            android:layout_alignParentRight="true"
+           android:layout_toRightOf="@id/reviewsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numStars="5"

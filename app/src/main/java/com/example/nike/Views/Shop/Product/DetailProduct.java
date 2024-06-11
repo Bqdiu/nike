@@ -397,8 +397,19 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
                 reviewsTmp.add(pr);
             }
         }
+        if(productReviews.size()>0){
+            recyclerReviews.setVisibility(View.VISIBLE);
+            btnMoreReviews.setVisibility(View.VISIBLE);
+        }
 
-        reviewRecycleViewAdapter.notifyDataSetChanged();
+        reviewRecycleViewAdapter = new ReviewRecycleViewAdapter(reviewsTmp);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false);
+        recyclerReviews.setLayoutManager(layoutManager);
+        recyclerReviews.setAdapter(reviewRecycleViewAdapter);
+        float avgRating = (float) productReviews.stream().mapToDouble(ProductReview::getReviewRate).average().orElse(0.0);
+        ratingBarReviewsTitle.setRating(avgRating);
+        btnReviews.setText("Reviews ("+productReviews.size()+")");
+
     }
     private void onExpandReviewsClick(){
         isExpandedReviews = !isExpandedReviews;
@@ -465,14 +476,14 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()<30){
-                    layoutYourReview.setError("Describe what you liked, what you didn't like and other key things shoppers should know. Minimum 30 characters.");
+                if(s.length()<10){
+                    layoutYourReview.setError("Describe what you liked, what you didn't like and other key things shoppers should know. Minimum 10 characters.");
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length()>=30)
+                if(s.length()>=10)
                     layoutYourReview.setError(null);
 
             }
@@ -488,9 +499,9 @@ public class DetailProduct extends Fragment implements PhotoRecycleViewAdapter.I
                 }else{
                     layoutReviewTitle.setError(null);
                 }
-                if(layoutYourReview.getEditText().getText().length()<30){
+                if(layoutYourReview.getEditText().getText().length()<10){
                     flag = false;
-                    layoutYourReview.setError("Describe what you liked, what you didn't like and other key things shoppers should know. Minimum 30 characters.");
+                    layoutYourReview.setError("Describe what you liked, what you didn't like and other key things shoppers should know. Minimum 10 characters.");
                 }else{
                     layoutYourReview.setError(null);
                 }
