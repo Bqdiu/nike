@@ -1,4 +1,7 @@
 # <h3>Nike: Online Fashion Shop </h2>
+<p align="center">
+<img src="https://bizweb.dktcdn.net/100/446/826/files/logo-nike-3.png?v=1656926601220" alt="Nike logo bro">
+</p>
 Here are some basic informations :
 <br>
 Class: Mobile application development - 12DHTH01 - 010110104301 - HUIT
