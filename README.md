@@ -1,5 +1,5 @@
 # <h3>Nike: Online Fashion Shop </h2>
-<p align="center">
+<p align="left">
 <img src="https://bizweb.dktcdn.net/100/446/826/files/logo-nike-3.png?v=1656926601220" alt="Nike logo bro">
 </p>
 Here are some basic informations :
